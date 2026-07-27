@@ -1,4 +1,4 @@
-import { AuthPanel } from "./components/AuthPanel";
+import { AuthPanel } from "./components/AuthPanel.tsx";
 import "./App.css";
 
 function App() {

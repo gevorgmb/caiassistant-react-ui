@@ -1,12 +1,12 @@
-import { useState, type FormEvent } from "react";
+import { useState, type SubmitEvent } from "react";
 import { ConnectError } from "@connectrpc/connect";
-import { authClient } from "../api/client";
+import { authClient } from "../api/client.ts";
 import {
   clearSession,
   loadSession,
   saveSession,
   type Session,
-} from "../api/session";
+} from "../api/session.ts";
 import "./AuthPanel.css";
 
 type Mode = "login" | "register";
@@ -32,7 +32,7 @@ export function AuthPanel() {
     loadSession(),
   );
 
-  async function onSubmit(event: FormEvent) {
+  async function onSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setBusy(true);
     setError(null);
