@@ -6,8 +6,8 @@ const baseUrl =
   import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080";
 
 /**
- * gRPC-Web transport. Browsers cannot speak native gRPC, so requests
- * go through Envoy (docker compose) which upgrades them to gRPC.
+ * gRPC-Web transport. Browsers cannot speak native gRPC, so
+ * VITE_API_BASE_URL must point at the gateway/proxy from local/.
  */
 export const transport = createGrpcWebTransport({
   baseUrl,

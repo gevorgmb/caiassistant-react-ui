@@ -3,23 +3,23 @@
 React + TypeScript client (Vite) for the Go gRPC API.
 
 Browsers cannot speak native gRPC. This app uses **Connect-ES gRPC-Web**
-and an **Envoy** sidecar that translates gRPC-Web → gRPC on `:50051`.
+against the API gateway / proxy declared in `local/` (not in this directory).
 
 ```
-Browser (Vite :5173)
+Browser (Vite)
    │  gRPC-Web
    ▼
-Envoy (:8080)
+Gateway / proxy (see local/)
    │  gRPC
    ▼
-Go API (:50051)
+Go API
 ```
 
 ## Prerequisites
 
-- Node.js 20.19+ or 22.12+ (Node 24 recommended)
-- Docker (for the Envoy gRPC-Web proxy)
-- Running Go gRPC server from `code/go/container0` on port `50051`
+- Node.js 20.19+ or 22.12+ (Node 24 recommended; see `.nvmrc`)
+- Infra from `local/` (API + any gRPC-Web gateway) already running
+- `VITE_API_BASE_URL` pointing at that gateway
 
 ## Setup
 
@@ -30,20 +30,6 @@ npm run proto:generate
 ```
 
 ## Run
-
-Terminal 1 — API (from the Go project):
-
-```bash
-# start the gRPC server on :50051
-```
-
-Terminal 2 — gRPC-Web proxy:
-
-```bash
-npm run proxy:up
-```
-
-Terminal 3 — UI:
 
 ```bash
 npm run dev
@@ -70,7 +56,6 @@ Generated clients land in `src/gen/`.
 | `src/gen/` | Generated TypeScript (do not edit) |
 | `src/api/` | Transport + session helpers |
 | `src/components/` | UI |
-| `docker/envoy.yaml` | gRPC-Web → gRPC proxy |
 
 ## Calling RPCs
 

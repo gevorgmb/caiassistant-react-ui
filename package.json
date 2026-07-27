@@ -9,9 +9,7 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "proto:generate": "buf generate",
-    "proto:lint": "buf lint",
-    "proxy:up": "docker compose up -d",
-    "proxy:down": "docker compose down"
+    "proto:lint": "buf lint"
   },
   "dependencies": {
     "@bufbuild/protobuf": "^2.13.0",

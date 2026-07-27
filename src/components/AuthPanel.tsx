@@ -129,8 +129,7 @@ export function AuthPanel() {
     <section className="auth-panel">
       <h1>{mode === "login" ? "Log in" : "Create account"}</h1>
       <p className="lede">
-        Calls <code>auth.v1.AuthService</code> over gRPC-Web via
-        Envoy.
+        Calls <code>auth.v1.AuthService</code> over gRPC-Web.
       </p>
 
       <div className="tabs" role="tablist">
