@@ -16,7 +16,8 @@
     "@connectrpc/connect": "^2.1.2",
     "@connectrpc/connect-web": "^2.1.2",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react-dom": "^19.2.7",
+    "react-router-dom": "^6.30.4"
   },
   "devDependencies": {
     "@bufbuild/buf": "^1.72.0",

@@ -1,4 +1,4 @@
-.app {
+.login-page {
   min-height: 100vh;
   display: grid;
   align-content: start;
@@ -13,7 +13,7 @@
     var(--bg);
 }
 
-.app-header {
+.login-page__header {
   text-align: center;
   display: grid;
   gap: 0.35rem;
