@@ -1,0 +1,37 @@
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  background:
+    radial-gradient(
+      1000px 420px at 0% 0%,
+      var(--accent-bg),
+      transparent 55%
+    ),
+    var(--bg);
+}
+
+.app-shell__body {
+  display: grid;
+  grid-template-columns: minmax(10rem, 14rem) 1fr;
+  min-height: 0;
+}
+
+.app-shell__content {
+  padding: 1.5rem 1.75rem 2.5rem;
+  min-width: 0;
+}
+
+.app-shell__banner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 800px) {
+  .app-shell__body {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+}
