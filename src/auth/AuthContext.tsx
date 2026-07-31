@@ -58,13 +58,14 @@ function sessionFromToken(token: {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(() => loadSession());
   const [office, setOffice] = useState<Office | null>(null);
-  const [officeLoading, setOfficeLoading] = useState(false);
+  const [officeLoading, setOfficeLoading] = useState(() => !!loadSession());
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const refreshOffice = useCallback(async () => {
     if (!loadSession()?.accessToken) {
       setOffice(null);
+      setOfficeLoading(false);
       return;
     }
     setOfficeLoading(true);
@@ -82,6 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!session) {
       setOffice(null);
+      setOfficeLoading(false);
       return;
     }
     void refreshOffice();
@@ -94,6 +96,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const token = await authClient.login({ email, password });
       const next = sessionFromToken(token);
       saveSession(next);
+      setOfficeLoading(true);
       setSession(next);
     } catch (err) {
       setError(errorMessage(err));
@@ -111,6 +114,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const token = await authClient.register({ email, password, name });
         const next = sessionFromToken(token);
         saveSession(next);
+        setOfficeLoading(true);
         setSession(next);
       } catch (err) {
         setError(errorMessage(err));
@@ -134,6 +138,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       clearSession();
       setSession(null);
       setOffice(null);
+      setOfficeLoading(false);
       setBusy(false);
     }
   }, [session?.accessToken]);

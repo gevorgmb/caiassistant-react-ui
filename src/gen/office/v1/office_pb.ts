@@ -4,17 +4,19 @@
 
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { Office, OfficePosition, OfficePositionSchema, OfficeSchema, OfficeUser, OfficeUserContact, OfficeUserContactSchema, OfficeUserRole, OfficeUserSchema } from "../../common/v1/office_pb.js";
+import type { Office, OfficePosition, OfficePositionSchema, OfficeSchedule, OfficeScheduleSchema, OfficeSchema, OfficeUser, OfficeUserContact, OfficeUserContactSchema, OfficeUserRole, OfficeUserSchema } from "../../common/v1/office_pb.js";
 import { file_common_v1_office } from "../../common/v1/office_pb.js";
 import type { User } from "../../common/v1/user_pb.js";
 import { file_common_v1_user } from "../../common/v1/user_pb.js";
+import type { Timestamp } from "@bufbuild/protobuf/wkt";
+import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file office/v1/office.proto.
  */
 export const file_office_v1_office: GenFile = /*@__PURE__*/
-  fileDesc("ChZvZmZpY2UvdjEvb2ZmaWNlLnByb3RvEglvZmZpY2UudjEiiQEKE0NyZWF0ZU9mZmljZVJlcXVlc3QSDAoEbmFtZRgBIAEoCRISCgVwaG9uZRgCIAEoCUgAiAEBEhIKBWVtYWlsGAMgASgJSAGIAQESGAoLZGVzY3JpcHRpb24YBCABKAlIAogBAUIICgZfcGhvbmVCCAoGX2VtYWlsQg4KDF9kZXNjcmlwdGlvbiIeChBHZXRPZmZpY2VSZXF1ZXN0EgoKAmlkGAEgASgJIhQKEkxpc3RPZmZpY2VzUmVxdWVzdCI5ChNMaXN0T2ZmaWNlc1Jlc3BvbnNlEiIKB29mZmljZXMYASADKAsyES5jb21tb24udjEuT2ZmaWNlIhcKFUdldFVzZXJPZmZpY2VzUmVxdWVzdCI8ChZHZXRVc2VyT2ZmaWNlc1Jlc3BvbnNlEiIKB29mZmljZXMYASADKAsyES5jb21tb24udjEuT2ZmaWNlIpUBChNVcGRhdGVPZmZpY2VSZXF1ZXN0EgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSEgoFcGhvbmUYAyABKAlIAIgBARISCgVlbWFpbBgEIAEoCUgBiAEBEhgKC2Rlc2NyaXB0aW9uGAUgASgJSAKIAQFCCAoGX3Bob25lQggKBl9lbWFpbEIOCgxfZGVzY3JpcHRpb24iIQoTRGVsZXRlT2ZmaWNlUmVxdWVzdBIKCgJpZBgBIAEoCSInChREZWxldGVPZmZpY2VSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIIj4KG0NyZWF0ZU9mZmljZVBvc2l0aW9uUmVxdWVzdBIRCglvZmZpY2VfaWQYASABKAkSDAoEbmFtZRgCIAEoCSImChhHZXRPZmZpY2VQb3NpdGlvblJlcXVlc3QSCgoCaWQYASABKAkiLwoaTGlzdE9mZmljZVBvc2l0aW9uc1JlcXVlc3QSEQoJb2ZmaWNlX2lkGAEgASgJIksKG0xpc3RPZmZpY2VQb3NpdGlvbnNSZXNwb25zZRIsCglwb3NpdGlvbnMYASADKAsyGS5jb21tb24udjEuT2ZmaWNlUG9zaXRpb24iNwobVXBkYXRlT2ZmaWNlUG9zaXRpb25SZXF1ZXN0EgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkiKQobRGVsZXRlT2ZmaWNlUG9zaXRpb25SZXF1ZXN0EgoKAmlkGAEgASgJIi8KHERlbGV0ZU9mZmljZVBvc2l0aW9uUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCK2AQoXQ3JlYXRlT2ZmaWNlVXNlclJlcXVlc3QSEQoJb2ZmaWNlX2lkGAEgASgJEg8KB3VzZXJfaWQYAiABKAkSJwoEcm9sZRgDIAEoDjIZLmNvbW1vbi52MS5PZmZpY2VVc2VyUm9sZRIYCgtwb3NpdGlvbl9pZBgEIAEoCUgAiAEBEhYKCWlzX2FjdGl2ZRgFIAEoCEgBiAEBQg4KDF9wb3NpdGlvbl9pZEIMCgpfaXNfYWN0aXZlIiIKFEdldE9mZmljZVVzZXJSZXF1ZXN0EgoKAmlkGAEgASgJIisKFkxpc3RPZmZpY2VVc2Vyc1JlcXVlc3QSEQoJb2ZmaWNlX2lkGAEgASgJIkYKF0xpc3RPZmZpY2VVc2Vyc1Jlc3BvbnNlEisKDG9mZmljZV91c2VycxgBIAMoCzIVLmNvbW1vbi52MS5PZmZpY2VVc2VyIosBChdVcGRhdGVPZmZpY2VVc2VyUmVxdWVzdBIKCgJpZBgBIAEoCRInCgRyb2xlGAIgASgOMhkuY29tbW9uLnYxLk9mZmljZVVzZXJSb2xlEhgKC3Bvc2l0aW9uX2lkGAMgASgJSACIAQESEQoJaXNfYWN0aXZlGAQgASgIQg4KDF9wb3NpdGlvbl9pZCIlChdEZWxldGVPZmZpY2VVc2VyUmVxdWVzdBIKCgJpZBgBIAEoCSIrChhEZWxldGVPZmZpY2VVc2VyUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCLwAQoeQ3JlYXRlT2ZmaWNlVXNlckNvbnRhY3RSZXF1ZXN0EhYKDm9mZmljZV91c2VyX2lkGAEgASgJEhQKB2FkZHJlc3MYAiABKAlIAIgBARISCgVwaG9uZRgDIAEoCUgBiAEBEhgKC2Rlc2NyaXB0aW9uGAQgASgJSAKIAQESFgoJaXNfYWN0aXZlGAUgASgISAOIAQESFwoKaXNfcHJpbWFyeRgGIAEoCEgEiAEBQgoKCF9hZGRyZXNzQggKBl9waG9uZUIOCgxfZGVzY3JpcHRpb25CDAoKX2lzX2FjdGl2ZUINCgtfaXNfcHJpbWFyeSIpChtHZXRPZmZpY2VVc2VyQ29udGFjdFJlcXVlc3QSCgoCaWQYASABKAkiNwodTGlzdE9mZmljZVVzZXJDb250YWN0c1JlcXVlc3QSFgoOb2ZmaWNlX3VzZXJfaWQYASABKAkiUAoeTGlzdE9mZmljZVVzZXJDb250YWN0c1Jlc3BvbnNlEi4KCGNvbnRhY3RzGAEgAygLMhwuY29tbW9uLnYxLk9mZmljZVVzZXJDb250YWN0Ir0BCh5VcGRhdGVPZmZpY2VVc2VyQ29udGFjdFJlcXVlc3QSCgoCaWQYASABKAkSFAoHYWRkcmVzcxgCIAEoCUgAiAEBEhIKBXBob25lGAMgASgJSAGIAQESGAoLZGVzY3JpcHRpb24YBCABKAlIAogBARIRCglpc19hY3RpdmUYBSABKAgSEgoKaXNfcHJpbWFyeRgGIAEoCEIKCghfYWRkcmVzc0IICgZfcGhvbmVCDgoMX2Rlc2NyaXB0aW9uIiwKHkRlbGV0ZU9mZmljZVVzZXJDb250YWN0UmVxdWVzdBIKCgJpZBgBIAEoCSIyCh9EZWxldGVPZmZpY2VVc2VyQ29udGFjdFJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgiSgoSU2VhcmNoVXNlcnNSZXF1ZXN0EhMKC3NlYXJjaF90ZXh0GAEgASgJEgwKBHBhZ2UYAiABKAUSEQoJcGFnZV9zaXplGAMgASgFImsKE1NlYXJjaFVzZXJzUmVzcG9uc2USHgoFdXNlcnMYASADKAsyDy5jb21tb24udjEuVXNlchITCgt0b3RhbF9jb3VudBgCIAEoBRIMCgRwYWdlGAMgASgFEhEKCXBhZ2Vfc2l6ZRgEIAEoBTKVDwoNT2ZmaWNlU2VydmljZRJBCgxDcmVhdGVPZmZpY2USHi5vZmZpY2UudjEuQ3JlYXRlT2ZmaWNlUmVxdWVzdBoRLmNvbW1vbi52MS5PZmZpY2USOwoJR2V0T2ZmaWNlEhsub2ZmaWNlLnYxLkdldE9mZmljZVJlcXVlc3QaES5jb21tb24udjEuT2ZmaWNlEkwKC0xpc3RPZmZpY2VzEh0ub2ZmaWNlLnYxLkxpc3RPZmZpY2VzUmVxdWVzdBoeLm9mZmljZS52MS5MaXN0T2ZmaWNlc1Jlc3BvbnNlElUKDkdldFVzZXJPZmZpY2VzEiAub2ZmaWNlLnYxLkdldFVzZXJPZmZpY2VzUmVxdWVzdBohLm9mZmljZS52MS5HZXRVc2VyT2ZmaWNlc1Jlc3BvbnNlEkEKDFVwZGF0ZU9mZmljZRIeLm9mZmljZS52MS5VcGRhdGVPZmZpY2VSZXF1ZXN0GhEuY29tbW9uLnYxLk9mZmljZRJPCgxEZWxldGVPZmZpY2USHi5vZmZpY2UudjEuRGVsZXRlT2ZmaWNlUmVxdWVzdBofLm9mZmljZS52MS5EZWxldGVPZmZpY2VSZXNwb25zZRJMCgtTZWFyY2hVc2VycxIdLm9mZmljZS52MS5TZWFyY2hVc2Vyc1JlcXVlc3QaHi5vZmZpY2UudjEuU2VhcmNoVXNlcnNSZXNwb25zZRJZChRDcmVhdGVPZmZpY2VQb3NpdGlvbhImLm9mZmljZS52MS5DcmVhdGVPZmZpY2VQb3NpdGlvblJlcXVlc3QaGS5jb21tb24udjEuT2ZmaWNlUG9zaXRpb24SUwoRR2V0T2ZmaWNlUG9zaXRpb24SIy5vZmZpY2UudjEuR2V0T2ZmaWNlUG9zaXRpb25SZXF1ZXN0GhkuY29tbW9uLnYxLk9mZmljZVBvc2l0aW9uEmQKE0xpc3RPZmZpY2VQb3NpdGlvbnMSJS5vZmZpY2UudjEuTGlzdE9mZmljZVBvc2l0aW9uc1JlcXVlc3QaJi5vZmZpY2UudjEuTGlzdE9mZmljZVBvc2l0aW9uc1Jlc3BvbnNlElkKFFVwZGF0ZU9mZmljZVBvc2l0aW9uEiYub2ZmaWNlLnYxLlVwZGF0ZU9mZmljZVBvc2l0aW9uUmVxdWVzdBoZLmNvbW1vbi52MS5PZmZpY2VQb3NpdGlvbhJnChREZWxldGVPZmZpY2VQb3NpdGlvbhImLm9mZmljZS52MS5EZWxldGVPZmZpY2VQb3NpdGlvblJlcXVlc3QaJy5vZmZpY2UudjEuRGVsZXRlT2ZmaWNlUG9zaXRpb25SZXNwb25zZRJNChBDcmVhdGVPZmZpY2VVc2VyEiIub2ZmaWNlLnYxLkNyZWF0ZU9mZmljZVVzZXJSZXF1ZXN0GhUuY29tbW9uLnYxLk9mZmljZVVzZXISRwoNR2V0T2ZmaWNlVXNlchIfLm9mZmljZS52MS5HZXRPZmZpY2VVc2VyUmVxdWVzdBoVLmNvbW1vbi52MS5PZmZpY2VVc2VyElgKD0xpc3RPZmZpY2VVc2VycxIhLm9mZmljZS52MS5MaXN0T2ZmaWNlVXNlcnNSZXF1ZXN0GiIub2ZmaWNlLnYxLkxpc3RPZmZpY2VVc2Vyc1Jlc3BvbnNlEk0KEFVwZGF0ZU9mZmljZVVzZXISIi5vZmZpY2UudjEuVXBkYXRlT2ZmaWNlVXNlclJlcXVlc3QaFS5jb21tb24udjEuT2ZmaWNlVXNlchJbChBEZWxldGVPZmZpY2VVc2VyEiIub2ZmaWNlLnYxLkRlbGV0ZU9mZmljZVVzZXJSZXF1ZXN0GiMub2ZmaWNlLnYxLkRlbGV0ZU9mZmljZVVzZXJSZXNwb25zZRJiChdDcmVhdGVPZmZpY2VVc2VyQ29udGFjdBIpLm9mZmljZS52MS5DcmVhdGVPZmZpY2VVc2VyQ29udGFjdFJlcXVlc3QaHC5jb21tb24udjEuT2ZmaWNlVXNlckNvbnRhY3QSXAoUR2V0T2ZmaWNlVXNlckNvbnRhY3QSJi5vZmZpY2UudjEuR2V0T2ZmaWNlVXNlckNvbnRhY3RSZXF1ZXN0GhwuY29tbW9uLnYxLk9mZmljZVVzZXJDb250YWN0Em0KFkxpc3RPZmZpY2VVc2VyQ29udGFjdHMSKC5vZmZpY2UudjEuTGlzdE9mZmljZVVzZXJDb250YWN0c1JlcXVlc3QaKS5vZmZpY2UudjEuTGlzdE9mZmljZVVzZXJDb250YWN0c1Jlc3BvbnNlEmIKF1VwZGF0ZU9mZmljZVVzZXJDb250YWN0Eikub2ZmaWNlLnYxLlVwZGF0ZU9mZmljZVVzZXJDb250YWN0UmVxdWVzdBocLmNvbW1vbi52MS5PZmZpY2VVc2VyQ29udGFjdBJwChdEZWxldGVPZmZpY2VVc2VyQ29udGFjdBIpLm9mZmljZS52MS5EZWxldGVPZmZpY2VVc2VyQ29udGFjdFJlcXVlc3QaKi5vZmZpY2UudjEuRGVsZXRlT2ZmaWNlVXNlckNvbnRhY3RSZXNwb25zZUJEWkJnaXRodWIuY29tL2dldm9yZ21iL2NhaWFzc2lzdGFudC1nby1hcGkvYXBpL2dlbi9vZmZpY2UvdjE7b2ZmaWNldjFiBnByb3RvMw", [file_common_v1_office, file_common_v1_user]);
+  fileDesc("ChZvZmZpY2UvdjEvb2ZmaWNlLnByb3RvEglvZmZpY2UudjEiiQEKE0NyZWF0ZU9mZmljZVJlcXVlc3QSDAoEbmFtZRgBIAEoCRISCgVwaG9uZRgCIAEoCUgAiAEBEhIKBWVtYWlsGAMgASgJSAGIAQESGAoLZGVzY3JpcHRpb24YBCABKAlIAogBAUIICgZfcGhvbmVCCAoGX2VtYWlsQg4KDF9kZXNjcmlwdGlvbiIeChBHZXRPZmZpY2VSZXF1ZXN0EgoKAmlkGAEgASgJIhQKEkxpc3RPZmZpY2VzUmVxdWVzdCI5ChNMaXN0T2ZmaWNlc1Jlc3BvbnNlEiIKB29mZmljZXMYASADKAsyES5jb21tb24udjEuT2ZmaWNlIhcKFUdldFVzZXJPZmZpY2VzUmVxdWVzdCI8ChZHZXRVc2VyT2ZmaWNlc1Jlc3BvbnNlEiIKB29mZmljZXMYASADKAsyES5jb21tb24udjEuT2ZmaWNlIpUBChNVcGRhdGVPZmZpY2VSZXF1ZXN0EgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSEgoFcGhvbmUYAyABKAlIAIgBARISCgVlbWFpbBgEIAEoCUgBiAEBEhgKC2Rlc2NyaXB0aW9uGAUgASgJSAKIAQFCCAoGX3Bob25lQggKBl9lbWFpbEIOCgxfZGVzY3JpcHRpb24iIQoTRGVsZXRlT2ZmaWNlUmVxdWVzdBIKCgJpZBgBIAEoCSInChREZWxldGVPZmZpY2VSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIIj4KG0NyZWF0ZU9mZmljZVBvc2l0aW9uUmVxdWVzdBIRCglvZmZpY2VfaWQYASABKAkSDAoEbmFtZRgCIAEoCSImChhHZXRPZmZpY2VQb3NpdGlvblJlcXVlc3QSCgoCaWQYASABKAkiLwoaTGlzdE9mZmljZVBvc2l0aW9uc1JlcXVlc3QSEQoJb2ZmaWNlX2lkGAEgASgJIksKG0xpc3RPZmZpY2VQb3NpdGlvbnNSZXNwb25zZRIsCglwb3NpdGlvbnMYASADKAsyGS5jb21tb24udjEuT2ZmaWNlUG9zaXRpb24iNwobVXBkYXRlT2ZmaWNlUG9zaXRpb25SZXF1ZXN0EgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkiKQobRGVsZXRlT2ZmaWNlUG9zaXRpb25SZXF1ZXN0EgoKAmlkGAEgASgJIi8KHERlbGV0ZU9mZmljZVBvc2l0aW9uUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCK2AQoXQ3JlYXRlT2ZmaWNlVXNlclJlcXVlc3QSEQoJb2ZmaWNlX2lkGAEgASgJEg8KB3VzZXJfaWQYAiABKAkSJwoEcm9sZRgDIAEoDjIZLmNvbW1vbi52MS5PZmZpY2VVc2VyUm9sZRIYCgtwb3NpdGlvbl9pZBgEIAEoCUgAiAEBEhYKCWlzX2FjdGl2ZRgFIAEoCEgBiAEBQg4KDF9wb3NpdGlvbl9pZEIMCgpfaXNfYWN0aXZlIiIKFEdldE9mZmljZVVzZXJSZXF1ZXN0EgoKAmlkGAEgASgJIisKFkxpc3RPZmZpY2VVc2Vyc1JlcXVlc3QSEQoJb2ZmaWNlX2lkGAEgASgJIkYKF0xpc3RPZmZpY2VVc2Vyc1Jlc3BvbnNlEisKDG9mZmljZV91c2VycxgBIAMoCzIVLmNvbW1vbi52MS5PZmZpY2VVc2VyIosBChdVcGRhdGVPZmZpY2VVc2VyUmVxdWVzdBIKCgJpZBgBIAEoCRInCgRyb2xlGAIgASgOMhkuY29tbW9uLnYxLk9mZmljZVVzZXJSb2xlEhgKC3Bvc2l0aW9uX2lkGAMgASgJSACIAQESEQoJaXNfYWN0aXZlGAQgASgIQg4KDF9wb3NpdGlvbl9pZCIlChdEZWxldGVPZmZpY2VVc2VyUmVxdWVzdBIKCgJpZBgBIAEoCSIrChhEZWxldGVPZmZpY2VVc2VyUmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCLwAQoeQ3JlYXRlT2ZmaWNlVXNlckNvbnRhY3RSZXF1ZXN0EhYKDm9mZmljZV91c2VyX2lkGAEgASgJEhQKB2FkZHJlc3MYAiABKAlIAIgBARISCgVwaG9uZRgDIAEoCUgBiAEBEhgKC2Rlc2NyaXB0aW9uGAQgASgJSAKIAQESFgoJaXNfYWN0aXZlGAUgASgISAOIAQESFwoKaXNfcHJpbWFyeRgGIAEoCEgEiAEBQgoKCF9hZGRyZXNzQggKBl9waG9uZUIOCgxfZGVzY3JpcHRpb25CDAoKX2lzX2FjdGl2ZUINCgtfaXNfcHJpbWFyeSIpChtHZXRPZmZpY2VVc2VyQ29udGFjdFJlcXVlc3QSCgoCaWQYASABKAkiNwodTGlzdE9mZmljZVVzZXJDb250YWN0c1JlcXVlc3QSFgoOb2ZmaWNlX3VzZXJfaWQYASABKAkiUAoeTGlzdE9mZmljZVVzZXJDb250YWN0c1Jlc3BvbnNlEi4KCGNvbnRhY3RzGAEgAygLMhwuY29tbW9uLnYxLk9mZmljZVVzZXJDb250YWN0Ir0BCh5VcGRhdGVPZmZpY2VVc2VyQ29udGFjdFJlcXVlc3QSCgoCaWQYASABKAkSFAoHYWRkcmVzcxgCIAEoCUgAiAEBEhIKBXBob25lGAMgASgJSAGIAQESGAoLZGVzY3JpcHRpb24YBCABKAlIAogBARIRCglpc19hY3RpdmUYBSABKAgSEgoKaXNfcHJpbWFyeRgGIAEoCEIKCghfYWRkcmVzc0IICgZfcGhvbmVCDgoMX2Rlc2NyaXB0aW9uIiwKHkRlbGV0ZU9mZmljZVVzZXJDb250YWN0UmVxdWVzdBIKCgJpZBgBIAEoCSIyCh9EZWxldGVPZmZpY2VVc2VyQ29udGFjdFJlc3BvbnNlEg8KB3N1Y2Nlc3MYASABKAgiSgoSU2VhcmNoVXNlcnNSZXF1ZXN0EhMKC3NlYXJjaF90ZXh0GAEgASgJEgwKBHBhZ2UYAiABKAUSEQoJcGFnZV9zaXplGAMgASgFImsKE1NlYXJjaFVzZXJzUmVzcG9uc2USHgoFdXNlcnMYASADKAsyDy5jb21tb24udjEuVXNlchITCgt0b3RhbF9jb3VudBgCIAEoBRIMCgRwYWdlGAMgASgFEhEKCXBhZ2Vfc2l6ZRgEIAEoBSKYAQobQ3JlYXRlT2ZmaWNlU2NoZWR1bGVSZXF1ZXN0EhEKCW9mZmljZV9pZBgBIAEoCRIMCgRuYW1lGAIgASgJEhgKC2Rlc2NyaXB0aW9uGAMgASgJSACIAQESLgoKZXZlbnRfZGF0ZRgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBCDgoMX2Rlc2NyaXB0aW9uIiYKGEdldE9mZmljZVNjaGVkdWxlUmVxdWVzdBIKCgJpZBgBIAEoCSJMChpMaXN0T2ZmaWNlU2NoZWR1bGVzUmVxdWVzdBIRCglvZmZpY2VfaWQYASABKAkSDAoEeWVhchgCIAEoBRINCgVtb250aBgDIAEoBSJLChtMaXN0T2ZmaWNlU2NoZWR1bGVzUmVzcG9uc2USLAoJc2NoZWR1bGVzGAEgAygLMhkuY29tbW9uLnYxLk9mZmljZVNjaGVkdWxlIpEBChtVcGRhdGVPZmZpY2VTY2hlZHVsZVJlcXVlc3QSCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRIYCgtkZXNjcmlwdGlvbhgDIAEoCUgAiAEBEi4KCmV2ZW50X2RhdGUYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wQg4KDF9kZXNjcmlwdGlvbiIpChtEZWxldGVPZmZpY2VTY2hlZHVsZVJlcXVlc3QSCgoCaWQYASABKAkiLwocRGVsZXRlT2ZmaWNlU2NoZWR1bGVSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIMu8SCg1PZmZpY2VTZXJ2aWNlEkEKDENyZWF0ZU9mZmljZRIeLm9mZmljZS52MS5DcmVhdGVPZmZpY2VSZXF1ZXN0GhEuY29tbW9uLnYxLk9mZmljZRI7CglHZXRPZmZpY2USGy5vZmZpY2UudjEuR2V0T2ZmaWNlUmVxdWVzdBoRLmNvbW1vbi52MS5PZmZpY2USTAoLTGlzdE9mZmljZXMSHS5vZmZpY2UudjEuTGlzdE9mZmljZXNSZXF1ZXN0Gh4ub2ZmaWNlLnYxLkxpc3RPZmZpY2VzUmVzcG9uc2USVQoOR2V0VXNlck9mZmljZXMSIC5vZmZpY2UudjEuR2V0VXNlck9mZmljZXNSZXF1ZXN0GiEub2ZmaWNlLnYxLkdldFVzZXJPZmZpY2VzUmVzcG9uc2USQQoMVXBkYXRlT2ZmaWNlEh4ub2ZmaWNlLnYxLlVwZGF0ZU9mZmljZVJlcXVlc3QaES5jb21tb24udjEuT2ZmaWNlEk8KDERlbGV0ZU9mZmljZRIeLm9mZmljZS52MS5EZWxldGVPZmZpY2VSZXF1ZXN0Gh8ub2ZmaWNlLnYxLkRlbGV0ZU9mZmljZVJlc3BvbnNlEkwKC1NlYXJjaFVzZXJzEh0ub2ZmaWNlLnYxLlNlYXJjaFVzZXJzUmVxdWVzdBoeLm9mZmljZS52MS5TZWFyY2hVc2Vyc1Jlc3BvbnNlElkKFENyZWF0ZU9mZmljZVBvc2l0aW9uEiYub2ZmaWNlLnYxLkNyZWF0ZU9mZmljZVBvc2l0aW9uUmVxdWVzdBoZLmNvbW1vbi52MS5PZmZpY2VQb3NpdGlvbhJTChFHZXRPZmZpY2VQb3NpdGlvbhIjLm9mZmljZS52MS5HZXRPZmZpY2VQb3NpdGlvblJlcXVlc3QaGS5jb21tb24udjEuT2ZmaWNlUG9zaXRpb24SZAoTTGlzdE9mZmljZVBvc2l0aW9ucxIlLm9mZmljZS52MS5MaXN0T2ZmaWNlUG9zaXRpb25zUmVxdWVzdBomLm9mZmljZS52MS5MaXN0T2ZmaWNlUG9zaXRpb25zUmVzcG9uc2USWQoUVXBkYXRlT2ZmaWNlUG9zaXRpb24SJi5vZmZpY2UudjEuVXBkYXRlT2ZmaWNlUG9zaXRpb25SZXF1ZXN0GhkuY29tbW9uLnYxLk9mZmljZVBvc2l0aW9uEmcKFERlbGV0ZU9mZmljZVBvc2l0aW9uEiYub2ZmaWNlLnYxLkRlbGV0ZU9mZmljZVBvc2l0aW9uUmVxdWVzdBonLm9mZmljZS52MS5EZWxldGVPZmZpY2VQb3NpdGlvblJlc3BvbnNlEk0KEENyZWF0ZU9mZmljZVVzZXISIi5vZmZpY2UudjEuQ3JlYXRlT2ZmaWNlVXNlclJlcXVlc3QaFS5jb21tb24udjEuT2ZmaWNlVXNlchJHCg1HZXRPZmZpY2VVc2VyEh8ub2ZmaWNlLnYxLkdldE9mZmljZVVzZXJSZXF1ZXN0GhUuY29tbW9uLnYxLk9mZmljZVVzZXISWAoPTGlzdE9mZmljZVVzZXJzEiEub2ZmaWNlLnYxLkxpc3RPZmZpY2VVc2Vyc1JlcXVlc3QaIi5vZmZpY2UudjEuTGlzdE9mZmljZVVzZXJzUmVzcG9uc2USTQoQVXBkYXRlT2ZmaWNlVXNlchIiLm9mZmljZS52MS5VcGRhdGVPZmZpY2VVc2VyUmVxdWVzdBoVLmNvbW1vbi52MS5PZmZpY2VVc2VyElsKEERlbGV0ZU9mZmljZVVzZXISIi5vZmZpY2UudjEuRGVsZXRlT2ZmaWNlVXNlclJlcXVlc3QaIy5vZmZpY2UudjEuRGVsZXRlT2ZmaWNlVXNlclJlc3BvbnNlEmIKF0NyZWF0ZU9mZmljZVVzZXJDb250YWN0Eikub2ZmaWNlLnYxLkNyZWF0ZU9mZmljZVVzZXJDb250YWN0UmVxdWVzdBocLmNvbW1vbi52MS5PZmZpY2VVc2VyQ29udGFjdBJcChRHZXRPZmZpY2VVc2VyQ29udGFjdBImLm9mZmljZS52MS5HZXRPZmZpY2VVc2VyQ29udGFjdFJlcXVlc3QaHC5jb21tb24udjEuT2ZmaWNlVXNlckNvbnRhY3QSbQoWTGlzdE9mZmljZVVzZXJDb250YWN0cxIoLm9mZmljZS52MS5MaXN0T2ZmaWNlVXNlckNvbnRhY3RzUmVxdWVzdBopLm9mZmljZS52MS5MaXN0T2ZmaWNlVXNlckNvbnRhY3RzUmVzcG9uc2USYgoXVXBkYXRlT2ZmaWNlVXNlckNvbnRhY3QSKS5vZmZpY2UudjEuVXBkYXRlT2ZmaWNlVXNlckNvbnRhY3RSZXF1ZXN0GhwuY29tbW9uLnYxLk9mZmljZVVzZXJDb250YWN0EnAKF0RlbGV0ZU9mZmljZVVzZXJDb250YWN0Eikub2ZmaWNlLnYxLkRlbGV0ZU9mZmljZVVzZXJDb250YWN0UmVxdWVzdBoqLm9mZmljZS52MS5EZWxldGVPZmZpY2VVc2VyQ29udGFjdFJlc3BvbnNlElkKFENyZWF0ZU9mZmljZVNjaGVkdWxlEiYub2ZmaWNlLnYxLkNyZWF0ZU9mZmljZVNjaGVkdWxlUmVxdWVzdBoZLmNvbW1vbi52MS5PZmZpY2VTY2hlZHVsZRJTChFHZXRPZmZpY2VTY2hlZHVsZRIjLm9mZmljZS52MS5HZXRPZmZpY2VTY2hlZHVsZVJlcXVlc3QaGS5jb21tb24udjEuT2ZmaWNlU2NoZWR1bGUSZAoTTGlzdE9mZmljZVNjaGVkdWxlcxIlLm9mZmljZS52MS5MaXN0T2ZmaWNlU2NoZWR1bGVzUmVxdWVzdBomLm9mZmljZS52MS5MaXN0T2ZmaWNlU2NoZWR1bGVzUmVzcG9uc2USWQoUVXBkYXRlT2ZmaWNlU2NoZWR1bGUSJi5vZmZpY2UudjEuVXBkYXRlT2ZmaWNlU2NoZWR1bGVSZXF1ZXN0GhkuY29tbW9uLnYxLk9mZmljZVNjaGVkdWxlEmcKFERlbGV0ZU9mZmljZVNjaGVkdWxlEiYub2ZmaWNlLnYxLkRlbGV0ZU9mZmljZVNjaGVkdWxlUmVxdWVzdBonLm9mZmljZS52MS5EZWxldGVPZmZpY2VTY2hlZHVsZVJlc3BvbnNlQkRaQmdpdGh1Yi5jb20vZ2V2b3JnbWIvY2FpYXNzaXN0YW50LWdvLWFwaS9hcGkvZ2VuL29mZmljZS92MTtvZmZpY2V2MWIGcHJvdG8z", [file_common_v1_office, file_common_v1_user, file_google_protobuf_timestamp]);
 
 /**
  * @generated from message office.v1.CreateOfficeRequest
@@ -714,6 +716,169 @@ export const SearchUsersResponseSchema: GenMessage<SearchUsersResponse> = /*@__P
   messageDesc(file_office_v1_office, 31);
 
 /**
+ * @generated from message office.v1.CreateOfficeScheduleRequest
+ */
+export type CreateOfficeScheduleRequest = Message<"office.v1.CreateOfficeScheduleRequest"> & {
+  /**
+   * @generated from field: string office_id = 1;
+   */
+  officeId: string;
+
+  /**
+   * @generated from field: string name = 2;
+   */
+  name: string;
+
+  /**
+   * @generated from field: optional string description = 3;
+   */
+  description?: string | undefined;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp event_date = 4;
+   */
+  eventDate?: Timestamp | undefined;
+};
+
+/**
+ * Describes the message office.v1.CreateOfficeScheduleRequest.
+ * Use `create(CreateOfficeScheduleRequestSchema)` to create a new message.
+ */
+export const CreateOfficeScheduleRequestSchema: GenMessage<CreateOfficeScheduleRequest> = /*@__PURE__*/
+  messageDesc(file_office_v1_office, 32);
+
+/**
+ * @generated from message office.v1.GetOfficeScheduleRequest
+ */
+export type GetOfficeScheduleRequest = Message<"office.v1.GetOfficeScheduleRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message office.v1.GetOfficeScheduleRequest.
+ * Use `create(GetOfficeScheduleRequestSchema)` to create a new message.
+ */
+export const GetOfficeScheduleRequestSchema: GenMessage<GetOfficeScheduleRequest> = /*@__PURE__*/
+  messageDesc(file_office_v1_office, 33);
+
+/**
+ * @generated from message office.v1.ListOfficeSchedulesRequest
+ */
+export type ListOfficeSchedulesRequest = Message<"office.v1.ListOfficeSchedulesRequest"> & {
+  /**
+   * @generated from field: string office_id = 1;
+   */
+  officeId: string;
+
+  /**
+   * YYYY format. Omit or 0 to use the current year.
+   *
+   * @generated from field: int32 year = 2;
+   */
+  year: number;
+
+  /**
+   * 1-12 (1: Jan ... 12: Dec). Omit or 0 to use the current month.
+   *
+   * @generated from field: int32 month = 3;
+   */
+  month: number;
+};
+
+/**
+ * Describes the message office.v1.ListOfficeSchedulesRequest.
+ * Use `create(ListOfficeSchedulesRequestSchema)` to create a new message.
+ */
+export const ListOfficeSchedulesRequestSchema: GenMessage<ListOfficeSchedulesRequest> = /*@__PURE__*/
+  messageDesc(file_office_v1_office, 34);
+
+/**
+ * @generated from message office.v1.ListOfficeSchedulesResponse
+ */
+export type ListOfficeSchedulesResponse = Message<"office.v1.ListOfficeSchedulesResponse"> & {
+  /**
+   * @generated from field: repeated common.v1.OfficeSchedule schedules = 1;
+   */
+  schedules: OfficeSchedule[];
+};
+
+/**
+ * Describes the message office.v1.ListOfficeSchedulesResponse.
+ * Use `create(ListOfficeSchedulesResponseSchema)` to create a new message.
+ */
+export const ListOfficeSchedulesResponseSchema: GenMessage<ListOfficeSchedulesResponse> = /*@__PURE__*/
+  messageDesc(file_office_v1_office, 35);
+
+/**
+ * @generated from message office.v1.UpdateOfficeScheduleRequest
+ */
+export type UpdateOfficeScheduleRequest = Message<"office.v1.UpdateOfficeScheduleRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: string name = 2;
+   */
+  name: string;
+
+  /**
+   * @generated from field: optional string description = 3;
+   */
+  description?: string | undefined;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp event_date = 4;
+   */
+  eventDate?: Timestamp | undefined;
+};
+
+/**
+ * Describes the message office.v1.UpdateOfficeScheduleRequest.
+ * Use `create(UpdateOfficeScheduleRequestSchema)` to create a new message.
+ */
+export const UpdateOfficeScheduleRequestSchema: GenMessage<UpdateOfficeScheduleRequest> = /*@__PURE__*/
+  messageDesc(file_office_v1_office, 36);
+
+/**
+ * @generated from message office.v1.DeleteOfficeScheduleRequest
+ */
+export type DeleteOfficeScheduleRequest = Message<"office.v1.DeleteOfficeScheduleRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message office.v1.DeleteOfficeScheduleRequest.
+ * Use `create(DeleteOfficeScheduleRequestSchema)` to create a new message.
+ */
+export const DeleteOfficeScheduleRequestSchema: GenMessage<DeleteOfficeScheduleRequest> = /*@__PURE__*/
+  messageDesc(file_office_v1_office, 37);
+
+/**
+ * @generated from message office.v1.DeleteOfficeScheduleResponse
+ */
+export type DeleteOfficeScheduleResponse = Message<"office.v1.DeleteOfficeScheduleResponse"> & {
+  /**
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message office.v1.DeleteOfficeScheduleResponse.
+ * Use `create(DeleteOfficeScheduleResponseSchema)` to create a new message.
+ */
+export const DeleteOfficeScheduleResponseSchema: GenMessage<DeleteOfficeScheduleResponse> = /*@__PURE__*/
+  messageDesc(file_office_v1_office, 38);
+
+/**
  * OfficeService provides CRUD for offices and related entities.
  *
  * @generated from service office.v1.OfficeService
@@ -906,6 +1071,48 @@ export const OfficeService: GenService<{
     methodKind: "unary";
     input: typeof DeleteOfficeUserContactRequestSchema;
     output: typeof DeleteOfficeUserContactResponseSchema;
+  },
+  /**
+   * Office schedules (create/update/delete require manager role)
+   *
+   * @generated from rpc office.v1.OfficeService.CreateOfficeSchedule
+   */
+  createOfficeSchedule: {
+    methodKind: "unary";
+    input: typeof CreateOfficeScheduleRequestSchema;
+    output: typeof OfficeScheduleSchema;
+  },
+  /**
+   * @generated from rpc office.v1.OfficeService.GetOfficeSchedule
+   */
+  getOfficeSchedule: {
+    methodKind: "unary";
+    input: typeof GetOfficeScheduleRequestSchema;
+    output: typeof OfficeScheduleSchema;
+  },
+  /**
+   * @generated from rpc office.v1.OfficeService.ListOfficeSchedules
+   */
+  listOfficeSchedules: {
+    methodKind: "unary";
+    input: typeof ListOfficeSchedulesRequestSchema;
+    output: typeof ListOfficeSchedulesResponseSchema;
+  },
+  /**
+   * @generated from rpc office.v1.OfficeService.UpdateOfficeSchedule
+   */
+  updateOfficeSchedule: {
+    methodKind: "unary";
+    input: typeof UpdateOfficeScheduleRequestSchema;
+    output: typeof OfficeScheduleSchema;
+  },
+  /**
+   * @generated from rpc office.v1.OfficeService.DeleteOfficeSchedule
+   */
+  deleteOfficeSchedule: {
+    methodKind: "unary";
+    input: typeof DeleteOfficeScheduleRequestSchema;
+    output: typeof DeleteOfficeScheduleResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_office_v1_office, 0);

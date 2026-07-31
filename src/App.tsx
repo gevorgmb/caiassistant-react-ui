@@ -9,6 +9,7 @@ import { UserEditPage } from "./pages/UserEditPage.tsx";
 import { PositionsPage } from "./pages/PositionsPage.tsx";
 import { PositionFormPage } from "./pages/PositionFormPage.tsx";
 import { SettingsPage } from "./pages/SettingsPage.tsx";
+import { SchedulePage } from "./pages/SchedulePage.tsx";
 import "./App.css";
 
 function LoginPage() {
@@ -29,6 +30,7 @@ function App() {
       <Route path="/" element={<LoginPage />} />
       <Route element={<RequireAuth />}>
         <Route element={<AppLayout />}>
+          <Route path="/schedule" element={<SchedulePage />} />
           <Route path="/office" element={<OfficePage />} />
           <Route path="/users" element={<UsersPage />} />
           <Route path="/users/new" element={<UserNewPage />} />

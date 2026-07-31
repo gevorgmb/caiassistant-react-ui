@@ -73,6 +73,40 @@ input:focus {
   outline-offset: 1px;
 }
 
+.password-field {
+  position: relative;
+  display: block;
+}
+
+.password-field input {
+  width: 100%;
+  padding-right: 2.75rem;
+  box-sizing: border-box;
+}
+
+.password-field__toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.35rem;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.password-field__toggle:hover {
+  color: var(--text-h);
+  background: var(--accent-bg);
+}
+
 button[type="submit"],
 .auth-panel > button {
   font: inherit;

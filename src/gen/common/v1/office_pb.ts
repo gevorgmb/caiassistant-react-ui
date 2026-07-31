@@ -4,13 +4,15 @@
 
 import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
 import { enumDesc, fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
+import type { Timestamp } from "@bufbuild/protobuf/wkt";
+import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
  * Describes the file common/v1/office.proto.
  */
 export const file_common_v1_office: GenFile = /*@__PURE__*/
-  fileDesc("ChZjb21tb24vdjEvb2ZmaWNlLnByb3RvEgljb21tb24udjEiiAEKBk9mZmljZRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhIKBXBob25lGAMgASgJSACIAQESEgoFZW1haWwYBCABKAlIAYgBARIYCgtkZXNjcmlwdGlvbhgFIAEoCUgCiAEBQggKBl9waG9uZUIICgZfZW1haWxCDgoMX2Rlc2NyaXB0aW9uIj0KDk9mZmljZVBvc2l0aW9uEgoKAmlkGAEgASgJEhEKCW9mZmljZV9pZBgCIAEoCRIMCgRuYW1lGAMgASgJIqIBCgpPZmZpY2VVc2VyEgoKAmlkGAEgASgJEhEKCW9mZmljZV9pZBgCIAEoCRIPCgd1c2VyX2lkGAMgASgJEicKBHJvbGUYBCABKA4yGS5jb21tb24udjEuT2ZmaWNlVXNlclJvbGUSGAoLcG9zaXRpb25faWQYBSABKAlIAIgBARIRCglpc19hY3RpdmUYBiABKAhCDgoMX3Bvc2l0aW9uX2lkIsgBChFPZmZpY2VVc2VyQ29udGFjdBIKCgJpZBgBIAEoCRIWCg5vZmZpY2VfdXNlcl9pZBgCIAEoCRIUCgdhZGRyZXNzGAMgASgJSACIAQESEgoFcGhvbmUYBCABKAlIAYgBARIYCgtkZXNjcmlwdGlvbhgFIAEoCUgCiAEBEhEKCWlzX2FjdGl2ZRgGIAEoCBISCgppc19wcmltYXJ5GAcgASgIQgoKCF9hZGRyZXNzQggKBl9waG9uZUIOCgxfZGVzY3JpcHRpb24qawoOT2ZmaWNlVXNlclJvbGUSIAocT0ZGSUNFX1VTRVJfUk9MRV9VTlNQRUNJRklFRBAAEhwKGE9GRklDRV9VU0VSX1JPTEVfTUFOQUdFUhABEhkKFU9GRklDRV9VU0VSX1JPTEVfVVNFUhACQkRaQmdpdGh1Yi5jb20vZ2V2b3JnbWIvY2FpYXNzaXN0YW50LWdvLWFwaS9hcGkvZ2VuL2NvbW1vbi92MTtjb21tb252MWIGcHJvdG8z");
+  fileDesc("ChZjb21tb24vdjEvb2ZmaWNlLnByb3RvEgljb21tb24udjEiiAEKBk9mZmljZRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhIKBXBob25lGAMgASgJSACIAQESEgoFZW1haWwYBCABKAlIAYgBARIYCgtkZXNjcmlwdGlvbhgFIAEoCUgCiAEBQggKBl9waG9uZUIICgZfZW1haWxCDgoMX2Rlc2NyaXB0aW9uIj0KDk9mZmljZVBvc2l0aW9uEgoKAmlkGAEgASgJEhEKCW9mZmljZV9pZBgCIAEoCRIMCgRuYW1lGAMgASgJIqIBCgpPZmZpY2VVc2VyEgoKAmlkGAEgASgJEhEKCW9mZmljZV9pZBgCIAEoCRIPCgd1c2VyX2lkGAMgASgJEicKBHJvbGUYBCABKA4yGS5jb21tb24udjEuT2ZmaWNlVXNlclJvbGUSGAoLcG9zaXRpb25faWQYBSABKAlIAIgBARIRCglpc19hY3RpdmUYBiABKAhCDgoMX3Bvc2l0aW9uX2lkIsgBChFPZmZpY2VVc2VyQ29udGFjdBIKCgJpZBgBIAEoCRIWCg5vZmZpY2VfdXNlcl9pZBgCIAEoCRIUCgdhZGRyZXNzGAMgASgJSACIAQESEgoFcGhvbmUYBCABKAlIAYgBARIYCgtkZXNjcmlwdGlvbhgFIAEoCUgCiAEBEhEKCWlzX2FjdGl2ZRgGIAEoCBISCgppc19wcmltYXJ5GAcgASgIQgoKCF9hZGRyZXNzQggKBl9waG9uZUIOCgxfZGVzY3JpcHRpb24ipwEKDk9mZmljZVNjaGVkdWxlEgoKAmlkGAEgASgJEhEKCW9mZmljZV9pZBgCIAEoCRIMCgRuYW1lGAMgASgJEhgKC2Rlc2NyaXB0aW9uGAQgASgJSACIAQESLgoKZXZlbnRfZGF0ZRgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASDgoGYXV0aG9yGAYgASgJQg4KDF9kZXNjcmlwdGlvbiprCg5PZmZpY2VVc2VyUm9sZRIgChxPRkZJQ0VfVVNFUl9ST0xFX1VOU1BFQ0lGSUVEEAASHAoYT0ZGSUNFX1VTRVJfUk9MRV9NQU5BR0VSEAESGQoVT0ZGSUNFX1VTRVJfUk9MRV9VU0VSEAJCRFpCZ2l0aHViLmNvbS9nZXZvcmdtYi9jYWlhc3Npc3RhbnQtZ28tYXBpL2FwaS9nZW4vY29tbW9uL3YxO2NvbW1vbnYxYgZwcm90bzM", [file_google_protobuf_timestamp]);
 
 /**
  * Office is an organization unit.
@@ -172,6 +174,50 @@ export type OfficeUserContact = Message<"common.v1.OfficeUserContact"> & {
  */
 export const OfficeUserContactSchema: GenMessage<OfficeUserContact> = /*@__PURE__*/
   messageDesc(file_common_v1_office, 3);
+
+/**
+ * OfficeSchedule is a scheduled event for an office.
+ *
+ * @generated from message common.v1.OfficeSchedule
+ */
+export type OfficeSchedule = Message<"common.v1.OfficeSchedule"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: string office_id = 2;
+   */
+  officeId: string;
+
+  /**
+   * @generated from field: string name = 3;
+   */
+  name: string;
+
+  /**
+   * @generated from field: optional string description = 4;
+   */
+  description?: string | undefined;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp event_date = 5;
+   */
+  eventDate?: Timestamp | undefined;
+
+  /**
+   * @generated from field: string author = 6;
+   */
+  author: string;
+};
+
+/**
+ * Describes the message common.v1.OfficeSchedule.
+ * Use `create(OfficeScheduleSchema)` to create a new message.
+ */
+export const OfficeScheduleSchema: GenMessage<OfficeSchedule> = /*@__PURE__*/
+  messageDesc(file_common_v1_office, 4);
 
 /**
  * OfficeUserRole is the membership role within an office.

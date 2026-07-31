@@ -10,6 +10,16 @@ export function SideMenu() {
       <ul>
         <li>
           <NavLink
+            to="/schedule"
+            className={({ isActive }) =>
+              isActive ? "side-menu__link active" : "side-menu__link"
+            }
+          >
+            Schedule
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
             to="/office"
             className={({ isActive }) =>
               isActive ? "side-menu__link active" : "side-menu__link"
