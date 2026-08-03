@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file common/v1/office.proto.
  */
 export const file_common_v1_office: GenFile = /*@__PURE__*/
-  fileDesc("ChZjb21tb24vdjEvb2ZmaWNlLnByb3RvEgljb21tb24udjEiiAEKBk9mZmljZRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhIKBXBob25lGAMgASgJSACIAQESEgoFZW1haWwYBCABKAlIAYgBARIYCgtkZXNjcmlwdGlvbhgFIAEoCUgCiAEBQggKBl9waG9uZUIICgZfZW1haWxCDgoMX2Rlc2NyaXB0aW9uIj0KDk9mZmljZVBvc2l0aW9uEgoKAmlkGAEgASgJEhEKCW9mZmljZV9pZBgCIAEoCRIMCgRuYW1lGAMgASgJIqIBCgpPZmZpY2VVc2VyEgoKAmlkGAEgASgJEhEKCW9mZmljZV9pZBgCIAEoCRIPCgd1c2VyX2lkGAMgASgJEicKBHJvbGUYBCABKA4yGS5jb21tb24udjEuT2ZmaWNlVXNlclJvbGUSGAoLcG9zaXRpb25faWQYBSABKAlIAIgBARIRCglpc19hY3RpdmUYBiABKAhCDgoMX3Bvc2l0aW9uX2lkIsgBChFPZmZpY2VVc2VyQ29udGFjdBIKCgJpZBgBIAEoCRIWCg5vZmZpY2VfdXNlcl9pZBgCIAEoCRIUCgdhZGRyZXNzGAMgASgJSACIAQESEgoFcGhvbmUYBCABKAlIAYgBARIYCgtkZXNjcmlwdGlvbhgFIAEoCUgCiAEBEhEKCWlzX2FjdGl2ZRgGIAEoCBISCgppc19wcmltYXJ5GAcgASgIQgoKCF9hZGRyZXNzQggKBl9waG9uZUIOCgxfZGVzY3JpcHRpb24ipwEKDk9mZmljZVNjaGVkdWxlEgoKAmlkGAEgASgJEhEKCW9mZmljZV9pZBgCIAEoCRIMCgRuYW1lGAMgASgJEhgKC2Rlc2NyaXB0aW9uGAQgASgJSACIAQESLgoKZXZlbnRfZGF0ZRgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASDgoGYXV0aG9yGAYgASgJQg4KDF9kZXNjcmlwdGlvbiprCg5PZmZpY2VVc2VyUm9sZRIgChxPRkZJQ0VfVVNFUl9ST0xFX1VOU1BFQ0lGSUVEEAASHAoYT0ZGSUNFX1VTRVJfUk9MRV9NQU5BR0VSEAESGQoVT0ZGSUNFX1VTRVJfUk9MRV9VU0VSEAJCRFpCZ2l0aHViLmNvbS9nZXZvcmdtYi9jYWlhc3Npc3RhbnQtZ28tYXBpL2FwaS9nZW4vY29tbW9uL3YxO2NvbW1vbnYxYgZwcm90bzM", [file_google_protobuf_timestamp]);
+  fileDesc("ChZjb21tb24vdjEvb2ZmaWNlLnByb3RvEgljb21tb24udjEiiAEKBk9mZmljZRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhIKBXBob25lGAMgASgJSACIAQESEgoFZW1haWwYBCABKAlIAYgBARIYCgtkZXNjcmlwdGlvbhgFIAEoCUgCiAEBQggKBl9waG9uZUIICgZfZW1haWxCDgoMX2Rlc2NyaXB0aW9uIj0KDk9mZmljZVBvc2l0aW9uEgoKAmlkGAEgASgJEhEKCW9mZmljZV9pZBgCIAEoCRIMCgRuYW1lGAMgASgJIqIBCgpPZmZpY2VVc2VyEgoKAmlkGAEgASgJEhEKCW9mZmljZV9pZBgCIAEoCRIPCgd1c2VyX2lkGAMgASgJEicKBHJvbGUYBCABKA4yGS5jb21tb24udjEuT2ZmaWNlVXNlclJvbGUSGAoLcG9zaXRpb25faWQYBSABKAlIAIgBARIRCglpc19hY3RpdmUYBiABKAhCDgoMX3Bvc2l0aW9uX2lkIsgBChFPZmZpY2VVc2VyQ29udGFjdBIKCgJpZBgBIAEoCRIWCg5vZmZpY2VfdXNlcl9pZBgCIAEoCRIUCgdhZGRyZXNzGAMgASgJSACIAQESEgoFcGhvbmUYBCABKAlIAYgBARIYCgtkZXNjcmlwdGlvbhgFIAEoCUgCiAEBEhEKCWlzX2FjdGl2ZRgGIAEoCBISCgppc19wcmltYXJ5GAcgASgIQgoKCF9hZGRyZXNzQggKBl9waG9uZUIOCgxfZGVzY3JpcHRpb24ipwEKDk9mZmljZVNjaGVkdWxlEgoKAmlkGAEgASgJEhEKCW9mZmljZV9pZBgCIAEoCRIMCgRuYW1lGAMgASgJEhgKC2Rlc2NyaXB0aW9uGAQgASgJSACIAQESLgoKZXZlbnRfZGF0ZRgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASDgoGYXV0aG9yGAYgASgJQg4KDF9kZXNjcmlwdGlvbiKkAgoIVG9kb0xpc3QSCgoCaWQYASABKAkSEQoJb2ZmaWNlX2lkGAIgASgJEgwKBG5hbWUYAyABKAkSGAoLZGVzY3JpcHRpb24YBCABKAlIAIgBARIpCgZzdGF0dXMYBSABKA4yGS5jb21tb24udjEuVG9kb0xpc3RTdGF0dXMSMwoKc3RhcnRfZGF0ZRgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAYgBARIxCghlbmRfZGF0ZRgHIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAogBARISCgpjcmVhdGVkX2J5GAggASgJQg4KDF9kZXNjcmlwdGlvbkINCgtfc3RhcnRfZGF0ZUILCglfZW5kX2RhdGUqawoOT2ZmaWNlVXNlclJvbGUSIAocT0ZGSUNFX1VTRVJfUk9MRV9VTlNQRUNJRklFRBAAEhwKGE9GRklDRV9VU0VSX1JPTEVfTUFOQUdFUhABEhkKFU9GRklDRV9VU0VSX1JPTEVfVVNFUhACKssBCg5Ub2RvTGlzdFN0YXR1cxIgChxUT0RPX0xJU1RfU1RBVFVTX1VOU1BFQ0lGSUVEEAASHAoYVE9ET19MSVNUX1NUQVRVU19QRU5ESU5HEAESHAoYVE9ET19MSVNUX1NUQVRVU19TVEFSVEVEEAISGwoXVE9ET19MSVNUX1NUQVRVU19QQVVTRUQQAxIeChpUT0RPX0xJU1RfU1RBVFVTX0NBTkNFTExFRBAEEh4KGlRPRE9fTElTVF9TVEFUVVNfQ09NUExFVEVEEAVCRFpCZ2l0aHViLmNvbS9nZXZvcmdtYi9jYWlhc3Npc3RhbnQtZ28tYXBpL2FwaS9nZW4vY29tbW9uL3YxO2NvbW1vbnYxYgZwcm90bzM", [file_google_protobuf_timestamp]);
 
 /**
  * Office is an organization unit.
@@ -220,6 +220,60 @@ export const OfficeScheduleSchema: GenMessage<OfficeSchedule> = /*@__PURE__*/
   messageDesc(file_common_v1_office, 4);
 
 /**
+ * TodoList is a named work item tracked for an office.
+ *
+ * @generated from message common.v1.TodoList
+ */
+export type TodoList = Message<"common.v1.TodoList"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: string office_id = 2;
+   */
+  officeId: string;
+
+  /**
+   * @generated from field: string name = 3;
+   */
+  name: string;
+
+  /**
+   * @generated from field: optional string description = 4;
+   */
+  description?: string | undefined;
+
+  /**
+   * @generated from field: common.v1.TodoListStatus status = 5;
+   */
+  status: TodoListStatus;
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp start_date = 6;
+   */
+  startDate?: Timestamp | undefined;
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp end_date = 7;
+   */
+  endDate?: Timestamp | undefined;
+
+  /**
+   * @generated from field: string created_by = 8;
+   */
+  createdBy: string;
+};
+
+/**
+ * Describes the message common.v1.TodoList.
+ * Use `create(TodoListSchema)` to create a new message.
+ */
+export const TodoListSchema: GenMessage<TodoList> = /*@__PURE__*/
+  messageDesc(file_common_v1_office, 5);
+
+/**
  * OfficeUserRole is the membership role within an office.
  *
  * @generated from enum common.v1.OfficeUserRole
@@ -246,4 +300,47 @@ export enum OfficeUserRole {
  */
 export const OfficeUserRoleSchema: GenEnum<OfficeUserRole> = /*@__PURE__*/
   enumDesc(file_common_v1_office, 0);
+
+/**
+ * TodoListStatus is the lifecycle status of a todo list.
+ *
+ * @generated from enum common.v1.TodoListStatus
+ */
+export enum TodoListStatus {
+  /**
+   * @generated from enum value: TODO_LIST_STATUS_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: TODO_LIST_STATUS_PENDING = 1;
+   */
+  PENDING = 1,
+
+  /**
+   * @generated from enum value: TODO_LIST_STATUS_STARTED = 2;
+   */
+  STARTED = 2,
+
+  /**
+   * @generated from enum value: TODO_LIST_STATUS_PAUSED = 3;
+   */
+  PAUSED = 3,
+
+  /**
+   * @generated from enum value: TODO_LIST_STATUS_CANCELLED = 4;
+   */
+  CANCELLED = 4,
+
+  /**
+   * @generated from enum value: TODO_LIST_STATUS_COMPLETED = 5;
+   */
+  COMPLETED = 5,
+}
+
+/**
+ * Describes the enum common.v1.TodoListStatus.
+ */
+export const TodoListStatusSchema: GenEnum<TodoListStatus> = /*@__PURE__*/
+  enumDesc(file_common_v1_office, 1);
 
