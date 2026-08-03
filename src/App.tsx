@@ -10,6 +10,8 @@ import { PositionsPage } from "./pages/PositionsPage.tsx";
 import { PositionFormPage } from "./pages/PositionFormPage.tsx";
 import { SettingsPage } from "./pages/SettingsPage.tsx";
 import { SchedulePage } from "./pages/SchedulePage.tsx";
+import { TodoListPage } from "./pages/TodoListPage.tsx";
+import { TodoListFormPage } from "./pages/TodoListFormPage.tsx";
 import "./App.css";
 
 function LoginPage() {
@@ -31,6 +33,9 @@ function App() {
       <Route element={<RequireAuth />}>
         <Route element={<AppLayout />}>
           <Route path="/schedule" element={<SchedulePage />} />
+          <Route path="/todolist" element={<TodoListPage />} />
+          <Route path="/todolist/new" element={<TodoListFormPage />} />
+          <Route path="/todolist/:id" element={<TodoListFormPage />} />
           <Route path="/office" element={<OfficePage />} />
           <Route path="/users" element={<UsersPage />} />
           <Route path="/users/new" element={<UserNewPage />} />

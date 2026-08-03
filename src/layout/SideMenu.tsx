@@ -20,6 +20,16 @@ export function SideMenu() {
         </li>
         <li>
           <NavLink
+            to="/todolist"
+            className={({ isActive }) =>
+              isActive ? "side-menu__link active" : "side-menu__link"
+            }
+          >
+            ToDo List
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
             to="/office"
             className={({ isActive }) =>
               isActive ? "side-menu__link active" : "side-menu__link"
