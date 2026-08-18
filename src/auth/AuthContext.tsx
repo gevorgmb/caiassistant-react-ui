@@ -9,10 +9,13 @@ import {
 } from "react";
 import type { Office } from "../gen/common/v1/office_pb.js";
 import { authClient, officeClient } from "../api/client.ts";
-import { errorMessage } from "../api/errors.ts";
+import { errorMessage, isUnauthenticated } from "../api/errors.ts";
 import {
+  AUTH_EXPIRED_EVENT,
   clearSession,
+  isSessionValid,
   loadSession,
+  notifyAuthExpired,
   saveSession,
   type Session,
   type SessionUser,
@@ -41,10 +44,12 @@ function sessionFromToken(token: {
   expiresIn: bigint | number | string;
   user?: { id: string; email: string; name: string } | undefined;
 }): Session {
+  const expiresInSeconds = Number(token.expiresIn);
   return {
     accessToken: token.accessToken,
     tokenType: token.tokenType,
     expiresIn: token.expiresIn.toString(),
+    expiresAt: Date.now() + expiresInSeconds * 1000,
     user: token.user
       ? {
           id: token.user.id,
@@ -55,6 +60,17 @@ function sessionFromToken(token: {
   };
 }
 
+function dropLocalSession(
+  setSession: (session: Session | null) => void,
+  setOffice: (office: Office | null) => void,
+  setOfficeLoading: (loading: boolean) => void,
+) {
+  clearSession();
+  setSession(null);
+  setOffice(null);
+  setOfficeLoading(false);
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(() => loadSession());
   const [office, setOffice] = useState<Office | null>(null);
@@ -62,10 +78,45 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const clearLocalSession = useCallback(() => {
+    dropLocalSession(setSession, setOffice, setOfficeLoading);
+  }, []);
+
+  // React to expired/missing tokens (interceptor or timer).
+  useEffect(() => {
+    const onExpired = () => {
+      setError(null);
+      dropLocalSession(setSession, setOffice, setOfficeLoading);
+    };
+    window.addEventListener(AUTH_EXPIRED_EVENT, onExpired);
+    return () => window.removeEventListener(AUTH_EXPIRED_EVENT, onExpired);
+  }, []);
+
+  // Proactively log out when the stored token reaches expiresAt.
+  useEffect(() => {
+    if (!session || !isSessionValid(session)) {
+      if (session) {
+        notifyAuthExpired();
+      }
+      return;
+    }
+
+    const msUntilExpiry = session.expiresAt - Date.now();
+    if (msUntilExpiry <= 0) {
+      notifyAuthExpired();
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      notifyAuthExpired();
+    }, msUntilExpiry);
+
+    return () => window.clearTimeout(timer);
+  }, [session]);
+
   const refreshOffice = useCallback(async () => {
     if (!loadSession()?.accessToken) {
-      setOffice(null);
-      setOfficeLoading(false);
+      clearLocalSession();
       return;
     }
     setOfficeLoading(true);
@@ -73,12 +124,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const res = await officeClient.getUserOffices({});
       setOffice(res.offices[0] ?? null);
     } catch (err) {
+      if (isUnauthenticated(err) || !loadSession()) {
+        clearLocalSession();
+        return;
+      }
       setError(errorMessage(err));
       setOffice(null);
     } finally {
       setOfficeLoading(false);
     }
-  }, []);
+  }, [clearLocalSession]);
 
   useEffect(() => {
     if (!session) {
@@ -95,6 +150,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const token = await authClient.login({ email, password });
       const next = sessionFromToken(token);
+      if (!next.accessToken) {
+        throw new Error("Login succeeded but no access token was returned");
+      }
       saveSession(next);
       setOfficeLoading(true);
       setSession(next);
@@ -113,6 +171,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       try {
         const token = await authClient.register({ email, password, name });
         const next = sessionFromToken(token);
+        if (!next.accessToken) {
+          throw new Error("Register succeeded but no access token was returned");
+        }
         saveSession(next);
         setOfficeLoading(true);
         setSession(next);
@@ -131,17 +192,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setError(null);
     try {
       const accessToken = session?.accessToken ?? "";
-      await authClient.logout({ accessToken });
+      if (accessToken) {
+        await authClient.logout({ accessToken });
+      }
     } catch (err) {
-      setError(errorMessage(err));
+      // Still clear locally even if revoke fails (e.g. already expired).
+      if (!isUnauthenticated(err)) {
+        setError(errorMessage(err));
+      }
     } finally {
-      clearSession();
-      setSession(null);
-      setOffice(null);
-      setOfficeLoading(false);
+      clearLocalSession();
       setBusy(false);
     }
-  }, [session?.accessToken]);
+  }, [session?.accessToken, clearLocalSession]);
 
   const updateUser = useCallback(
     (user: SessionUser) => {
