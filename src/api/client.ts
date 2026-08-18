@@ -1,8 +1,13 @@
-import { createClient, type Interceptor } from "@connectrpc/connect";
+import {
+  Code,
+  ConnectError,
+  createClient,
+  type Interceptor,
+} from "@connectrpc/connect";
 import { createGrpcWebTransport } from "@connectrpc/connect-web";
 import { AuthService } from "../gen/auth/v1/auth_pb.js";
 import { OfficeService } from "../gen/office/v1/office_pb.js";
-import { loadSession } from "./session.ts";
+import { loadSession, notifyAuthExpired } from "./session.ts";
 
 function resolveApiBaseUrl(): string {
   const isNgrok =
@@ -25,7 +30,15 @@ const authInterceptor: Interceptor = (next) => async (req) => {
   if (session?.accessToken) {
     req.header.set("Authorization", `Bearer ${session.accessToken}`);
   }
-  return await next(req);
+
+  try {
+    return await next(req);
+  } catch (err) {
+    if (err instanceof ConnectError && err.code === Code.Unauthenticated) {
+      notifyAuthExpired();
+    }
+    throw err;
+  }
 };
 
 /**
