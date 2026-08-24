@@ -2,6 +2,7 @@ import { useEffect, useState, type SubmitEvent } from "react";
 import { useAuth } from "../auth/AuthContext.tsx";
 import { officeClient } from "../api/client.ts";
 import { errorMessage } from "../api/errors.ts";
+import { useI18n } from "../i18n/I18nContext.tsx";
 import "../styles/ui.css";
 
 type Mode = "view" | "edit" | "create";
@@ -22,6 +23,7 @@ const emptyForm: OfficeFormState = {
 
 export function OfficePage() {
   const { office, officeLoading, setOffice, refreshOffice } = useAuth();
+  const { t } = useI18n();
   const [mode, setMode] = useState<Mode>("view");
   const [form, setForm] = useState<OfficeFormState>(emptyForm);
   const [busy, setBusy] = useState(false);
@@ -94,7 +96,7 @@ export function OfficePage() {
   if (officeLoading && mode === "view") {
     return (
       <section className="page">
-        <p className="page-lede">Loading office…</p>
+        <p className="page-lede">{t.office.loading}</p>
       </section>
     );
   }
@@ -103,7 +105,7 @@ export function OfficePage() {
     return (
       <section className="page">
         <div className="page-header">
-          <h1>{mode === "create" ? "Create office" : "Edit office"}</h1>
+          <h1>{mode === "create" ? t.office.createTitle : t.office.editTitle}</h1>
           <div className="page-header__actions">
             <button
               type="submit"
@@ -111,7 +113,7 @@ export function OfficePage() {
               className="btn"
               disabled={busy}
             >
-              {busy ? "Saving…" : "Save"}
+              {busy ? t.common.saving : t.common.save}
             </button>
             <button
               type="button"
@@ -119,14 +121,14 @@ export function OfficePage() {
               disabled={busy}
               onClick={cancel}
             >
-              Cancel
+              {t.common.cancel}
             </button>
           </div>
         </div>
 
         <form id="office-form" className="stack-form" onSubmit={onSave}>
           <label>
-            Name
+            {t.office.name}
             <input
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -134,14 +136,14 @@ export function OfficePage() {
             />
           </label>
           <label>
-            Phone
+            {t.office.phone}
             <input
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
             />
           </label>
           <label>
-            Email
+            {t.office.email}
             <input
               type="email"
               value={form.email}
@@ -149,7 +151,7 @@ export function OfficePage() {
             />
           </label>
           <label>
-            Description
+            {t.office.description}
             <textarea
               value={form.description}
               onChange={(e) =>
@@ -167,16 +169,14 @@ export function OfficePage() {
     return (
       <section className="page">
         <div className="page-header">
-          <h1>Office</h1>
+          <h1>{t.office.title}</h1>
           <div className="page-header__actions">
             <button type="button" className="btn" onClick={startCreate}>
-              Create
+              {t.common.create}
             </button>
           </div>
         </div>
-        <p className="empty-state">
-          You are not related to an office yet. Create one to get started.
-        </p>
+        <p className="empty-state">{t.office.empty}</p>
       </section>
     );
   }
@@ -184,30 +184,30 @@ export function OfficePage() {
   return (
     <section className="page">
       <div className="page-header">
-        <h1>Office</h1>
+        <h1>{t.office.title}</h1>
         <div className="page-header__actions">
           <button type="button" className="btn" onClick={startEdit}>
-            Edit
+            {t.common.edit}
           </button>
         </div>
       </div>
 
       <dl className="detail-list">
         <div>
-          <dt>Name</dt>
+          <dt>{t.office.name}</dt>
           <dd>{office.name}</dd>
         </div>
         <div>
-          <dt>Phone</dt>
-          <dd>{office.phone || "—"}</dd>
+          <dt>{t.office.phone}</dt>
+          <dd>{office.phone || t.common.empty}</dd>
         </div>
         <div>
-          <dt>Email</dt>
-          <dd>{office.email || "—"}</dd>
+          <dt>{t.office.email}</dt>
+          <dd>{office.email || t.common.empty}</dd>
         </div>
         <div>
-          <dt>Description</dt>
-          <dd>{office.description || "—"}</dd>
+          <dt>{t.office.description}</dt>
+          <dd>{office.description || t.common.empty}</dd>
         </div>
       </dl>
     </section>

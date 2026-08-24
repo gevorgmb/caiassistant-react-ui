@@ -9,19 +9,21 @@ import { OfficeUserRole } from "../gen/common/v1/office_pb.js";
 import { useAuth } from "../auth/AuthContext.tsx";
 import { officeClient } from "../api/client.ts";
 import { errorMessage } from "../api/errors.ts";
-import { EDITABLE_ROLES } from "../lib/roles.ts";
+import { EDITABLE_ROLES, roleLabel } from "../lib/roles.ts";
 import { ContactModal } from "../components/ContactModal.tsx";
 import {
   DeleteIcon,
   EditIcon,
   SpinnerIcon,
 } from "../components/ActionIcons.tsx";
+import { useI18n } from "../i18n/I18nContext.tsx";
 import "../styles/ui.css";
 
 export function UserEditPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { office } = useAuth();
+  const { t } = useI18n();
 
   const [officeUser, setOfficeUser] = useState<OfficeUser | null>(null);
   const [positions, setPositions] = useState<OfficePosition[]>([]);
@@ -86,7 +88,7 @@ export function UserEditPage() {
   }
 
   async function onDeleteContact(contact: OfficeUserContact) {
-    if (!window.confirm("Delete this contact?")) return;
+    if (!window.confirm(t.users.confirmDeleteContact)) return;
     setContactBusyId(contact.id);
     setError(null);
     try {
@@ -102,10 +104,10 @@ export function UserEditPage() {
   if (!office) {
     return (
       <section className="page">
-        <h1>Edit user</h1>
+        <h1>{t.users.editTitle}</h1>
         <p className="empty-state">
-          You need an office before managing users.{" "}
-          <Link to="/office">Go to Office</Link>
+          {t.users.needOffice}{" "}
+          <Link to="/office">{t.common.goToOffice}</Link>
         </p>
       </section>
     );
@@ -114,7 +116,7 @@ export function UserEditPage() {
   if (loading) {
     return (
       <section className="page">
-        <p className="page-lede">Loading user…</p>
+        <p className="page-lede">{t.users.loadingUser}</p>
       </section>
     );
   }
@@ -123,15 +125,15 @@ export function UserEditPage() {
     return (
       <section className="page">
         <div className="page-header">
-          <h1>Edit user</h1>
+          <h1>{t.users.editTitle}</h1>
           <div className="page-header__actions">
             <Link className="btn btn--ghost" to="/users">
-              Cancel
+              {t.common.cancel}
             </Link>
           </div>
         </div>
         {error ? <p className="error">{error}</p> : null}
-        <p className="empty-state">Office user not found.</p>
+        <p className="empty-state">{t.users.notFound}</p>
       </section>
     );
   }
@@ -139,7 +141,7 @@ export function UserEditPage() {
   return (
     <section className="page">
       <div className="page-header">
-        <h1>Edit user</h1>
+        <h1>{t.users.editTitle}</h1>
         <div className="page-header__actions">
           <button
             type="submit"
@@ -147,35 +149,35 @@ export function UserEditPage() {
             className="btn"
             disabled={busy}
           >
-            {busy ? "Saving…" : "Save"}
+            {busy ? t.common.saving : t.common.save}
           </button>
           <Link className="btn btn--ghost" to="/users">
-            Cancel
+            {t.common.cancel}
           </Link>
         </div>
       </div>
 
       <form id="user-edit-form" className="stack-form" onSubmit={onSave}>
         <label>
-          Role
+          {t.users.role}
           <select
             value={role}
             onChange={(e) => setRole(Number(e.target.value) as OfficeUserRole)}
           >
-            {EDITABLE_ROLES.map((r) => (
-              <option key={r.value} value={r.value}>
-                {r.label}
+            {EDITABLE_ROLES.map((value) => (
+              <option key={value} value={value}>
+                {roleLabel(value, t)}
               </option>
             ))}
           </select>
         </label>
         <label>
-          Position
+          {t.users.position}
           <select
             value={positionId}
             onChange={(e) => setPositionId(e.target.value)}
           >
-            <option value="">No position</option>
+            <option value="">{t.users.noPosition}</option>
             {positions.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.name}
@@ -189,13 +191,13 @@ export function UserEditPage() {
             checked={isActive}
             onChange={(e) => setIsActive(e.target.checked)}
           />
-          Active
+          {t.users.active}
         </label>
       </form>
 
       <div className="page-header" style={{ marginTop: "0.5rem" }}>
         <h2 style={{ margin: 0, fontSize: "1.2rem", color: "var(--text-h)" }}>
-          Contacts
+          {t.users.contacts}
         </h2>
         <div className="page-header__actions">
           <button
@@ -203,7 +205,7 @@ export function UserEditPage() {
             className="btn btn--ghost"
             onClick={() => setEditingContact(null)}
           >
-            Add contact
+            {t.users.addContact}
           </button>
         </div>
       </div>
@@ -211,36 +213,36 @@ export function UserEditPage() {
       {error ? <p className="error">{error}</p> : null}
 
       {contacts.length === 0 ? (
-        <p className="empty-state">No contacts yet.</p>
+        <p className="empty-state">{t.users.noContacts}</p>
       ) : (
         <div className="data-table-wrap">
           <table className="data-table">
             <thead>
               <tr>
-                <th>Address</th>
-                <th>Phone</th>
-                <th>Description</th>
-                <th>Primary</th>
-                <th>Active</th>
-                <th>Actions</th>
+                <th>{t.users.address}</th>
+                <th>{t.users.phone}</th>
+                <th>{t.users.description}</th>
+                <th>{t.users.primary}</th>
+                <th>{t.users.active}</th>
+                <th>{t.users.actions}</th>
               </tr>
             </thead>
             <tbody>
               {contacts.map((contact) => (
                 <tr key={contact.id}>
-                  <td>{contact.address || "—"}</td>
-                  <td>{contact.phone || "—"}</td>
-                  <td>{contact.description || "—"}</td>
-                  <td>{contact.isPrimary ? "Yes" : "No"}</td>
-                  <td>{contact.isActive ? "Yes" : "No"}</td>
+                  <td>{contact.address || t.common.empty}</td>
+                  <td>{contact.phone || t.common.empty}</td>
+                  <td>{contact.description || t.common.empty}</td>
+                  <td>{contact.isPrimary ? t.common.yes : t.common.no}</td>
+                  <td>{contact.isActive ? t.common.yes : t.common.no}</td>
                   <td>
                     <div className="data-table__actions">
                       <button
                         type="button"
                         className="btn btn--sm btn--ghost btn--icon"
                         onClick={() => setEditingContact(contact)}
-                        aria-label="Edit contact"
-                        title="Edit"
+                        aria-label={t.users.editContact}
+                        title={t.common.edit}
                       >
                         <EditIcon />
                       </button>
@@ -249,8 +251,8 @@ export function UserEditPage() {
                         className="btn btn--sm btn--danger btn--icon"
                         disabled={contactBusyId === contact.id}
                         onClick={() => void onDeleteContact(contact)}
-                        aria-label="Delete contact"
-                        title="Delete"
+                        aria-label={t.users.deleteContact}
+                        title={t.common.delete}
                       >
                         {contactBusyId === contact.id ? (
                           <SpinnerIcon />

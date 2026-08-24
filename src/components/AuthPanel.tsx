@@ -1,6 +1,7 @@
 import { useState, type SubmitEvent } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext.tsx";
+import { useI18n } from "../i18n/I18nContext.tsx";
 import { EyeIcon, EyeOffIcon } from "./ActionIcons.tsx";
 import "./AuthPanel.css";
 
@@ -8,6 +9,7 @@ type Mode = "login" | "register";
 
 export function AuthPanel() {
   const { session, busy, error, clearError, login, register } = useAuth();
+  const { t } = useI18n();
   const [mode, setMode] = useState<Mode>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,7 +36,7 @@ export function AuthPanel() {
 
   return (
     <section className="auth-panel">
-      <h1>{mode === "login" ? "Log in" : "Create account"}</h1>
+      <h1>{mode === "login" ? t.auth.logIn : t.auth.createAccount}</h1>
 
       <div className="tabs" role="tablist">
         <button
@@ -48,7 +50,7 @@ export function AuthPanel() {
             clearError();
           }}
         >
-          Log in
+          {t.auth.logIn}
         </button>
         <button
           type="button"
@@ -61,14 +63,14 @@ export function AuthPanel() {
             clearError();
           }}
         >
-          Register
+          {t.auth.register}
         </button>
       </div>
 
       <form onSubmit={onSubmit}>
         {mode === "register" ? (
           <label>
-            Name
+            {t.auth.name}
             <input
               name="name"
               autoComplete="name"
@@ -80,7 +82,7 @@ export function AuthPanel() {
         ) : null}
 
         <label>
-          Email
+          {t.auth.email}
           <input
             name="email"
             type="email"
@@ -92,7 +94,7 @@ export function AuthPanel() {
         </label>
 
         <label>
-          Password
+          {t.auth.password}
           <span className="password-field">
             <input
               name="password"
@@ -109,8 +111,10 @@ export function AuthPanel() {
               type="button"
               className="password-field__toggle"
               onClick={() => setShowPassword((prev) => !prev)}
-              aria-label={showPassword ? "Hide password" : "Show password"}
-              title={showPassword ? "Hide password" : "Show password"}
+              aria-label={
+                showPassword ? t.auth.hidePassword : t.auth.showPassword
+              }
+              title={showPassword ? t.auth.hidePassword : t.auth.showPassword}
             >
               {showPassword ? <EyeOffIcon /> : <EyeIcon />}
             </button>
@@ -121,10 +125,10 @@ export function AuthPanel() {
 
         <button type="submit" disabled={busy}>
           {busy
-            ? "Working…"
+            ? t.auth.working
             : mode === "login"
-              ? "Log in"
-              : "Register"}
+              ? t.auth.logIn
+              : t.auth.register}
         </button>
       </form>
     </section>

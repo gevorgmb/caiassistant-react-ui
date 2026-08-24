@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext.tsx";
 import { officeClient } from "../api/client.ts";
 import { errorMessage } from "../api/errors.ts";
+import { useI18n } from "../i18n/I18nContext.tsx";
 import "../styles/ui.css";
 
 export function PositionFormPage() {
@@ -10,6 +11,7 @@ export function PositionFormPage() {
   const isCreate = id === undefined;
   const navigate = useNavigate();
   const { office } = useAuth();
+  const { t } = useI18n();
 
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(!isCreate);
@@ -66,10 +68,10 @@ export function PositionFormPage() {
   if (!office) {
     return (
       <section className="page">
-        <h1>{isCreate ? "Create position" : "Edit position"}</h1>
+        <h1>{isCreate ? t.positions.createTitle : t.positions.editTitle}</h1>
         <p className="empty-state">
-          You need an office before managing positions.{" "}
-          <Link to="/office">Go to Office</Link>
+          {t.positions.needOffice}{" "}
+          <Link to="/office">{t.common.goToOffice}</Link>
         </p>
       </section>
     );
@@ -78,7 +80,7 @@ export function PositionFormPage() {
   if (loading) {
     return (
       <section className="page">
-        <p className="page-lede">Loading position…</p>
+        <p className="page-lede">{t.positions.loadingPosition}</p>
       </section>
     );
   }
@@ -86,7 +88,7 @@ export function PositionFormPage() {
   return (
     <section className="page">
       <div className="page-header">
-        <h1>{isCreate ? "Create position" : "Edit position"}</h1>
+        <h1>{isCreate ? t.positions.createTitle : t.positions.editTitle}</h1>
         <div className="page-header__actions">
           <button
             type="submit"
@@ -94,17 +96,17 @@ export function PositionFormPage() {
             className="btn"
             disabled={busy}
           >
-            {busy ? "Saving…" : "Save"}
+            {busy ? t.common.saving : t.common.save}
           </button>
           <Link className="btn btn--ghost" to="/positions">
-            Cancel
+            {t.common.cancel}
           </Link>
         </div>
       </div>
 
       <form id="position-form" className="stack-form" onSubmit={onSave}>
         <label>
-          Name
+          {t.positions.name}
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}

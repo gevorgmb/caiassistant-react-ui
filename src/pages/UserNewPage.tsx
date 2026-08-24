@@ -7,12 +7,14 @@ import { officeClient } from "../api/client.ts";
 import { errorMessage } from "../api/errors.ts";
 import { AddIcon } from "../components/ActionIcons.tsx";
 import { AddOfficeUserModal } from "../components/AddOfficeUserModal.tsx";
+import { useI18n } from "../i18n/I18nContext.tsx";
 import "../styles/ui.css";
 
 const PAGE_SIZE = 10;
 
 export function UserNewPage() {
   const { office } = useAuth();
+  const { t, fmt } = useI18n();
   const navigate = useNavigate();
 
   const [searchText, setSearchText] = useState("");
@@ -71,10 +73,10 @@ export function UserNewPage() {
   if (!office) {
     return (
       <section className="page">
-        <h1>New user</h1>
+        <h1>{t.users.newTitle}</h1>
         <p className="empty-state">
-          You need an office before adding users.{" "}
-          <Link to="/office">Go to Office</Link>
+          {t.users.needOffice}{" "}
+          <Link to="/office">{t.common.goToOffice}</Link>
         </p>
       </section>
     );
@@ -83,26 +85,25 @@ export function UserNewPage() {
   return (
     <section className="page">
       <div className="page-header">
-        <h1>New user</h1>
+        <h1>{t.users.newTitle}</h1>
         <div className="page-header__actions">
           <Link className="btn btn--ghost" to="/users">
-            Cancel
+            {t.common.cancel}
           </Link>
         </div>
       </div>
 
       <p className="page-lede">
-        Search users without an office membership, then add one to{" "}
-        {office.name}.
+        {fmt(t.users.searchLede, { name: office.name })}
       </p>
 
       <label className="search-field">
-        Search
+        {t.users.search}
         <input
           type="search"
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
-          placeholder="Name or email"
+          placeholder={t.users.searchPlaceholder}
           autoFocus
         />
       </label>
@@ -110,33 +111,35 @@ export function UserNewPage() {
       {error ? <p className="error">{error}</p> : null}
 
       {loading ? (
-        <p className="page-lede">Searching…</p>
+        <p className="page-lede">{t.users.searching}</p>
       ) : users.length === 0 ? (
-        <p className="empty-state">No users found.</p>
+        <p className="empty-state">{t.users.noUsersFound}</p>
       ) : (
         <>
           <div className="data-table-wrap">
             <table className="data-table">
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Actions</th>
+                  <th>{t.users.name}</th>
+                  <th>{t.users.email}</th>
+                  <th>{t.users.actions}</th>
                 </tr>
               </thead>
               <tbody>
                 {users.map((user) => (
                   <tr key={user.id}>
-                    <td>{user.name || "—"}</td>
-                    <td>{user.email || "—"}</td>
+                    <td>{user.name || t.common.empty}</td>
+                    <td>{user.email || t.common.empty}</td>
                     <td>
                       <div className="data-table__actions">
                         <button
                           type="button"
                           className="btn btn--sm btn--ghost btn--icon"
                           onClick={() => setSelectedUser(user)}
-                          aria-label={`Add ${user.name || user.email}`}
-                          title="Add"
+                          aria-label={fmt(t.users.addUserAria, {
+                            name: user.name || user.email,
+                          })}
+                          title={t.users.addUser}
                         >
                           <AddIcon />
                         </button>
@@ -155,10 +158,10 @@ export function UserNewPage() {
               disabled={page <= 1 || loading}
               onClick={() => setPage((p) => Math.max(1, p - 1))}
             >
-              Previous
+              {t.common.previous}
             </button>
             <span className="pagination__info">
-              Page {page} of {totalPages} ({totalCount} total)
+              {fmt(t.common.pageInfo, { page, totalPages, totalCount })}
             </span>
             <button
               type="button"
@@ -166,7 +169,7 @@ export function UserNewPage() {
               disabled={page >= totalPages || loading}
               onClick={() => setPage((p) => p + 1)}
             >
-              Next
+              {t.common.next}
             </button>
           </div>
         </>

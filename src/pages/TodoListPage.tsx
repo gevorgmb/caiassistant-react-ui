@@ -10,12 +10,14 @@ import {
   EditIcon,
   SpinnerIcon,
 } from "../components/ActionIcons.tsx";
+import { useI18n } from "../i18n/I18nContext.tsx";
 import "../styles/ui.css";
 
 const PAGE_SIZE = 10;
 
 export function TodoListPage() {
   const { office } = useAuth();
+  const { t, fmt } = useI18n();
   const [items, setItems] = useState<TodoList[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -57,14 +59,14 @@ export function TodoListPage() {
   }, [items, page]);
 
   async function onDelete(item: TodoList) {
-    if (!window.confirm(`Delete todo "${item.name}"?`)) {
+    if (!window.confirm(fmt(t.todos.confirmDelete, { name: item.name }))) {
       return;
     }
     setBusyId(item.id);
     setError(null);
     try {
       await officeClient.deleteTodoList({ id: item.id });
-      setItems((prev) => prev.filter((t) => t.id !== item.id));
+      setItems((prev) => prev.filter((todo) => todo.id !== item.id));
     } catch (err) {
       setError(errorMessage(err));
     } finally {
@@ -75,10 +77,10 @@ export function TodoListPage() {
   if (!office) {
     return (
       <section className="page">
-        <h1>ToDo List</h1>
+        <h1>{t.todos.title}</h1>
         <p className="empty-state">
-          You need an office before managing todos.{" "}
-          <Link to="/office">Go to Office</Link>
+          {t.todos.needOffice}{" "}
+          <Link to="/office">{t.common.goToOffice}</Link>
         </p>
       </section>
     );
@@ -87,46 +89,46 @@ export function TodoListPage() {
   return (
     <section className="page">
       <div className="page-header">
-        <h1>ToDo List</h1>
+        <h1>{t.todos.title}</h1>
         <div className="page-header__actions">
           <Link className="btn" to="/todolist/new">
-            Create
+            {t.common.create}
           </Link>
         </div>
       </div>
-      <p className="page-lede">Todos for {office.name}.</p>
+      <p className="page-lede">{fmt(t.todos.lede, { name: office.name })}</p>
 
       {error ? <p className="error">{error}</p> : null}
 
       {loading ? (
-        <p className="page-lede">Loading todos…</p>
+        <p className="page-lede">{t.todos.loading}</p>
       ) : items.length === 0 ? (
-        <p className="empty-state">No todos yet.</p>
+        <p className="empty-state">{t.todos.empty}</p>
       ) : (
         <>
           <div className="data-table-wrap">
             <table className="data-table">
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                  <th>{t.todos.name}</th>
+                  <th>{t.todos.description}</th>
+                  <th>{t.todos.status}</th>
+                  <th>{t.todos.actions}</th>
                 </tr>
               </thead>
               <tbody>
                 {pageItems.map((item) => (
                   <tr key={item.id}>
                     <td>{item.name}</td>
-                    <td>{item.description || "—"}</td>
-                    <td>{todoListStatusLabel(item.status)}</td>
+                    <td>{item.description || t.common.empty}</td>
+                    <td>{todoListStatusLabel(item.status, t)}</td>
                     <td>
                       <div className="data-table__actions">
                         <Link
                           className="btn btn--sm btn--ghost btn--icon"
                           to={`/todolist/${item.id}`}
-                          aria-label={`Edit ${item.name}`}
-                          title="Edit"
+                          aria-label={`${t.common.edit} ${item.name}`}
+                          title={t.common.edit}
                         >
                           <EditIcon />
                         </Link>
@@ -135,8 +137,8 @@ export function TodoListPage() {
                           className="btn btn--sm btn--danger btn--icon"
                           disabled={busyId === item.id}
                           onClick={() => void onDelete(item)}
-                          aria-label={`Delete ${item.name}`}
-                          title="Delete"
+                          aria-label={`${t.common.delete} ${item.name}`}
+                          title={t.common.delete}
                         >
                           {busyId === item.id ? (
                             <SpinnerIcon />
@@ -159,10 +161,10 @@ export function TodoListPage() {
               disabled={page <= 1 || loading}
               onClick={() => setPage((p) => Math.max(1, p - 1))}
             >
-              Previous
+              {t.common.previous}
             </button>
             <span className="pagination__info">
-              Page {page} of {totalPages} ({totalCount} total)
+              {fmt(t.common.pageInfo, { page, totalPages, totalCount })}
             </span>
             <button
               type="button"
@@ -170,7 +172,7 @@ export function TodoListPage() {
               disabled={page >= totalPages || loading}
               onClick={() => setPage((p) => p + 1)}
             >
-              Next
+              {t.common.next}
             </button>
           </div>
         </>

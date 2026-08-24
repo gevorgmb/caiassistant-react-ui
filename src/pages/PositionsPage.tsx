@@ -9,10 +9,12 @@ import {
   EditIcon,
   SpinnerIcon,
 } from "../components/ActionIcons.tsx";
+import { useI18n } from "../i18n/I18nContext.tsx";
 import "../styles/ui.css";
 
 export function PositionsPage() {
   const { office } = useAuth();
+  const { t, fmt } = useI18n();
   const [positions, setPositions] = useState<OfficePosition[]>([]);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -39,7 +41,7 @@ export function PositionsPage() {
   }, [load]);
 
   async function onDelete(position: OfficePosition) {
-    if (!window.confirm(`Delete position "${position.name}"?`)) {
+    if (!window.confirm(fmt(t.positions.confirmDelete, { name: position.name }))) {
       return;
     }
     setBusyId(position.id);
@@ -57,10 +59,10 @@ export function PositionsPage() {
   if (!office) {
     return (
       <section className="page">
-        <h1>Positions</h1>
+        <h1>{t.positions.title}</h1>
         <p className="empty-state">
-          You need an office before managing positions.{" "}
-          <Link to="/office">Go to Office</Link>
+          {t.positions.needOffice}{" "}
+          <Link to="/office">{t.common.goToOffice}</Link>
         </p>
       </section>
     );
@@ -69,28 +71,28 @@ export function PositionsPage() {
   return (
     <section className="page">
       <div className="page-header">
-        <h1>Positions</h1>
+        <h1>{t.positions.title}</h1>
         <div className="page-header__actions">
           <Link className="btn" to="/positions/new">
-            Create
+            {t.common.create}
           </Link>
         </div>
       </div>
-      <p className="page-lede">Positions for {office.name}.</p>
+      <p className="page-lede">{fmt(t.positions.lede, { name: office.name })}</p>
 
       {error ? <p className="error">{error}</p> : null}
 
       {loading ? (
-        <p className="page-lede">Loading positions…</p>
+        <p className="page-lede">{t.positions.loading}</p>
       ) : positions.length === 0 ? (
-        <p className="empty-state">No positions yet.</p>
+        <p className="empty-state">{t.positions.empty}</p>
       ) : (
         <div className="data-table-wrap">
           <table className="data-table">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Actions</th>
+                <th>{t.positions.name}</th>
+                <th>{t.positions.actions}</th>
               </tr>
             </thead>
             <tbody>
@@ -102,8 +104,8 @@ export function PositionsPage() {
                       <Link
                         className="btn btn--sm btn--ghost btn--icon"
                         to={`/positions/${position.id}`}
-                        aria-label={`Edit ${position.name}`}
-                        title="Edit"
+                        aria-label={`${t.common.edit} ${position.name}`}
+                        title={t.common.edit}
                       >
                         <EditIcon />
                       </Link>
@@ -112,8 +114,8 @@ export function PositionsPage() {
                         className="btn btn--sm btn--danger btn--icon"
                         disabled={busyId === position.id}
                         onClick={() => void onDelete(position)}
-                        aria-label={`Delete ${position.name}`}
-                        title="Delete"
+                        aria-label={`${t.common.delete} ${position.name}`}
+                        title={t.common.delete}
                       >
                         {busyId === position.id ? (
                           <SpinnerIcon />

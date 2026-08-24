@@ -1,5 +1,7 @@
 import { useEffect, useState, type SubmitEvent } from "react";
 import { useAuth } from "../auth/AuthContext.tsx";
+import { LanguageSwitcher } from "../components/LanguageSwitcher.tsx";
+import { useI18n } from "../i18n/I18nContext.tsx";
 import "../styles/ui.css";
 
 type Mode = "view" | "edit";
@@ -11,6 +13,7 @@ type ProfileForm = {
 
 export function SettingsPage() {
   const { session, updateUser } = useAuth();
+  const { t } = useI18n();
   const user = session?.user;
   const [mode, setMode] = useState<Mode>("view");
   const [form, setForm] = useState<ProfileForm>({ name: "", email: "" });
@@ -48,26 +51,17 @@ export function SettingsPage() {
       });
       setMode("view");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to save");
+      setError(err instanceof Error ? err.message : t.common.failedToSave);
     } finally {
       setBusy(false);
     }
   }
 
-  if (!user) {
-    return (
-      <section className="page">
-        <h1>Settings</h1>
-        <p className="empty-state">No user profile is available for this session.</p>
-      </section>
-    );
-  }
-
-  if (mode === "edit") {
-    return (
-      <section className="page">
-        <div className="page-header">
-          <h1>Settings</h1>
+  return (
+    <section className="page">
+      <div className="page-header">
+        <h1>{t.settings.title}</h1>
+        {user && mode === "edit" ? (
           <div className="page-header__actions">
             <button
               type="submit"
@@ -75,7 +69,7 @@ export function SettingsPage() {
               className="btn"
               disabled={busy}
             >
-              {busy ? "Saving…" : "Save"}
+              {busy ? t.common.saving : t.common.save}
             </button>
             <button
               type="button"
@@ -83,18 +77,32 @@ export function SettingsPage() {
               disabled={busy}
               onClick={cancel}
             >
-              Cancel
+              {t.common.cancel}
             </button>
           </div>
-        </div>
+        ) : user ? (
+          <div className="page-header__actions">
+            <button type="button" className="btn" onClick={startEdit}>
+              {t.common.edit}
+            </button>
+          </div>
+        ) : null}
+      </div>
 
+      <div className="stack-form">
+        <LanguageSwitcher labeled />
+      </div>
+
+      {!user ? (
+        <p className="empty-state">{t.settings.noProfile}</p>
+      ) : mode === "edit" ? (
         <form id="settings-form" className="stack-form" onSubmit={onSave}>
           <label>
-            User ID
+            {t.settings.userId}
             <input value={user.id} disabled />
           </label>
           <label>
-            Name
+            {t.settings.name}
             <input
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
@@ -102,7 +110,7 @@ export function SettingsPage() {
             />
           </label>
           <label>
-            Email
+            {t.settings.email}
             <input
               type="email"
               value={form.email}
@@ -112,37 +120,24 @@ export function SettingsPage() {
           </label>
           {error ? <p className="error">{error}</p> : null}
         </form>
-      </section>
-    );
-  }
-
-  return (
-    <section className="page">
-      <div className="page-header">
-        <h1>Settings</h1>
-        <div className="page-header__actions">
-          <button type="button" className="btn" onClick={startEdit}>
-            Edit
-          </button>
-        </div>
-      </div>
-
-      <dl className="detail-list">
-        <div>
-          <dt>User ID</dt>
-          <dd>
-            <code>{user.id}</code>
-          </dd>
-        </div>
-        <div>
-          <dt>Name</dt>
-          <dd>{user.name || "—"}</dd>
-        </div>
-        <div>
-          <dt>Email</dt>
-          <dd>{user.email || "—"}</dd>
-        </div>
-      </dl>
+      ) : (
+        <dl className="detail-list">
+          <div>
+            <dt>{t.settings.userId}</dt>
+            <dd>
+              <code>{user.id}</code>
+            </dd>
+          </div>
+          <div>
+            <dt>{t.settings.name}</dt>
+            <dd>{user.name || t.common.empty}</dd>
+          </div>
+          <div>
+            <dt>{t.settings.email}</dt>
+            <dd>{user.email || t.common.empty}</dd>
+          </div>
+        </dl>
+      )}
     </section>
   );
 }

@@ -8,13 +8,14 @@
   --accent-bg: rgba(31, 107, 74, 0.12);
   --accent-border: rgba(31, 107, 74, 0.45);
 
-  --sans: "IBM Plex Sans", "Segoe UI", sans-serif;
-  --heading: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --sans: "IBM Plex Sans", "IBM Plex Sans Armenian", "Segoe UI", sans-serif;
+  --heading: "IBM Plex Sans", "IBM Plex Sans Armenian", "Segoe UI", sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, monospace;
 
   font: 16px/1.5 var(--sans);
   color: var(--text);
   background: var(--bg);
+  color-scheme: light;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -31,6 +32,7 @@
     --accent: #5dba8d;
     --accent-bg: rgba(93, 186, 141, 0.14);
     --accent-border: rgba(93, 186, 141, 0.5);
+    color-scheme: dark;
   }
 }
 

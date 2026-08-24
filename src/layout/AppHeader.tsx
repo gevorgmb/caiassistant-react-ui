@@ -1,35 +1,39 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext.tsx";
+import { LanguageSwitcher } from "../components/LanguageSwitcher.tsx";
+import { useI18n } from "../i18n/I18nContext.tsx";
 import "./AppHeader.css";
 
 export function AppHeader() {
   const { session, office, officeLoading, busy, logout } = useAuth();
-  const userName = session?.user?.name || session?.user?.email || "User";
+  const { t } = useI18n();
+  const userName = session?.user?.name || session?.user?.email || t.common.user;
 
   return (
     <header className="app-header">
       <div className="app-header__brand">
         <span className="app-header__logo" aria-hidden="true" />
-        <span className="app-header__title">Clerk AI Assistant</span>
+        <span className="app-header__title">{t.app.title}</span>
       </div>
 
       <div className="app-header__office">
         {officeLoading ? (
-          <span className="app-header__office-muted">Loading office…</span>
+          <span className="app-header__office-muted">{t.header.loadingOffice}</span>
         ) : office ? (
           <p className="app-header__office-text">
-            <span className="app-header__office-label">Your Office:</span>{" "}
+            <span className="app-header__office-label">{t.header.yourOffice}</span>{" "}
             <span className="app-header__office-name">{office.name}</span>
           </p>
         ) : (
           <p className="app-header__office-text">
-            You are not related to an office.{" "}
-            <Link to="/office">Create one</Link>
+            {t.header.notRelated}{" "}
+            <Link to="/office">{t.header.createOne}</Link>
           </p>
         )}
       </div>
 
       <div className="app-header__user">
+        <LanguageSwitcher />
         <span className="app-header__user-name" title={session?.user?.email}>
           {userName}
         </span>
@@ -39,7 +43,7 @@ export function AppHeader() {
           disabled={busy}
           onClick={() => void logout()}
         >
-          {busy ? "Signing out…" : "Log out"}
+          {busy ? t.header.signingOut : t.header.logOut}
         </button>
       </div>
     </header>

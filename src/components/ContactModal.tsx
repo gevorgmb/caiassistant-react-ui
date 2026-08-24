@@ -2,6 +2,7 @@ import { useEffect, useState, type SubmitEvent } from "react";
 import type { OfficeUserContact } from "../gen/common/v1/office_pb.js";
 import { officeClient } from "../api/client.ts";
 import { errorMessage } from "../api/errors.ts";
+import { useI18n } from "../i18n/I18nContext.tsx";
 import "../styles/ui.css";
 
 type ContactFormState = {
@@ -25,6 +26,7 @@ export function ContactModal({
   onClose,
   onSaved,
 }: ContactModalProps) {
+  const { t } = useI18n();
   const isCreate = contact === null;
   const [form, setForm] = useState<ContactFormState>({
     address: contact?.address ?? "",
@@ -91,25 +93,25 @@ export function ContactModal({
         aria-labelledby="contact-modal-title"
       >
         <h2 id="contact-modal-title">
-          {isCreate ? "Add contact" : "Edit contact"}
+          {isCreate ? t.users.addContact : t.users.editContact}
         </h2>
         <form className="stack-form" onSubmit={onSubmit}>
           <label>
-            Address
+            {t.users.address}
             <input
               value={form.address}
               onChange={(e) => setForm({ ...form, address: e.target.value })}
             />
           </label>
           <label>
-            Phone
+            {t.users.phone}
             <input
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
             />
           </label>
           <label>
-            Description
+            {t.users.description}
             <textarea
               value={form.description}
               onChange={(e) =>
@@ -125,7 +127,7 @@ export function ContactModal({
                 setForm({ ...form, isActive: e.target.checked })
               }
             />
-            Active
+            {t.users.active}
           </label>
           <label className="checkbox-row">
             <input
@@ -135,7 +137,7 @@ export function ContactModal({
                 setForm({ ...form, isPrimary: e.target.checked })
               }
             />
-            Primary
+            {t.users.primary}
           </label>
           {error ? <p className="error">{error}</p> : null}
           <div className="modal__actions">
@@ -145,10 +147,10 @@ export function ContactModal({
               disabled={busy}
               onClick={onClose}
             >
-              Cancel
+              {t.common.cancel}
             </button>
             <button type="submit" className="btn" disabled={busy}>
-              {busy ? "Saving…" : "Save"}
+              {busy ? t.common.saving : t.common.save}
             </button>
           </div>
         </form>

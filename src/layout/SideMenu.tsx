@@ -1,13 +1,25 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext.tsx";
+import { useI18n } from "../i18n/I18nContext.tsx";
 import "./SideMenu.css";
 
 export function SideMenu() {
   const { office } = useAuth();
+  const { t } = useI18n();
 
   return (
-    <nav className="side-menu" aria-label="Main">
+    <nav className="side-menu" aria-label={t.nav.main}>
       <ul>
+        <li>
+          <NavLink
+            to="/ai-assistant"
+            className={({ isActive }) =>
+              isActive ? "side-menu__link active" : "side-menu__link"
+            }
+          >
+            {t.nav.aiAssistant}
+          </NavLink>
+        </li>
         <li>
           <NavLink
             to="/schedule"
@@ -15,7 +27,7 @@ export function SideMenu() {
               isActive ? "side-menu__link active" : "side-menu__link"
             }
           >
-            Schedule
+            {t.nav.schedule}
           </NavLink>
         </li>
         <li>
@@ -25,7 +37,7 @@ export function SideMenu() {
               isActive ? "side-menu__link active" : "side-menu__link"
             }
           >
-            ToDo List
+            {t.nav.todoList}
           </NavLink>
         </li>
         <li>
@@ -35,7 +47,7 @@ export function SideMenu() {
               isActive ? "side-menu__link active" : "side-menu__link"
             }
           >
-            Office
+            {t.nav.office}
           </NavLink>
         </li>
         {office ? (
@@ -47,7 +59,7 @@ export function SideMenu() {
                   isActive ? "side-menu__link active" : "side-menu__link"
                 }
               >
-                Users
+                {t.nav.users}
               </NavLink>
             </li>
             <li>
@@ -57,7 +69,7 @@ export function SideMenu() {
                   isActive ? "side-menu__link active" : "side-menu__link"
                 }
               >
-                Positions
+                {t.nav.positions}
               </NavLink>
             </li>
           </>
@@ -69,7 +81,7 @@ export function SideMenu() {
               isActive ? "side-menu__link active" : "side-menu__link"
             }
           >
-            Settings
+            {t.nav.settings}
           </NavLink>
         </li>
       </ul>
