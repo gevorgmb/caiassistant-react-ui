@@ -12,9 +12,8 @@ import {
   SpinnerIcon,
 } from "../components/ActionIcons.tsx";
 import { ScheduleModal } from "../components/ScheduleModal.tsx";
+import { useI18n } from "../i18n/I18nContext.tsx";
 import "../styles/ui.css";
-
-const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 type CalendarCell = {
   day: number;
@@ -73,8 +72,12 @@ function shiftMonth(
   return { year: date.getFullYear(), month: date.getMonth() + 1 };
 }
 
-function formatMonthLabel(year: number, month: number): string {
-  return new Date(year, month - 1, 1).toLocaleString(undefined, {
+function formatMonthLabel(
+  year: number,
+  month: number,
+  localeTag: string,
+): string {
+  return new Date(year, month - 1, 1).toLocaleString(localeTag, {
     month: "long",
     year: "numeric",
   });
@@ -104,6 +107,7 @@ function dayKeyFromSchedule(schedule: OfficeSchedule): number | null {
 
 export function SchedulePage() {
   const { office, officeLoading } = useAuth();
+  const { t, fmt, localeTag } = useI18n();
   const initial = useMemo(() => {
     const now = new Date();
     return { year: now.getFullYear(), month: now.getMonth() + 1 };
@@ -138,8 +142,8 @@ export function SchedulePage() {
   }, [schedules]);
 
   const monthLabel = useMemo(
-    () => formatMonthLabel(year, month),
-    [year, month],
+    () => formatMonthLabel(year, month, localeTag),
+    [year, month, localeTag],
   );
 
   const load = useCallback(async () => {
@@ -189,7 +193,7 @@ export function SchedulePage() {
   }
 
   async function onDelete(schedule: OfficeSchedule) {
-    if (!window.confirm(`Delete event "${schedule.name}"?`)) {
+    if (!window.confirm(fmt(t.schedule.confirmDelete, { name: schedule.name }))) {
       return;
     }
     setBusyId(schedule.id);
@@ -211,23 +215,24 @@ export function SchedulePage() {
   return (
     <section className="page page--wide">
       <div className="page-header">
-        <h1>Schedule</h1>
+        <h1>{t.schedule.title}</h1>
       </div>
 
       {showMissingOffice ? (
         <p className="empty-state">
-          You are not related to an office.{" "}
-          <Link to="/office">Create one</Link> to manage the schedule.
+          {t.schedule.missingOffice}{" "}
+          <Link to="/office">{t.schedule.createOne}</Link>
+          {t.schedule.toManage}
         </p>
       ) : null}
 
-      <nav className="calendar-nav" aria-label="Month">
+      <nav className="calendar-nav" aria-label={t.schedule.monthNav}>
         <button
           type="button"
           className="calendar-nav__item calendar-nav__item--side"
           onClick={() => goToMonth(prev.year, prev.month)}
         >
-          {formatMonthLabel(prev.year, prev.month)}
+          {formatMonthLabel(prev.year, prev.month, localeTag)}
         </button>
         <span className="calendar-nav__item calendar-nav__item--current">
           {monthLabel}
@@ -237,18 +242,18 @@ export function SchedulePage() {
           className="calendar-nav__item calendar-nav__item--side"
           onClick={() => goToMonth(next.year, next.month)}
         >
-          {formatMonthLabel(next.year, next.month)}
+          {formatMonthLabel(next.year, next.month, localeTag)}
         </button>
       </nav>
 
       {error ? <p className="error">{error}</p> : null}
 
       {office && loading ? (
-        <p className="page-lede">Loading schedule…</p>
+        <p className="page-lede">{t.schedule.loading}</p>
       ) : (
         <div className="calendar" role="grid" aria-label={monthLabel}>
           <div className="calendar__weekdays" role="row">
-            {WEEKDAYS.map((label) => (
+            {t.schedule.weekdays.map((label: string) => (
               <div key={label} className="calendar__weekday" role="columnheader">
                 {label}
               </div>
@@ -278,8 +283,10 @@ export function SchedulePage() {
                       <button
                         type="button"
                         className="calendar__day-add"
-                        aria-label={`Add event on day ${cell.day}`}
-                        title="Add event"
+                        aria-label={fmt(t.schedule.addEventOnDay, {
+                          day: cell.day,
+                        })}
+                        title={t.schedule.addEvent}
                         onClick={() =>
                           setModal({ mode: "create", day: cell.day })
                         }
@@ -305,8 +312,8 @@ export function SchedulePage() {
                               onClick={() =>
                                 setModal({ mode: "edit", schedule })
                               }
-                              aria-label={`Edit ${schedule.name}`}
-                              title="Edit"
+                              aria-label={`${t.common.edit} ${schedule.name}`}
+                              title={t.common.edit}
                             >
                               <EditIcon />
                             </button>
@@ -315,8 +322,8 @@ export function SchedulePage() {
                               className="btn btn--sm btn--danger btn--icon"
                               disabled={busyId === schedule.id}
                               onClick={() => void onDelete(schedule)}
-                              aria-label={`Delete ${schedule.name}`}
-                              title="Delete"
+                              aria-label={`${t.common.delete} ${schedule.name}`}
+                              title={t.common.delete}
                             >
                               {busyId === schedule.id ? (
                                 <SpinnerIcon />

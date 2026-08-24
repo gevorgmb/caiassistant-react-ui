@@ -4,7 +4,8 @@ import { TodoListStatus } from "../gen/common/v1/office_pb.js";
 import { useAuth } from "../auth/AuthContext.tsx";
 import { officeClient } from "../api/client.ts";
 import { errorMessage } from "../api/errors.ts";
-import { EDITABLE_TODO_STATUSES } from "../lib/todoListStatus.ts";
+import { EDITABLE_TODO_STATUSES, todoListStatusLabel } from "../lib/todoListStatus.ts";
+import { useI18n } from "../i18n/I18nContext.tsx";
 import "../styles/ui.css";
 
 export function TodoListFormPage() {
@@ -12,6 +13,7 @@ export function TodoListFormPage() {
   const isCreate = id === undefined;
   const navigate = useNavigate();
   const { office } = useAuth();
+  const { t } = useI18n();
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -77,10 +79,10 @@ export function TodoListFormPage() {
   if (!office) {
     return (
       <section className="page">
-        <h1>{isCreate ? "Create todo" : "Edit todo"}</h1>
+        <h1>{isCreate ? t.todos.createTitle : t.todos.editTitle}</h1>
         <p className="empty-state">
-          You need an office before managing todos.{" "}
-          <Link to="/office">Go to Office</Link>
+          {t.todos.needOffice}{" "}
+          <Link to="/office">{t.common.goToOffice}</Link>
         </p>
       </section>
     );
@@ -89,7 +91,7 @@ export function TodoListFormPage() {
   if (loading) {
     return (
       <section className="page">
-        <p className="page-lede">Loading todo…</p>
+        <p className="page-lede">{t.todos.loadingTodo}</p>
       </section>
     );
   }
@@ -97,7 +99,7 @@ export function TodoListFormPage() {
   return (
     <section className="page">
       <div className="page-header">
-        <h1>{isCreate ? "Create todo" : "Edit todo"}</h1>
+        <h1>{isCreate ? t.todos.createTitle : t.todos.editTitle}</h1>
         <div className="page-header__actions">
           <button
             type="submit"
@@ -105,17 +107,17 @@ export function TodoListFormPage() {
             className="btn"
             disabled={busy}
           >
-            {busy ? "Saving…" : "Save"}
+            {busy ? t.common.saving : t.common.save}
           </button>
           <Link className="btn btn--ghost" to="/todolist">
-            Cancel
+            {t.common.cancel}
           </Link>
         </div>
       </div>
 
       <form id="todolist-form" className="stack-form" onSubmit={onSave}>
         <label>
-          Name
+          {t.todos.name}
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -124,7 +126,7 @@ export function TodoListFormPage() {
           />
         </label>
         <label>
-          Description
+          {t.todos.description}
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -133,7 +135,7 @@ export function TodoListFormPage() {
         </label>
         {!isCreate ? (
           <label>
-            Status
+            {t.todos.status}
             <select
               value={status}
               onChange={(e) =>
@@ -141,8 +143,8 @@ export function TodoListFormPage() {
               }
             >
               {EDITABLE_TODO_STATUSES.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
+                <option key={option} value={option}>
+                  {todoListStatusLabel(option, t)}
                 </option>
               ))}
             </select>

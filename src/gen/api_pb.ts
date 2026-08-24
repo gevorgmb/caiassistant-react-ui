@@ -10,10 +10,11 @@ import type { GenFile } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc } from "@bufbuild/protobuf/codegenv2";
 import { file_auth_v1_auth } from "./auth/v1/auth_pb.js";
 import { file_office_v1_office } from "./office/v1/office_pb.js";
+import { file_assistant_v1_assistant } from "./assistant/v1/assistant_pb.js";
 
 /**
  * Describes the file api.proto.
  */
 export const file_api: GenFile = /*@__PURE__*/
-  fileDesc("CglhcGkucHJvdG8SBmFwaS52MUI+WjxnaXRodWIuY29tL2dldm9yZ21iL2NhaWFzc2lzdGFudC1nby1hcGkvYXBpL2dlbi9hcGkvdjE7YXBpdjFQAFABYgZwcm90bzM", [file_auth_v1_auth, file_office_v1_office]);
+  fileDesc("CglhcGkucHJvdG8SBmFwaS52MUI+WjxnaXRodWIuY29tL2dldm9yZ21iL2NhaWFzc2lzdGFudC1nby1hcGkvYXBpL2dlbi9hcGkvdjE7YXBpdjFQAFABUAJiBnByb3RvMw", [file_auth_v1_auth, file_office_v1_office, file_assistant_v1_assistant]);
 

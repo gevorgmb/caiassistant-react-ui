@@ -1,7 +1,9 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AuthPanel } from "./components/AuthPanel.tsx";
+import { LanguageSwitcher } from "./components/LanguageSwitcher.tsx";
 import { AppLayout } from "./layout/AppLayout.tsx";
 import { RequireAuth } from "./auth/RequireAuth.tsx";
+import { useI18n } from "./i18n/I18nContext.tsx";
 import { OfficePage } from "./pages/OfficePage.tsx";
 import { UsersPage } from "./pages/UsersPage.tsx";
 import { UserNewPage } from "./pages/UserNewPage.tsx";
@@ -12,14 +14,21 @@ import { SettingsPage } from "./pages/SettingsPage.tsx";
 import { SchedulePage } from "./pages/SchedulePage.tsx";
 import { TodoListPage } from "./pages/TodoListPage.tsx";
 import { TodoListFormPage } from "./pages/TodoListFormPage.tsx";
+import { AiAssistantPage } from "./pages/AiAssistantPage.tsx";
+import { AiAssistantFunctionPage } from "./pages/AiAssistantFunctionPage.tsx";
 import "./App.css";
+import "./styles/ui.css";
 
 function LoginPage() {
+  const { t } = useI18n();
   return (
     <main className="login-page">
+      <div className="login-page__toolbar">
+        <LanguageSwitcher />
+      </div>
       <header className="login-page__header">
-        <p className="brand">Clerk AI Assistant</p>
-        <p className="subtitle">Sign in to manage your office</p>
+        <p className="brand">{t.app.title}</p>
+        <p className="subtitle">{t.app.signInSubtitle}</p>
       </header>
       <AuthPanel />
     </main>
@@ -32,6 +41,11 @@ function App() {
       <Route path="/" element={<LoginPage />} />
       <Route element={<RequireAuth />}>
         <Route element={<AppLayout />}>
+          <Route path="/ai-assistant" element={<AiAssistantPage />} />
+          <Route
+            path="/ai-assistant/:functionId"
+            element={<AiAssistantFunctionPage />}
+          />
           <Route path="/schedule" element={<SchedulePage />} />
           <Route path="/todolist" element={<TodoListPage />} />
           <Route path="/todolist/new" element={<TodoListFormPage />} />

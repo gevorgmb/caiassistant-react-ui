@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext.tsx";
+import { useI18n } from "../i18n/I18nContext.tsx";
 import { AppHeader } from "./AppHeader.tsx";
 import { SideMenu } from "./SideMenu.tsx";
 import "../styles/ui.css";
@@ -7,6 +8,7 @@ import "./AppLayout.css";
 
 export function AppLayout() {
   const { error, clearError } = useAuth();
+  const { t } = useI18n();
 
   return (
     <div className="app-shell">
@@ -24,7 +26,7 @@ export function AppLayout() {
                 className="btn btn--sm btn--ghost"
                 onClick={clearError}
               >
-                Dismiss
+                {t.common.dismiss}
               </button>
             </p>
           ) : null}

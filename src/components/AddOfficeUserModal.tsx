@@ -4,7 +4,8 @@ import { OfficeUserRole } from "../gen/common/v1/office_pb.js";
 import type { User } from "../gen/common/v1/user_pb.js";
 import { officeClient } from "../api/client.ts";
 import { errorMessage } from "../api/errors.ts";
-import { EDITABLE_ROLES } from "../lib/roles.ts";
+import { EDITABLE_ROLES, roleLabel } from "../lib/roles.ts";
+import { useI18n } from "../i18n/I18nContext.tsx";
 import "../styles/ui.css";
 
 type AddOfficeUserModalProps = {
@@ -22,6 +23,7 @@ export function AddOfficeUserModal({
   onClose,
   onSaved,
 }: AddOfficeUserModalProps) {
+  const { t } = useI18n();
   const [role, setRole] = useState<OfficeUserRole>(OfficeUserRole.USER);
   const [positionId, setPositionId] = useState("");
   const [isActive, setIsActive] = useState(true);
@@ -71,33 +73,33 @@ export function AddOfficeUserModal({
         aria-modal="true"
         aria-labelledby="add-office-user-title"
       >
-        <h2 id="add-office-user-title">Add user to office</h2>
+        <h2 id="add-office-user-title">{t.users.addToOffice}</h2>
         <p className="page-lede">
-          {user.name || "—"} ({user.email || "—"})
+          {user.name || t.common.empty} ({user.email || t.common.empty})
         </p>
         <form className="stack-form" onSubmit={onSubmit}>
           <label>
-            Role
+            {t.users.role}
             <select
               value={role}
               onChange={(e) =>
                 setRole(Number(e.target.value) as OfficeUserRole)
               }
             >
-              {EDITABLE_ROLES.map((r) => (
-                <option key={r.value} value={r.value}>
-                  {r.label}
+              {EDITABLE_ROLES.map((value) => (
+                <option key={value} value={value}>
+                  {roleLabel(value, t)}
                 </option>
               ))}
             </select>
           </label>
           <label>
-            Position
+            {t.users.position}
             <select
               value={positionId}
               onChange={(e) => setPositionId(e.target.value)}
             >
-              <option value="">No position</option>
+              <option value="">{t.users.noPosition}</option>
               {positions.map((p) => (
                 <option key={p.id} value={p.id}>
                   {p.name}
@@ -111,7 +113,7 @@ export function AddOfficeUserModal({
               checked={isActive}
               onChange={(e) => setIsActive(e.target.checked)}
             />
-            Active
+            {t.users.active}
           </label>
           {error ? <p className="error">{error}</p> : null}
           <div className="modal__actions">
@@ -121,10 +123,10 @@ export function AddOfficeUserModal({
               disabled={busy}
               onClick={onClose}
             >
-              Cancel
+              {t.common.cancel}
             </button>
             <button type="submit" className="btn" disabled={busy}>
-              {busy ? "Saving…" : "Save"}
+              {busy ? t.common.saving : t.common.save}
             </button>
           </div>
         </form>

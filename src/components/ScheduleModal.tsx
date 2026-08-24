@@ -3,6 +3,7 @@ import { timestampDate, timestampFromDate } from "@bufbuild/protobuf/wkt";
 import type { OfficeSchedule } from "../gen/common/v1/office_pb.js";
 import { officeClient } from "../api/client.ts";
 import { errorMessage } from "../api/errors.ts";
+import { useI18n } from "../i18n/I18nContext.tsx";
 import "../styles/ui.css";
 
 function toLocalInputValue(date: Date): string {
@@ -66,6 +67,7 @@ export function ScheduleModal({
   onClose,
   onSaved,
 }: ScheduleModalProps) {
+  const { t } = useI18n();
   const isCreate = schedule === null;
   const minLocal = minDateTimeLocal();
   const [name, setName] = useState(schedule?.name ?? "");
@@ -101,7 +103,7 @@ export function ScheduleModal({
       const selected = new Date(eventLocal);
       const today = startOfToday();
       if (selected < today) {
-        setError("Events cannot be scheduled earlier than today.");
+        setError(t.schedule.pastEventError);
         setBusy(false);
         return;
       }
@@ -144,11 +146,11 @@ export function ScheduleModal({
         aria-labelledby="schedule-modal-title"
       >
         <h2 id="schedule-modal-title">
-          {isCreate ? "Add event" : "Edit event"}
+          {isCreate ? t.schedule.addEvent : t.schedule.editEvent}
         </h2>
         <form className="stack-form" onSubmit={onSubmit}>
           <label>
-            Name
+            {t.schedule.name}
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -157,7 +159,7 @@ export function ScheduleModal({
             />
           </label>
           <label>
-            Date & time
+            {t.schedule.dateTime}
             <input
               type="datetime-local"
               value={eventLocal}
@@ -167,7 +169,7 @@ export function ScheduleModal({
             />
           </label>
           <label>
-            Description
+            {t.schedule.description}
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
@@ -181,10 +183,10 @@ export function ScheduleModal({
               disabled={busy}
               onClick={onClose}
             >
-              Cancel
+              {t.common.cancel}
             </button>
             <button type="submit" className="btn" disabled={busy}>
-              {busy ? "Saving…" : "Save"}
+              {busy ? t.common.saving : t.common.save}
             </button>
           </div>
         </form>

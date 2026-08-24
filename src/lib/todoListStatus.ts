@@ -1,29 +1,30 @@
 import { TodoListStatus } from "../gen/common/v1/office_pb.js";
+import type { Messages } from "../i18n/types.ts";
 
-export function todoListStatusLabel(status: TodoListStatus): string {
+export function todoListStatusLabel(
+  status: TodoListStatus,
+  t: Messages,
+): string {
   switch (status) {
     case TodoListStatus.PENDING:
-      return "Pending";
+      return t.todoStatus.pending;
     case TodoListStatus.STARTED:
-      return "Started";
+      return t.todoStatus.started;
     case TodoListStatus.PAUSED:
-      return "Paused";
+      return t.todoStatus.paused;
     case TodoListStatus.CANCELLED:
-      return "Cancelled";
+      return t.todoStatus.cancelled;
     case TodoListStatus.COMPLETED:
-      return "Completed";
+      return t.todoStatus.completed;
     default:
-      return "Unspecified";
+      return t.todoStatus.unspecified;
   }
 }
 
-export const EDITABLE_TODO_STATUSES: {
-  value: TodoListStatus;
-  label: string;
-}[] = [
-  { value: TodoListStatus.PENDING, label: "Pending" },
-  { value: TodoListStatus.STARTED, label: "Started" },
-  { value: TodoListStatus.PAUSED, label: "Paused" },
-  { value: TodoListStatus.CANCELLED, label: "Cancelled" },
-  { value: TodoListStatus.COMPLETED, label: "Completed" },
+export const EDITABLE_TODO_STATUSES: TodoListStatus[] = [
+  TodoListStatus.PENDING,
+  TodoListStatus.STARTED,
+  TodoListStatus.PAUSED,
+  TodoListStatus.CANCELLED,
+  TodoListStatus.COMPLETED,
 ];

@@ -1,0 +1,75 @@
+import type { Messages } from "../types.ts";
+
+export const office: Messages["office"] = {
+  title: "Գրասենյակ",
+  createTitle: "Ստեղծել գրասենյակ",
+  editTitle: "Խմբագրել գրասենյակը",
+  loading: "Գրասենյակը բեռնվում է…",
+  empty: "Դուք դեռ կապված չեք որևէ գրասենյակի հետ։ Ստեղծեք մեկը՝ սկսելու համար։",
+  name: "Անուն",
+  phone: "Հեռախոս",
+  email: "Էլ․ փոստ",
+  description: "Նկարագրություն",
+};
+
+export const users: Messages["users"] = {
+  title: "Օգտատերեր",
+  newUser: "Նոր օգտատեր",
+  newTitle: "Նոր օգտատեր",
+  editTitle: "Խմբագրել օգտատիրոջը",
+  needOffice: "Օգտատերեր կառավարելու համար նախ պետք է գրասենյակ։",
+  officeMembers: "{name} գրասենյակի անդամներ։",
+  loading: "Օգտատերերը բեռնվում են…",
+  empty: "Գրասենյակի օգտատերեր դեռ չկան։",
+  role: "Դեր",
+  position: "Պաշտոն",
+  active: "Ակտիվ",
+  actions: "Գործողություններ",
+  editUser: "Խմբագրել օգտատիրոջը",
+  deleteUser: "Ջնջել օգտատիրոջը",
+  confirmRemove: "Հեռացնե՞լ այս գրասենյակի օգտատիրոջը։",
+  loadingUser: "Օգտատերը բեռնվում է…",
+  notFound: "Գրասենյակի օգտատերը չի գտնվել։",
+  noPosition: "Առանց պաշտոնի",
+  contacts: "Կոնտակտներ",
+  addContact: "Ավելացնել կոնտակտ",
+  editContact: "Խմբագրել կոնտակտը",
+  deleteContact: "Ջնջել կոնտակտը",
+  noContacts: "Կոնտակտներ դեռ չկան։",
+  address: "Հասցե",
+  phone: "Հեռախոս",
+  description: "Նկարագրություն",
+  primary: "Հիմնական",
+  confirmDeleteContact: "Ջնջե՞լ այս կոնտակտը։",
+  searchLede:
+    "Որոնեք օգտատերեր առանց գրասենյակի անդամակցության, ապա ավելացրեք {name} գրասենյակում։",
+  search: "Որոնել",
+  searchPlaceholder: "Անուն կամ էլ․ փոստ",
+  searching: "Որոնում…",
+  noUsersFound: "Օգտատերեր չեն գտնվել։",
+  name: "Անուն",
+  email: "Էլ․ փոստ",
+  addUser: "Ավելացնել",
+  addUserAria: "Ավելացնել {name}",
+  addToOffice: "Ավելացնել օգտատեր գրասենյակում",
+};
+
+export const positions: Messages["positions"] = {
+  title: "Պաշտոններ",
+  createTitle: "Ստեղծել պաշտոն",
+  editTitle: "Խմբագրել պաշտոնը",
+  needOffice: "Պաշտոններ կառավարելու համար նախ պետք է գրասենյակ։",
+  lede: "{name} գրասենյակի պաշտոններ։",
+  loading: "Պաշտոնները բեռնվում են…",
+  empty: "Պաշտոններ դեռ չկան։",
+  name: "Անուն",
+  actions: "Գործողություններ",
+  confirmDelete: "Ջնջե՞լ «{name}» պաշտոնը։",
+  loadingPosition: "Պաշտոնը բեռնվում է…",
+};
+
+export const roles: Messages["roles"] = {
+  manager: "Կառավարիչ",
+  user: "Օգտատեր",
+  unspecified: "Չնշված",
+};

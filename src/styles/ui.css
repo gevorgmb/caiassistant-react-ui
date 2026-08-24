@@ -81,6 +81,34 @@
   font-size: 0.875rem;
 }
 
+.language-switcher {
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.4rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background-color: var(--code-bg);
+  color: var(--text-h);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.language-switcher:hover {
+  border-color: var(--accent-border);
+  background-color: var(--accent-bg);
+}
+
+.language-switcher:focus {
+  outline: 2px solid var(--accent-border);
+  outline-offset: 1px;
+}
+
+.language-switcher option {
+  background-color: var(--code-bg);
+  color: var(--text-h);
+}
+
 .btn--icon {
   padding: 0.4rem;
   min-width: 2rem;
@@ -121,9 +149,86 @@
   color: var(--text-h);
 }
 
+.stack-form select.language-switcher {
+  background-color: var(--code-bg);
+  color: var(--text-h);
+}
+
 .stack-form textarea {
   min-height: 5rem;
   resize: vertical;
+}
+
+.stack-form--wide {
+  max-width: 40rem;
+}
+
+.stack-form textarea.stack-form__tall {
+  min-height: 10rem;
+}
+
+.function-grid {
+  display: grid;
+  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+}
+
+.function-card {
+  display: grid;
+  gap: 0.4rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  text-decoration: none;
+  color: inherit;
+}
+
+.function-card:hover {
+  background: var(--accent-bg);
+  outline: 1px solid var(--accent-border);
+}
+
+.function-card h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--text-h);
+}
+
+.function-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.function-card__rpc {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text);
+}
+
+.assistant-result {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.assistant-result h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: var(--text-h);
+}
+
+.assistant-result pre {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--code-bg);
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: var(--mono);
+  font-size: 0.875rem;
+  color: var(--text-h);
 }
 
 .stack-form input:focus,
