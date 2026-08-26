@@ -22,6 +22,7 @@ export const assistant: Messages["assistant"] = {
   searchText: "Որոնման տեքստ",
   from: "Սկսած",
   to: "Մինչև",
+  responseLanguage: "Պատասխանի լեզու",
   result: "Արդյունք",
   review: "Ստուգում",
   noIssues: "Խնդիրներ չեն հայտնաբերվել։",

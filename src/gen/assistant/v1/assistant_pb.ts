@@ -2,8 +2,8 @@
 // @generated from file assistant/v1/assistant.proto (package assistant.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
 import type { TodoListStatus } from "../../common/v1/office_pb.js";
 import { file_common_v1_office } from "../../common/v1/office_pb.js";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
@@ -14,7 +14,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file assistant/v1/assistant.proto.
  */
 export const file_assistant_v1_assistant: GenFile = /*@__PURE__*/
-  fileDesc("Chxhc3Npc3RhbnQvdjEvYXNzaXN0YW50LnByb3RvEgxhc3Npc3RhbnQudjEipQEKFEJ1aWxkRG9jdW1lbnRSZXF1ZXN0Eg0KBXRvcGljGAEgASgJEhkKDGluc3RydWN0aW9ucxgCIAEoCUgAiAEBEhoKDWRvY3VtZW50X3R5cGUYAyABKAlIAYgBARIWCglvZmZpY2VfaWQYBCABKAlIAogBAUIPCg1faW5zdHJ1Y3Rpb25zQhAKDl9kb2N1bWVudF90eXBlQgwKCl9vZmZpY2VfaWQiPQoTRWRpdERvY3VtZW50UmVxdWVzdBIQCghkb2N1bWVudBgBIAEoCRIUCgxpbnN0cnVjdGlvbnMYAiABKAkiRgoUQ2hlY2tEb2N1bWVudFJlcXVlc3QSEAoIZG9jdW1lbnQYASABKAkSEgoFZm9jdXMYAiABKAlIAIgBAUIICgZfZm9jdXMiIwoQRG9jdW1lbnRSZXNwb25zZRIPCgdjb250ZW50GAEgASgJIloKDURvY3VtZW50SXNzdWUSEAoIc2V2ZXJpdHkYASABKAkSDwoHbWVzc2FnZRgCIAEoCRIXCgpzdWdnZXN0aW9uGAMgASgJSACIAQFCDQoLX3N1Z2dlc3Rpb24iiQEKFURvY3VtZW50Q2hlY2tSZXNwb25zZRIPCgdzdW1tYXJ5GAEgASgJEisKBmlzc3VlcxgCIAMoCzIbLmFzc2lzdGFudC52MS5Eb2N1bWVudElzc3VlEh0KEHJldmlzZWRfZG9jdW1lbnQYAyABKAlIAIgBAUITChFfcmV2aXNlZF9kb2N1bWVudCLXAQoSQnVpbGRBZ2VuZGFSZXF1ZXN0Eg0KBXRvcGljGAEgASgJEhkKDGluc3RydWN0aW9ucxgCIAEoCUgAiAEBEhYKCW9mZmljZV9pZBgDIAEoCUgBiAEBEjUKDG1lZXRpbmdfZGF0ZRgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAogBARIYChBkdXJhdGlvbl9taW51dGVzGAUgASgFQg8KDV9pbnN0cnVjdGlvbnNCDAoKX29mZmljZV9pZEIPCg1fbWVldGluZ19kYXRlInkKCkFnZW5kYUl0ZW0SDQoFdGl0bGUYASABKAkSGAoLZGVzY3JpcHRpb24YAiABKAlIAIgBARIdChBkdXJhdGlvbl9taW51dGVzGAMgASgFSAGIAQFCDgoMX2Rlc2NyaXB0aW9uQhMKEV9kdXJhdGlvbl9taW51dGVzIloKDkFnZW5kYVJlc3BvbnNlEg0KBXRpdGxlGAEgASgJEicKBWl0ZW1zGAIgAygLMhguYXNzaXN0YW50LnYxLkFnZW5kYUl0ZW0SEAoIbWFya2Rvd24YAyABKAkijwEKFVN1bW1hcml6ZVRvZG9zUmVxdWVzdBIRCglvZmZpY2VfaWQYASABKAkSLgoGc3RhdHVzGAIgASgOMhkuY29tbW9uLnYxLlRvZG9MaXN0U3RhdHVzSACIAQESGAoLc2VhcmNoX3RleHQYAyABKAlIAYgBAUIJCgdfc3RhdHVzQg4KDF9zZWFyY2hfdGV4dCKdAQoYQnVpbGRFdmVudHNSZXBvcnRSZXF1ZXN0EhEKCW9mZmljZV9pZBgBIAEoCRIoCgRmcm9tGAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBImCgJ0bxgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASEgoFZm9jdXMYBCABKAlIAIgBAUIICgZfZm9jdXMiQgoOUmVwb3J0UmVzcG9uc2USDQoFdGl0bGUYASABKAkSDwoHc3VtbWFyeRgCIAEoCRIQCghtYXJrZG93bhgDIAEoCTKTBAoQQXNzaXN0YW50U2VydmljZRJTCg1CdWlsZERvY3VtZW50EiIuYXNzaXN0YW50LnYxLkJ1aWxkRG9jdW1lbnRSZXF1ZXN0Gh4uYXNzaXN0YW50LnYxLkRvY3VtZW50UmVzcG9uc2USUQoMRWRpdERvY3VtZW50EiEuYXNzaXN0YW50LnYxLkVkaXREb2N1bWVudFJlcXVlc3QaHi5hc3Npc3RhbnQudjEuRG9jdW1lbnRSZXNwb25zZRJYCg1DaGVja0RvY3VtZW50EiIuYXNzaXN0YW50LnYxLkNoZWNrRG9jdW1lbnRSZXF1ZXN0GiMuYXNzaXN0YW50LnYxLkRvY3VtZW50Q2hlY2tSZXNwb25zZRJNCgtCdWlsZEFnZW5kYRIgLmFzc2lzdGFudC52MS5CdWlsZEFnZW5kYVJlcXVlc3QaHC5hc3Npc3RhbnQudjEuQWdlbmRhUmVzcG9uc2USUwoOU3VtbWFyaXplVG9kb3MSIy5hc3Npc3RhbnQudjEuU3VtbWFyaXplVG9kb3NSZXF1ZXN0GhwuYXNzaXN0YW50LnYxLlJlcG9ydFJlc3BvbnNlElkKEUJ1aWxkRXZlbnRzUmVwb3J0EiYuYXNzaXN0YW50LnYxLkJ1aWxkRXZlbnRzUmVwb3J0UmVxdWVzdBocLmFzc2lzdGFudC52MS5SZXBvcnRSZXNwb25zZUJKWkhnaXRodWIuY29tL2dldm9yZ21iL2NhaWFzc2lzdGFudC1nby1hcGkvYXBpL2dlbi9hc3Npc3RhbnQvdjE7YXNzaXN0YW50djFiBnByb3RvMw", [file_common_v1_office, file_google_protobuf_timestamp]);
+  fileDesc("Chxhc3Npc3RhbnQvdjEvYXNzaXN0YW50LnByb3RvEgxhc3Npc3RhbnQudjEizwEKFEJ1aWxkRG9jdW1lbnRSZXF1ZXN0Eg0KBXRvcGljGAEgASgJEhkKDGluc3RydWN0aW9ucxgCIAEoCUgAiAEBEhoKDWRvY3VtZW50X3R5cGUYAyABKAlIAYgBARIWCglvZmZpY2VfaWQYBCABKAlIAogBARIoCghsYW5ndWFnZRgFIAEoDjIWLmFzc2lzdGFudC52MS5MYW5ndWFnZUIPCg1faW5zdHJ1Y3Rpb25zQhAKDl9kb2N1bWVudF90eXBlQgwKCl9vZmZpY2VfaWQiZwoTRWRpdERvY3VtZW50UmVxdWVzdBIQCghkb2N1bWVudBgBIAEoCRIUCgxpbnN0cnVjdGlvbnMYAiABKAkSKAoIbGFuZ3VhZ2UYAyABKA4yFi5hc3Npc3RhbnQudjEuTGFuZ3VhZ2UicAoUQ2hlY2tEb2N1bWVudFJlcXVlc3QSEAoIZG9jdW1lbnQYASABKAkSEgoFZm9jdXMYAiABKAlIAIgBARIoCghsYW5ndWFnZRgDIAEoDjIWLmFzc2lzdGFudC52MS5MYW5ndWFnZUIICgZfZm9jdXMiIwoQRG9jdW1lbnRSZXNwb25zZRIPCgdjb250ZW50GAEgASgJIloKDURvY3VtZW50SXNzdWUSEAoIc2V2ZXJpdHkYASABKAkSDwoHbWVzc2FnZRgCIAEoCRIXCgpzdWdnZXN0aW9uGAMgASgJSACIAQFCDQoLX3N1Z2dlc3Rpb24iiQEKFURvY3VtZW50Q2hlY2tSZXNwb25zZRIPCgdzdW1tYXJ5GAEgASgJEisKBmlzc3VlcxgCIAMoCzIbLmFzc2lzdGFudC52MS5Eb2N1bWVudElzc3VlEh0KEHJldmlzZWRfZG9jdW1lbnQYAyABKAlIAIgBAUITChFfcmV2aXNlZF9kb2N1bWVudCKBAgoSQnVpbGRBZ2VuZGFSZXF1ZXN0Eg0KBXRvcGljGAEgASgJEhkKDGluc3RydWN0aW9ucxgCIAEoCUgAiAEBEhYKCW9mZmljZV9pZBgDIAEoCUgBiAEBEjUKDG1lZXRpbmdfZGF0ZRgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAogBARIYChBkdXJhdGlvbl9taW51dGVzGAUgASgFEigKCGxhbmd1YWdlGAYgASgOMhYuYXNzaXN0YW50LnYxLkxhbmd1YWdlQg8KDV9pbnN0cnVjdGlvbnNCDAoKX29mZmljZV9pZEIPCg1fbWVldGluZ19kYXRlInkKCkFnZW5kYUl0ZW0SDQoFdGl0bGUYASABKAkSGAoLZGVzY3JpcHRpb24YAiABKAlIAIgBARIdChBkdXJhdGlvbl9taW51dGVzGAMgASgFSAGIAQFCDgoMX2Rlc2NyaXB0aW9uQhMKEV9kdXJhdGlvbl9taW51dGVzIloKDkFnZW5kYVJlc3BvbnNlEg0KBXRpdGxlGAEgASgJEicKBWl0ZW1zGAIgAygLMhguYXNzaXN0YW50LnYxLkFnZW5kYUl0ZW0SEAoIbWFya2Rvd24YAyABKAkiuQEKFVN1bW1hcml6ZVRvZG9zUmVxdWVzdBIRCglvZmZpY2VfaWQYASABKAkSLgoGc3RhdHVzGAIgASgOMhkuY29tbW9uLnYxLlRvZG9MaXN0U3RhdHVzSACIAQESGAoLc2VhcmNoX3RleHQYAyABKAlIAYgBARIoCghsYW5ndWFnZRgEIAEoDjIWLmFzc2lzdGFudC52MS5MYW5ndWFnZUIJCgdfc3RhdHVzQg4KDF9zZWFyY2hfdGV4dCLHAQoYQnVpbGRFdmVudHNSZXBvcnRSZXF1ZXN0EhEKCW9mZmljZV9pZBgBIAEoCRIoCgRmcm9tGAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBImCgJ0bxgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASEgoFZm9jdXMYBCABKAlIAIgBARIoCghsYW5ndWFnZRgFIAEoDjIWLmFzc2lzdGFudC52MS5MYW5ndWFnZUIICgZfZm9jdXMiQgoOUmVwb3J0UmVzcG9uc2USDQoFdGl0bGUYASABKAkSDwoHc3VtbWFyeRgCIAEoCRIQCghtYXJrZG93bhgDIAEoCSpRCghMYW5ndWFnZRIYChRMQU5HVUFHRV9VTlNQRUNJRklFRBAAEhQKEExBTkdVQUdFX0VOR0xJU0gQARIVChFMQU5HVUFHRV9BUk1FTklBThACMpMEChBBc3Npc3RhbnRTZXJ2aWNlElMKDUJ1aWxkRG9jdW1lbnQSIi5hc3Npc3RhbnQudjEuQnVpbGREb2N1bWVudFJlcXVlc3QaHi5hc3Npc3RhbnQudjEuRG9jdW1lbnRSZXNwb25zZRJRCgxFZGl0RG9jdW1lbnQSIS5hc3Npc3RhbnQudjEuRWRpdERvY3VtZW50UmVxdWVzdBoeLmFzc2lzdGFudC52MS5Eb2N1bWVudFJlc3BvbnNlElgKDUNoZWNrRG9jdW1lbnQSIi5hc3Npc3RhbnQudjEuQ2hlY2tEb2N1bWVudFJlcXVlc3QaIy5hc3Npc3RhbnQudjEuRG9jdW1lbnRDaGVja1Jlc3BvbnNlEk0KC0J1aWxkQWdlbmRhEiAuYXNzaXN0YW50LnYxLkJ1aWxkQWdlbmRhUmVxdWVzdBocLmFzc2lzdGFudC52MS5BZ2VuZGFSZXNwb25zZRJTCg5TdW1tYXJpemVUb2RvcxIjLmFzc2lzdGFudC52MS5TdW1tYXJpemVUb2Rvc1JlcXVlc3QaHC5hc3Npc3RhbnQudjEuUmVwb3J0UmVzcG9uc2USWQoRQnVpbGRFdmVudHNSZXBvcnQSJi5hc3Npc3RhbnQudjEuQnVpbGRFdmVudHNSZXBvcnRSZXF1ZXN0GhwuYXNzaXN0YW50LnYxLlJlcG9ydFJlc3BvbnNlQkpaSGdpdGh1Yi5jb20vZ2V2b3JnbWIvY2FpYXNzaXN0YW50LWdvLWFwaS9hcGkvZ2VuL2Fzc2lzdGFudC92MTthc3Npc3RhbnR2MWIGcHJvdG8z", [file_common_v1_office, file_google_protobuf_timestamp]);
 
 /**
  * @generated from message assistant.v1.BuildDocumentRequest
@@ -41,6 +41,11 @@ export type BuildDocumentRequest = Message<"assistant.v1.BuildDocumentRequest"> 
    * @generated from field: optional string office_id = 4;
    */
   officeId?: string | undefined;
+
+  /**
+   * @generated from field: assistant.v1.Language language = 5;
+   */
+  language: Language;
 };
 
 /**
@@ -63,6 +68,11 @@ export type EditDocumentRequest = Message<"assistant.v1.EditDocumentRequest"> & 
    * @generated from field: string instructions = 2;
    */
   instructions: string;
+
+  /**
+   * @generated from field: assistant.v1.Language language = 3;
+   */
+  language: Language;
 };
 
 /**
@@ -87,6 +97,11 @@ export type CheckDocumentRequest = Message<"assistant.v1.CheckDocumentRequest"> 
    * @generated from field: optional string focus = 2;
    */
   focus?: string | undefined;
+
+  /**
+   * @generated from field: assistant.v1.Language language = 3;
+   */
+  language: Language;
 };
 
 /**
@@ -197,6 +212,11 @@ export type BuildAgendaRequest = Message<"assistant.v1.BuildAgendaRequest"> & {
    * @generated from field: int32 duration_minutes = 5;
    */
   durationMinutes: number;
+
+  /**
+   * @generated from field: assistant.v1.Language language = 6;
+   */
+  language: Language;
 };
 
 /**
@@ -278,6 +298,11 @@ export type SummarizeTodosRequest = Message<"assistant.v1.SummarizeTodosRequest"
    * @generated from field: optional string search_text = 3;
    */
   searchText?: string | undefined;
+
+  /**
+   * @generated from field: assistant.v1.Language language = 4;
+   */
+  language: Language;
 };
 
 /**
@@ -312,6 +337,11 @@ export type BuildEventsReportRequest = Message<"assistant.v1.BuildEventsReportRe
    * @generated from field: optional string focus = 4;
    */
   focus?: string | undefined;
+
+  /**
+   * @generated from field: assistant.v1.Language language = 5;
+   */
+  language: Language;
 };
 
 /**
@@ -347,6 +377,35 @@ export type ReportResponse = Message<"assistant.v1.ReportResponse"> & {
  */
 export const ReportResponseSchema: GenMessage<ReportResponse> = /*@__PURE__*/
   messageDesc(file_assistant_v1_assistant, 11);
+
+/**
+ * Language is the output language for generated content.
+ * LANGUAGE_UNSPECIFIED defaults to English.
+ *
+ * @generated from enum assistant.v1.Language
+ */
+export enum Language {
+  /**
+   * @generated from enum value: LANGUAGE_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: LANGUAGE_ENGLISH = 1;
+   */
+  ENGLISH = 1,
+
+  /**
+   * @generated from enum value: LANGUAGE_ARMENIAN = 2;
+   */
+  ARMENIAN = 2,
+}
+
+/**
+ * Describes the enum assistant.v1.Language.
+ */
+export const LanguageSchema: GenEnum<Language> = /*@__PURE__*/
+  enumDesc(file_assistant_v1_assistant, 0);
 
 /**
  * AssistantService provides Gemini-powered clerk assistance.
