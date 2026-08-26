@@ -23,6 +23,7 @@ export const assistant = {
   searchText: "Search text",
   from: "From",
   to: "To",
+  responseLanguage: "Response language",
   result: "Result",
   review: "Review",
   noIssues: "No issues reported.",

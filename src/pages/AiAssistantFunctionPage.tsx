@@ -1,9 +1,10 @@
 import { useState, type SubmitEvent } from "react";
 import { Link, useParams } from "react-router-dom";
 import { timestampFromDate } from "@bufbuild/protobuf/wkt";
-import type {
-  AgendaItem,
-  DocumentIssue,
+import {
+  Language,
+  type AgendaItem,
+  type DocumentIssue,
 } from "../gen/assistant/v1/assistant_pb.js";
 import { TodoListStatus } from "../gen/common/v1/office_pb.js";
 import { useAuth } from "../auth/AuthContext.tsx";
@@ -15,6 +16,9 @@ import {
   CHECK_FOCUSES,
   DOCUMENT_TYPES,
   EVENT_FOCUSES,
+  LOCALES,
+  LOCALE_CODES,
+  type Locale,
   type Messages,
 } from "../i18n/index.ts";
 import { useI18n } from "../i18n/I18nContext.tsx";
@@ -30,6 +34,11 @@ type AssistantResult =
     }
   | { kind: "agenda"; title: string; items: AgendaItem[]; markdown: string }
   | { kind: "report"; title: string; summary: string; markdown: string };
+
+const ASSISTANT_LANGUAGE_BY_LOCALE: Record<Locale, Language> = {
+  en: Language.ENGLISH,
+  hy: Language.ARMENIAN,
+};
 
 function pad(n: number): string {
   return String(n).padStart(2, "0");
@@ -57,7 +66,7 @@ export function AiAssistantFunctionPage() {
   const { functionId } = useParams<{ functionId: string }>();
   const fn = getAssistantFunction(functionId);
   const { office, officeLoading } = useAuth();
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const copy = fn ? t.assistant.functions[fn.id] : null;
 
   const [topic, setTopic] = useState("");
@@ -72,6 +81,9 @@ export function AiAssistantFunctionPage() {
   const [from, setFrom] = useState(() => toLocalInputValue(startOfMonth(new Date())));
   const [to, setTo] = useState(() => toLocalInputValue(endOfMonth(new Date())));
   const [eventFocus, setEventFocus] = useState("both");
+  const [language, setLanguage] = useState<Language>(
+    () => ASSISTANT_LANGUAGE_BY_LOCALE[locale],
+  );
 
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -136,6 +148,7 @@ export function AiAssistantFunctionPage() {
           instructions: instructions.trim() || undefined,
           documentType: documentType || undefined,
           officeId: office?.id,
+          language,
         });
         return { kind: "document", content: res.content };
       }
@@ -143,6 +156,7 @@ export function AiAssistantFunctionPage() {
         const res = await assistantClient.editDocument({
           document: document.trim(),
           instructions: instructions.trim(),
+          language,
         });
         return { kind: "document", content: res.content };
       }
@@ -150,6 +164,7 @@ export function AiAssistantFunctionPage() {
         const res = await assistantClient.checkDocument({
           document: document.trim(),
           focus: focus || undefined,
+          language,
         });
         return {
           kind: "check",
@@ -167,6 +182,7 @@ export function AiAssistantFunctionPage() {
           officeId: office?.id,
           meetingDate: meeting ? timestampFromDate(meeting) : undefined,
           durationMinutes: Number.isFinite(minutes) ? minutes : 0,
+          language,
         });
         return {
           kind: "agenda",
@@ -186,6 +202,7 @@ export function AiAssistantFunctionPage() {
           officeId: office.id,
           status: statusValue,
           searchText: searchText.trim() || undefined,
+          language,
         });
         return {
           kind: "report",
@@ -208,6 +225,7 @@ export function AiAssistantFunctionPage() {
           from: timestampFromDate(fromDate),
           to: timestampFromDate(toDate),
           focus: eventFocus || undefined,
+          language,
         });
         return {
           kind: "report",
@@ -248,6 +266,19 @@ export function AiAssistantFunctionPage() {
         className="stack-form stack-form--wide"
         onSubmit={(event) => void onSubmit(event)}
       >
+        <label>
+          {t.assistant.responseLanguage}
+          <select
+            value={language}
+            onChange={(e) => setLanguage(Number(e.target.value) as Language)}
+          >
+            {LOCALE_CODES.map((code) => (
+              <option key={code} value={ASSISTANT_LANGUAGE_BY_LOCALE[code]}>
+                {LOCALES[code].nativeName}
+              </option>
+            ))}
+          </select>
+        </label>
         {fn.id === "build-document" ? (
           <>
             <label>
