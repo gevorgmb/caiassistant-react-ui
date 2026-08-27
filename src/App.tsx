@@ -1,23 +1,64 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import { lazy, type ComponentType } from "react";
 import { AuthPanel } from "./components/AuthPanel.tsx";
 import { LanguageSwitcher } from "./components/LanguageSwitcher.tsx";
 import { AppLayout } from "./layout/AppLayout.tsx";
 import { RequireAuth } from "./auth/RequireAuth.tsx";
 import { useI18n } from "./i18n/I18nContext.tsx";
-import { OfficePage } from "./pages/OfficePage.tsx";
-import { UsersPage } from "./pages/UsersPage.tsx";
-import { UserNewPage } from "./pages/UserNewPage.tsx";
-import { UserEditPage } from "./pages/UserEditPage.tsx";
-import { PositionsPage } from "./pages/PositionsPage.tsx";
-import { PositionFormPage } from "./pages/PositionFormPage.tsx";
-import { SettingsPage } from "./pages/SettingsPage.tsx";
-import { SchedulePage } from "./pages/SchedulePage.tsx";
-import { TodoListPage } from "./pages/TodoListPage.tsx";
-import { TodoListFormPage } from "./pages/TodoListFormPage.tsx";
-import { AiAssistantPage } from "./pages/AiAssistantPage.tsx";
-import { AiAssistantFunctionPage } from "./pages/AiAssistantFunctionPage.tsx";
 import "./App.css";
 import "./styles/ui.css";
+
+function lazyNamed<ExportName extends string>(
+  importer: () => Promise<Record<ExportName, ComponentType>>,
+  exportName: ExportName,
+) {
+  return lazy(() =>
+    importer().then((mod) => ({ default: mod[exportName] })),
+  );
+}
+
+const AiAssistantPage = lazyNamed(
+  () => import("./pages/AiAssistantPage.tsx"),
+  "AiAssistantPage",
+);
+const AiAssistantFunctionPage = lazyNamed(
+  () => import("./pages/AiAssistantFunctionPage.tsx"),
+  "AiAssistantFunctionPage",
+);
+const SchedulePage = lazyNamed(
+  () => import("./pages/SchedulePage.tsx"),
+  "SchedulePage",
+);
+const TodoListPage = lazyNamed(
+  () => import("./pages/TodoListPage.tsx"),
+  "TodoListPage",
+);
+const TodoListFormPage = lazyNamed(
+  () => import("./pages/TodoListFormPage.tsx"),
+  "TodoListFormPage",
+);
+const OfficePage = lazyNamed(() => import("./pages/OfficePage.tsx"), "OfficePage");
+const UsersPage = lazyNamed(() => import("./pages/UsersPage.tsx"), "UsersPage");
+const UserNewPage = lazyNamed(
+  () => import("./pages/UserNewPage.tsx"),
+  "UserNewPage",
+);
+const UserEditPage = lazyNamed(
+  () => import("./pages/UserEditPage.tsx"),
+  "UserEditPage",
+);
+const PositionsPage = lazyNamed(
+  () => import("./pages/PositionsPage.tsx"),
+  "PositionsPage",
+);
+const PositionFormPage = lazyNamed(
+  () => import("./pages/PositionFormPage.tsx"),
+  "PositionFormPage",
+);
+const SettingsPage = lazyNamed(
+  () => import("./pages/SettingsPage.tsx"),
+  "SettingsPage",
+);
 
 function LoginPage() {
   const { t } = useI18n();
@@ -42,6 +83,10 @@ function App() {
       <Route element={<RequireAuth />}>
         <Route element={<AppLayout />}>
           <Route path="/ai-assistant" element={<AiAssistantPage />} />
+          <Route
+            path="/ai-assistant/:functionId/:documentId"
+            element={<AiAssistantFunctionPage />}
+          />
           <Route
             path="/ai-assistant/:functionId"
             element={<AiAssistantFunctionPage />}

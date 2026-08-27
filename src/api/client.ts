@@ -5,7 +5,6 @@ import {
   type Interceptor,
 } from "@connectrpc/connect";
 import { createGrpcWebTransport } from "@connectrpc/connect-web";
-import { AssistantService } from "../gen/assistant/v1/assistant_pb.js";
 import { AuthService } from "../gen/auth/v1/auth_pb.js";
 import { OfficeService } from "../gen/office/v1/office_pb.js";
 import { loadSession, notifyAuthExpired } from "./session.ts";
@@ -54,4 +53,3 @@ export const transport = createGrpcWebTransport({
 
 export const authClient = createClient(AuthService, transport);
 export const officeClient = createClient(OfficeService, transport);
-export const assistantClient = createClient(AssistantService, transport);

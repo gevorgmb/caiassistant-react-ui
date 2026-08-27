@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext.tsx";
 import { useI18n } from "../i18n/I18nContext.tsx";
@@ -30,7 +31,9 @@ export function AppLayout() {
               </button>
             </p>
           ) : null}
-          <Outlet />
+          <Suspense fallback={<p className="page-lede">{t.common.loading}</p>}>
+            <Outlet />
+          </Suspense>
         </main>
       </div>
     </div>
