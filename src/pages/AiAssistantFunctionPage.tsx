@@ -1,17 +1,27 @@
-import { useState, type SubmitEvent } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useRef, useState, type SubmitEvent } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { timestampFromDate } from "@bufbuild/protobuf/wkt";
-import {
-  Language,
-  type AgendaItem,
-  type DocumentIssue,
-} from "../gen/assistant/v1/assistant_pb.js";
+import { Language } from "../gen/assistant/v1/assistant_pb.js";
 import { TodoListStatus } from "../gen/common/v1/office_pb.js";
 import { useAuth } from "../auth/AuthContext.tsx";
-import { assistantClient } from "../api/client.ts";
+import { assistantClient } from "../api/assistantClient.ts";
 import { errorMessage } from "../api/errors.ts";
 import { EDITABLE_TODO_STATUSES, todoListStatusLabel } from "../lib/todoListStatus.ts";
 import { getAssistantFunction } from "../lib/assistantFunctions.ts";
+import {
+  actionFromFunctionId,
+  defaultRequestState,
+  functionIdFromAction,
+  generatedDocumentPath,
+  parseLocalDate,
+  parseRequestParams,
+  parseResult,
+  serializeRequestParams,
+  serializeResult,
+  snapshotKey,
+  type AssistantRequestState,
+  type AssistantResult,
+} from "../lib/generatedDocuments.ts";
 import {
   CHECK_FOCUSES,
   DOCUMENT_TYPES,
@@ -21,53 +31,37 @@ import {
   type Locale,
   type Messages,
 } from "../i18n/index.ts";
+import { MarkdownContent } from "../components/MarkdownContent.tsx";
+import { ExportMenu } from "../components/ExportMenu.tsx";
 import { useI18n } from "../i18n/I18nContext.tsx";
 import "../styles/ui.css";
-
-type AssistantResult =
-  | { kind: "document"; content: string }
-  | {
-      kind: "check";
-      summary: string;
-      issues: DocumentIssue[];
-      revisedDocument?: string;
-    }
-  | { kind: "agenda"; title: string; items: AgendaItem[]; markdown: string }
-  | { kind: "report"; title: string; summary: string; markdown: string };
 
 const ASSISTANT_LANGUAGE_BY_LOCALE: Record<Locale, Language> = {
   en: Language.ENGLISH,
   hy: Language.ARMENIAN,
 };
 
-function pad(n: number): string {
-  return String(n).padStart(2, "0");
-}
-
-function toLocalInputValue(date: Date): string {
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
-}
-
-function startOfMonth(date: Date): Date {
-  return new Date(date.getFullYear(), date.getMonth(), 1, 0, 0, 0, 0);
-}
-
-function endOfMonth(date: Date): Date {
-  return new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 0, 0);
-}
-
-function parseLocalDate(value: string): Date | null {
-  if (!value) return null;
-  const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? null : date;
-}
-
 export function AiAssistantFunctionPage() {
-  const { functionId } = useParams<{ functionId: string }>();
+  const { functionId, documentId } = useParams<{
+    functionId: string;
+    documentId?: string;
+  }>();
   const fn = getAssistantFunction(functionId);
+  const navigate = useNavigate();
   const { office, officeLoading } = useAuth();
   const { t, locale } = useI18n();
   const copy = fn ? t.assistant.functions[fn.id] : null;
+  const skipNextLoad = useRef(false);
+  const loadExtras = useRef({
+    officeId: office?.id,
+    locale,
+    invalidDocument: t.assistant.invalidDocument,
+  });
+  loadExtras.current = {
+    officeId: office?.id,
+    locale,
+    invalidDocument: t.assistant.invalidDocument,
+  };
 
   const [topic, setTopic] = useState("");
   const [instructions, setInstructions] = useState("");
@@ -78,16 +72,127 @@ export function AiAssistantFunctionPage() {
   const [meetingDate, setMeetingDate] = useState("");
   const [todoStatus, setTodoStatus] = useState("");
   const [searchText, setSearchText] = useState("");
-  const [from, setFrom] = useState(() => toLocalInputValue(startOfMonth(new Date())));
-  const [to, setTo] = useState(() => toLocalInputValue(endOfMonth(new Date())));
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
   const [eventFocus, setEventFocus] = useState("both");
   const [language, setLanguage] = useState<Language>(
     () => ASSISTANT_LANGUAGE_BY_LOCALE[locale],
   );
 
   const [busy, setBusy] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [loadingDoc, setLoadingDoc] = useState(() => Boolean(documentId));
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AssistantResult | null>(null);
+  const [savedSnapshot, setSavedSnapshot] = useState<string | null>(null);
+
+  function applyRequestState(state: AssistantRequestState) {
+    setTopic(state.topic);
+    setInstructions(state.instructions);
+    setDocumentType(state.documentType);
+    setDocument(state.document);
+    setFocus(state.focus);
+    setDurationMinutes(state.durationMinutes);
+    setMeetingDate(state.meetingDate);
+    setTodoStatus(state.todoStatus);
+    setSearchText(state.searchText);
+    setFrom(state.from);
+    setTo(state.to);
+    setEventFocus(state.eventFocus);
+    setLanguage(state.language);
+  }
+
+  function currentRequestState(): AssistantRequestState {
+    return {
+      topic,
+      instructions,
+      documentType,
+      document,
+      focus,
+      durationMinutes,
+      meetingDate,
+      todoStatus,
+      searchText,
+      from,
+      to,
+      eventFocus,
+      language,
+    };
+  }
+
+  useEffect(() => {
+    if (skipNextLoad.current) {
+      skipNextLoad.current = false;
+      return;
+    }
+
+    const currentFn = getAssistantFunction(functionId);
+    const extras = loadExtras.current;
+    const fallbackLanguage = ASSISTANT_LANGUAGE_BY_LOCALE[extras.locale];
+    applyRequestState(defaultRequestState(fallbackLanguage));
+    setResult(null);
+    setError(null);
+    setSavedSnapshot(null);
+
+    if (!documentId || !currentFn) {
+      setLoadingDoc(false);
+      return;
+    }
+
+    let cancelled = false;
+    setLoadingDoc(true);
+    void assistantClient
+      .getGeneratedDocument({ id: documentId })
+      .then((doc) => {
+        if (cancelled) return;
+        const actualFn = functionIdFromAction(doc.action);
+        if (actualFn && actualFn !== currentFn.id) {
+          navigate(generatedDocumentPath(actualFn, doc.id), { replace: true });
+          return;
+        }
+        const requestState = parseRequestParams(
+          doc.requestParams,
+          fallbackLanguage,
+        );
+        const parsedResult = parseResult(doc.response);
+        if (!requestState || !parsedResult) {
+          setError(extras.invalidDocument);
+          setLoadingDoc(false);
+          return;
+        }
+        applyRequestState(requestState);
+        setResult(parsedResult);
+        setSavedSnapshot(
+          snapshotKey(
+            serializeRequestParams(
+              currentFn.id,
+              requestState,
+              doc.officeId ?? extras.officeId,
+            ),
+            serializeResult(parsedResult),
+          ),
+        );
+        setLoadingDoc(false);
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        setError(errorMessage(err));
+        setLoadingDoc(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [documentId, functionId, navigate]);
+
+  const requestParams = fn
+    ? serializeRequestParams(fn.id, currentRequestState(), office?.id)
+    : "";
+  const responseJson = result ? serializeResult(result) : "";
+  const isSaved =
+    savedSnapshot !== null &&
+    responseJson !== "" &&
+    savedSnapshot === snapshotKey(requestParams, responseJson);
 
   if (!fn || !copy) {
     return (
@@ -121,12 +226,19 @@ export function AiAssistantFunctionPage() {
     );
   }
 
+  if (loadingDoc) {
+    return (
+      <section className="page">
+        <p className="page-lede">{t.assistant.loadingDocument}</p>
+      </section>
+    );
+  }
+
   async function onSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!fn) return;
     setBusy(true);
     setError(null);
-    setResult(null);
     try {
       const next = await runFunction();
       setResult(next);
@@ -134,6 +246,44 @@ export function AiAssistantFunctionPage() {
       setError(errorMessage(err));
     } finally {
       setBusy(false);
+    }
+  }
+
+  async function onSave() {
+    if (!fn || !result) return;
+    setSaving(true);
+    setError(null);
+    try {
+      const action = actionFromFunctionId(fn.id);
+      const nextRequest = serializeRequestParams(
+        fn.id,
+        currentRequestState(),
+        office?.id,
+      );
+      const nextResponse = serializeResult(result);
+      if (documentId) {
+        await assistantClient.updateGeneratedDocument({
+          id: documentId,
+          action,
+          requestParams: nextRequest,
+          response: nextResponse,
+          officeId: office?.id,
+        });
+      } else {
+        const doc = await assistantClient.createGeneratedDocument({
+          action,
+          requestParams: nextRequest,
+          response: nextResponse,
+          officeId: office?.id,
+        });
+        skipNextLoad.current = true;
+        navigate(generatedDocumentPath(fn.id, doc.id), { replace: true });
+      }
+      setSavedSnapshot(snapshotKey(nextRequest, nextResponse));
+    } catch (err) {
+      setError(errorMessage(err));
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -169,7 +319,11 @@ export function AiAssistantFunctionPage() {
         return {
           kind: "check",
           summary: res.summary,
-          issues: res.issues,
+          issues: res.issues.map((issue) => ({
+            severity: issue.severity,
+            message: issue.message,
+            suggestion: issue.suggestion,
+          })),
           revisedDocument: res.revisedDocument,
         };
       }
@@ -187,7 +341,11 @@ export function AiAssistantFunctionPage() {
         return {
           kind: "agenda",
           title: res.title,
-          items: res.items,
+          items: res.items.map((item) => ({
+            title: item.title,
+            description: item.description,
+            durationMinutes: item.durationMinutes,
+          })),
           markdown: res.markdown,
         };
       }
@@ -246,9 +404,17 @@ export function AiAssistantFunctionPage() {
             type="submit"
             form="assistant-form"
             className="btn"
-            disabled={busy}
+            disabled={busy || saving}
           >
             {busy ? t.assistant.running : t.assistant.run}
+          </button>
+          <button
+            type="button"
+            className="btn btn--ghost"
+            disabled={busy || saving || !result || isSaved}
+            onClick={() => void onSave()}
+          >
+            {saving ? t.common.saving : isSaved ? t.assistant.saved : t.common.save}
           </button>
           <Link className="btn btn--ghost" to="/ai-assistant">
             {t.common.back}
@@ -472,7 +638,13 @@ export function AiAssistantFunctionPage() {
         {error ? <p className="error">{error}</p> : null}
       </form>
 
-      {result ? <AssistantResultView result={result} t={t} /> : null}
+      {result ? (
+        <AssistantResultView
+          result={result}
+          t={t}
+          fallbackTitle={copy.title}
+        />
+      ) : null}
     </section>
   );
 }
@@ -480,15 +652,24 @@ export function AiAssistantFunctionPage() {
 function AssistantResultView({
   result,
   t,
+  fallbackTitle,
 }: {
   result: AssistantResult;
   t: Messages;
+  fallbackTitle: string;
 }) {
+  const download = (
+    <ExportMenu result={result} fallbackTitle={fallbackTitle} />
+  );
+
   if (result.kind === "document") {
     return (
       <div className="assistant-result">
-        <h2>{t.assistant.result}</h2>
-        <pre>{result.content || t.common.empty}</pre>
+        <div className="assistant-result__header">
+          <h2>{t.assistant.result}</h2>
+          {download}
+        </div>
+        <MarkdownContent content={result.content} empty={t.common.empty} />
       </div>
     );
   }
@@ -496,8 +677,15 @@ function AssistantResultView({
   if (result.kind === "check") {
     return (
       <div className="assistant-result">
-        <h2>{t.assistant.review}</h2>
-        <p className="page-lede">{result.summary || t.common.empty}</p>
+        <div className="assistant-result__header">
+          <h2>{t.assistant.review}</h2>
+          {download}
+        </div>
+        <MarkdownContent
+          content={result.summary}
+          empty={t.common.empty}
+          variant="plain"
+        />
         {result.issues.length === 0 ? (
           <p className="empty-state">{t.assistant.noIssues}</p>
         ) : (
@@ -514,8 +702,20 @@ function AssistantResultView({
                 {result.issues.map((issue, index) => (
                   <tr key={`${issue.severity}-${index}`}>
                     <td>{issue.severity || t.common.empty}</td>
-                    <td>{issue.message || t.common.empty}</td>
-                    <td>{issue.suggestion || t.common.empty}</td>
+                    <td>
+                      <MarkdownContent
+                        content={issue.message}
+                        empty={t.common.empty}
+                        variant="plain"
+                      />
+                    </td>
+                    <td>
+                      <MarkdownContent
+                        content={issue.suggestion ?? ""}
+                        empty={t.common.empty}
+                        variant="plain"
+                      />
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -525,7 +725,10 @@ function AssistantResultView({
         {result.revisedDocument ? (
           <>
             <h2>{t.assistant.revisedDocument}</h2>
-            <pre>{result.revisedDocument}</pre>
+            <MarkdownContent
+              content={result.revisedDocument}
+              empty={t.common.empty}
+            />
           </>
         ) : null}
       </div>
@@ -535,7 +738,10 @@ function AssistantResultView({
   if (result.kind === "agenda") {
     return (
       <div className="assistant-result">
-        <h2>{result.title || t.assistant.agenda}</h2>
+        <div className="assistant-result__header">
+          <h2>{result.title || t.assistant.agenda}</h2>
+          {download}
+        </div>
         {result.items.length > 0 ? (
           <div className="data-table-wrap">
             <table className="data-table">
@@ -550,7 +756,13 @@ function AssistantResultView({
                 {result.items.map((item, index) => (
                   <tr key={`${item.title}-${index}`}>
                     <td>{item.title || t.common.empty}</td>
-                    <td>{item.description || t.common.empty}</td>
+                    <td>
+                      <MarkdownContent
+                        content={item.description ?? ""}
+                        empty={t.common.empty}
+                        variant="plain"
+                      />
+                    </td>
                     <td>{item.durationMinutes ?? t.common.empty}</td>
                   </tr>
                 ))}
@@ -558,16 +770,23 @@ function AssistantResultView({
             </table>
           </div>
         ) : null}
-        <pre>{result.markdown || t.common.empty}</pre>
+        <MarkdownContent content={result.markdown} empty={t.common.empty} />
       </div>
     );
   }
 
   return (
     <div className="assistant-result">
-      <h2>{result.title || t.assistant.report}</h2>
-      <p className="page-lede">{result.summary || t.common.empty}</p>
-      <pre>{result.markdown || t.common.empty}</pre>
+      <div className="assistant-result__header">
+        <h2>{result.title || t.assistant.report}</h2>
+        {download}
+      </div>
+      <MarkdownContent
+        content={result.summary}
+        empty={t.common.empty}
+        variant="plain"
+      />
+      <MarkdownContent content={result.markdown} empty={t.common.empty} />
     </div>
   );
 }

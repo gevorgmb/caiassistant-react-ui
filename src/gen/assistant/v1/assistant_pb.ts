@@ -14,7 +14,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file assistant/v1/assistant.proto.
  */
 export const file_assistant_v1_assistant: GenFile = /*@__PURE__*/
-  fileDesc("Chxhc3Npc3RhbnQvdjEvYXNzaXN0YW50LnByb3RvEgxhc3Npc3RhbnQudjEizwEKFEJ1aWxkRG9jdW1lbnRSZXF1ZXN0Eg0KBXRvcGljGAEgASgJEhkKDGluc3RydWN0aW9ucxgCIAEoCUgAiAEBEhoKDWRvY3VtZW50X3R5cGUYAyABKAlIAYgBARIWCglvZmZpY2VfaWQYBCABKAlIAogBARIoCghsYW5ndWFnZRgFIAEoDjIWLmFzc2lzdGFudC52MS5MYW5ndWFnZUIPCg1faW5zdHJ1Y3Rpb25zQhAKDl9kb2N1bWVudF90eXBlQgwKCl9vZmZpY2VfaWQiZwoTRWRpdERvY3VtZW50UmVxdWVzdBIQCghkb2N1bWVudBgBIAEoCRIUCgxpbnN0cnVjdGlvbnMYAiABKAkSKAoIbGFuZ3VhZ2UYAyABKA4yFi5hc3Npc3RhbnQudjEuTGFuZ3VhZ2UicAoUQ2hlY2tEb2N1bWVudFJlcXVlc3QSEAoIZG9jdW1lbnQYASABKAkSEgoFZm9jdXMYAiABKAlIAIgBARIoCghsYW5ndWFnZRgDIAEoDjIWLmFzc2lzdGFudC52MS5MYW5ndWFnZUIICgZfZm9jdXMiIwoQRG9jdW1lbnRSZXNwb25zZRIPCgdjb250ZW50GAEgASgJIloKDURvY3VtZW50SXNzdWUSEAoIc2V2ZXJpdHkYASABKAkSDwoHbWVzc2FnZRgCIAEoCRIXCgpzdWdnZXN0aW9uGAMgASgJSACIAQFCDQoLX3N1Z2dlc3Rpb24iiQEKFURvY3VtZW50Q2hlY2tSZXNwb25zZRIPCgdzdW1tYXJ5GAEgASgJEisKBmlzc3VlcxgCIAMoCzIbLmFzc2lzdGFudC52MS5Eb2N1bWVudElzc3VlEh0KEHJldmlzZWRfZG9jdW1lbnQYAyABKAlIAIgBAUITChFfcmV2aXNlZF9kb2N1bWVudCKBAgoSQnVpbGRBZ2VuZGFSZXF1ZXN0Eg0KBXRvcGljGAEgASgJEhkKDGluc3RydWN0aW9ucxgCIAEoCUgAiAEBEhYKCW9mZmljZV9pZBgDIAEoCUgBiAEBEjUKDG1lZXRpbmdfZGF0ZRgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAogBARIYChBkdXJhdGlvbl9taW51dGVzGAUgASgFEigKCGxhbmd1YWdlGAYgASgOMhYuYXNzaXN0YW50LnYxLkxhbmd1YWdlQg8KDV9pbnN0cnVjdGlvbnNCDAoKX29mZmljZV9pZEIPCg1fbWVldGluZ19kYXRlInkKCkFnZW5kYUl0ZW0SDQoFdGl0bGUYASABKAkSGAoLZGVzY3JpcHRpb24YAiABKAlIAIgBARIdChBkdXJhdGlvbl9taW51dGVzGAMgASgFSAGIAQFCDgoMX2Rlc2NyaXB0aW9uQhMKEV9kdXJhdGlvbl9taW51dGVzIloKDkFnZW5kYVJlc3BvbnNlEg0KBXRpdGxlGAEgASgJEicKBWl0ZW1zGAIgAygLMhguYXNzaXN0YW50LnYxLkFnZW5kYUl0ZW0SEAoIbWFya2Rvd24YAyABKAkiuQEKFVN1bW1hcml6ZVRvZG9zUmVxdWVzdBIRCglvZmZpY2VfaWQYASABKAkSLgoGc3RhdHVzGAIgASgOMhkuY29tbW9uLnYxLlRvZG9MaXN0U3RhdHVzSACIAQESGAoLc2VhcmNoX3RleHQYAyABKAlIAYgBARIoCghsYW5ndWFnZRgEIAEoDjIWLmFzc2lzdGFudC52MS5MYW5ndWFnZUIJCgdfc3RhdHVzQg4KDF9zZWFyY2hfdGV4dCLHAQoYQnVpbGRFdmVudHNSZXBvcnRSZXF1ZXN0EhEKCW9mZmljZV9pZBgBIAEoCRIoCgRmcm9tGAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBImCgJ0bxgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASEgoFZm9jdXMYBCABKAlIAIgBARIoCghsYW5ndWFnZRgFIAEoDjIWLmFzc2lzdGFudC52MS5MYW5ndWFnZUIICgZfZm9jdXMiQgoOUmVwb3J0UmVzcG9uc2USDQoFdGl0bGUYASABKAkSDwoHc3VtbWFyeRgCIAEoCRIQCghtYXJrZG93bhgDIAEoCSpRCghMYW5ndWFnZRIYChRMQU5HVUFHRV9VTlNQRUNJRklFRBAAEhQKEExBTkdVQUdFX0VOR0xJU0gQARIVChFMQU5HVUFHRV9BUk1FTklBThACMpMEChBBc3Npc3RhbnRTZXJ2aWNlElMKDUJ1aWxkRG9jdW1lbnQSIi5hc3Npc3RhbnQudjEuQnVpbGREb2N1bWVudFJlcXVlc3QaHi5hc3Npc3RhbnQudjEuRG9jdW1lbnRSZXNwb25zZRJRCgxFZGl0RG9jdW1lbnQSIS5hc3Npc3RhbnQudjEuRWRpdERvY3VtZW50UmVxdWVzdBoeLmFzc2lzdGFudC52MS5Eb2N1bWVudFJlc3BvbnNlElgKDUNoZWNrRG9jdW1lbnQSIi5hc3Npc3RhbnQudjEuQ2hlY2tEb2N1bWVudFJlcXVlc3QaIy5hc3Npc3RhbnQudjEuRG9jdW1lbnRDaGVja1Jlc3BvbnNlEk0KC0J1aWxkQWdlbmRhEiAuYXNzaXN0YW50LnYxLkJ1aWxkQWdlbmRhUmVxdWVzdBocLmFzc2lzdGFudC52MS5BZ2VuZGFSZXNwb25zZRJTCg5TdW1tYXJpemVUb2RvcxIjLmFzc2lzdGFudC52MS5TdW1tYXJpemVUb2Rvc1JlcXVlc3QaHC5hc3Npc3RhbnQudjEuUmVwb3J0UmVzcG9uc2USWQoRQnVpbGRFdmVudHNSZXBvcnQSJi5hc3Npc3RhbnQudjEuQnVpbGRFdmVudHNSZXBvcnRSZXF1ZXN0GhwuYXNzaXN0YW50LnYxLlJlcG9ydFJlc3BvbnNlQkpaSGdpdGh1Yi5jb20vZ2V2b3JnbWIvY2FpYXNzaXN0YW50LWdvLWFwaS9hcGkvZ2VuL2Fzc2lzdGFudC92MTthc3Npc3RhbnR2MWIGcHJvdG8z", [file_common_v1_office, file_google_protobuf_timestamp]);
+  fileDesc("Chxhc3Npc3RhbnQvdjEvYXNzaXN0YW50LnByb3RvEgxhc3Npc3RhbnQudjEizwEKFEJ1aWxkRG9jdW1lbnRSZXF1ZXN0Eg0KBXRvcGljGAEgASgJEhkKDGluc3RydWN0aW9ucxgCIAEoCUgAiAEBEhoKDWRvY3VtZW50X3R5cGUYAyABKAlIAYgBARIWCglvZmZpY2VfaWQYBCABKAlIAogBARIoCghsYW5ndWFnZRgFIAEoDjIWLmFzc2lzdGFudC52MS5MYW5ndWFnZUIPCg1faW5zdHJ1Y3Rpb25zQhAKDl9kb2N1bWVudF90eXBlQgwKCl9vZmZpY2VfaWQiZwoTRWRpdERvY3VtZW50UmVxdWVzdBIQCghkb2N1bWVudBgBIAEoCRIUCgxpbnN0cnVjdGlvbnMYAiABKAkSKAoIbGFuZ3VhZ2UYAyABKA4yFi5hc3Npc3RhbnQudjEuTGFuZ3VhZ2UicAoUQ2hlY2tEb2N1bWVudFJlcXVlc3QSEAoIZG9jdW1lbnQYASABKAkSEgoFZm9jdXMYAiABKAlIAIgBARIoCghsYW5ndWFnZRgDIAEoDjIWLmFzc2lzdGFudC52MS5MYW5ndWFnZUIICgZfZm9jdXMiIwoQRG9jdW1lbnRSZXNwb25zZRIPCgdjb250ZW50GAEgASgJIloKDURvY3VtZW50SXNzdWUSEAoIc2V2ZXJpdHkYASABKAkSDwoHbWVzc2FnZRgCIAEoCRIXCgpzdWdnZXN0aW9uGAMgASgJSACIAQFCDQoLX3N1Z2dlc3Rpb24iiQEKFURvY3VtZW50Q2hlY2tSZXNwb25zZRIPCgdzdW1tYXJ5GAEgASgJEisKBmlzc3VlcxgCIAMoCzIbLmFzc2lzdGFudC52MS5Eb2N1bWVudElzc3VlEh0KEHJldmlzZWRfZG9jdW1lbnQYAyABKAlIAIgBAUITChFfcmV2aXNlZF9kb2N1bWVudCKBAgoSQnVpbGRBZ2VuZGFSZXF1ZXN0Eg0KBXRvcGljGAEgASgJEhkKDGluc3RydWN0aW9ucxgCIAEoCUgAiAEBEhYKCW9mZmljZV9pZBgDIAEoCUgBiAEBEjUKDG1lZXRpbmdfZGF0ZRgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAogBARIYChBkdXJhdGlvbl9taW51dGVzGAUgASgFEigKCGxhbmd1YWdlGAYgASgOMhYuYXNzaXN0YW50LnYxLkxhbmd1YWdlQg8KDV9pbnN0cnVjdGlvbnNCDAoKX29mZmljZV9pZEIPCg1fbWVldGluZ19kYXRlInkKCkFnZW5kYUl0ZW0SDQoFdGl0bGUYASABKAkSGAoLZGVzY3JpcHRpb24YAiABKAlIAIgBARIdChBkdXJhdGlvbl9taW51dGVzGAMgASgFSAGIAQFCDgoMX2Rlc2NyaXB0aW9uQhMKEV9kdXJhdGlvbl9taW51dGVzIloKDkFnZW5kYVJlc3BvbnNlEg0KBXRpdGxlGAEgASgJEicKBWl0ZW1zGAIgAygLMhguYXNzaXN0YW50LnYxLkFnZW5kYUl0ZW0SEAoIbWFya2Rvd24YAyABKAkiuQEKFVN1bW1hcml6ZVRvZG9zUmVxdWVzdBIRCglvZmZpY2VfaWQYASABKAkSLgoGc3RhdHVzGAIgASgOMhkuY29tbW9uLnYxLlRvZG9MaXN0U3RhdHVzSACIAQESGAoLc2VhcmNoX3RleHQYAyABKAlIAYgBARIoCghsYW5ndWFnZRgEIAEoDjIWLmFzc2lzdGFudC52MS5MYW5ndWFnZUIJCgdfc3RhdHVzQg4KDF9zZWFyY2hfdGV4dCLHAQoYQnVpbGRFdmVudHNSZXBvcnRSZXF1ZXN0EhEKCW9mZmljZV9pZBgBIAEoCRIoCgRmcm9tGAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBImCgJ0bxgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASEgoFZm9jdXMYBCABKAlIAIgBARIoCghsYW5ndWFnZRgFIAEoDjIWLmFzc2lzdGFudC52MS5MYW5ndWFnZUIICgZfZm9jdXMiQgoOUmVwb3J0UmVzcG9uc2USDQoFdGl0bGUYASABKAkSDwoHc3VtbWFyeRgCIAEoCRIQCghtYXJrZG93bhgDIAEoCSKLAgoRR2VuZXJhdGVkRG9jdW1lbnQSCgoCaWQYASABKAkSJgoGYWN0aW9uGAIgASgOMhYuYXNzaXN0YW50LnYxLkFpQWN0aW9uEhYKDnJlcXVlc3RfcGFyYW1zGAMgASgJEhAKCHJlc3BvbnNlGAQgASgJEhYKCW9mZmljZV9pZBgFIAEoCUgAiAEBEhIKCmNyZWF0ZWRfYnkYBiABKAkSLgoKY3JlYXRlZF9hdBgHIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgIIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBCDAoKX29mZmljZV9pZCKYAQoeQ3JlYXRlR2VuZXJhdGVkRG9jdW1lbnRSZXF1ZXN0EiYKBmFjdGlvbhgBIAEoDjIWLmFzc2lzdGFudC52MS5BaUFjdGlvbhIWCg5yZXF1ZXN0X3BhcmFtcxgCIAEoCRIQCghyZXNwb25zZRgDIAEoCRIWCglvZmZpY2VfaWQYBCABKAlIAIgBAUIMCgpfb2ZmaWNlX2lkIikKG0dldEdlbmVyYXRlZERvY3VtZW50UmVxdWVzdBIKCgJpZBgBIAEoCSKEAgodTGlzdEdlbmVyYXRlZERvY3VtZW50c1JlcXVlc3QSKwoGYWN0aW9uGAEgASgOMhYuYXNzaXN0YW50LnYxLkFpQWN0aW9uSACIAQESNQoMY3JlYXRlZF9mcm9tGAIgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEgBiAEBEjMKCmNyZWF0ZWRfdG8YAyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSAKIAQESDAoEcGFnZRgEIAEoBRIRCglwYWdlX3NpemUYBSABKAVCCQoHX2FjdGlvbkIPCg1fY3JlYXRlZF9mcm9tQg0KC19jcmVhdGVkX3RvIooBCh5MaXN0R2VuZXJhdGVkRG9jdW1lbnRzUmVzcG9uc2USMgoJZG9jdW1lbnRzGAEgAygLMh8uYXNzaXN0YW50LnYxLkdlbmVyYXRlZERvY3VtZW50EhMKC3RvdGFsX2NvdW50GAIgASgFEgwKBHBhZ2UYAyABKAUSEQoJcGFnZV9zaXplGAQgASgFIqQBCh5VcGRhdGVHZW5lcmF0ZWREb2N1bWVudFJlcXVlc3QSCgoCaWQYASABKAkSJgoGYWN0aW9uGAIgASgOMhYuYXNzaXN0YW50LnYxLkFpQWN0aW9uEhYKDnJlcXVlc3RfcGFyYW1zGAMgASgJEhAKCHJlc3BvbnNlGAQgASgJEhYKCW9mZmljZV9pZBgFIAEoCUgAiAEBQgwKCl9vZmZpY2VfaWQiLAoeRGVsZXRlR2VuZXJhdGVkRG9jdW1lbnRSZXF1ZXN0EgoKAmlkGAEgASgJIjIKH0RlbGV0ZUdlbmVyYXRlZERvY3VtZW50UmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCpRCghMYW5ndWFnZRIYChRMQU5HVUFHRV9VTlNQRUNJRklFRBAAEhQKEExBTkdVQUdFX0VOR0xJU0gQARIVChFMQU5HVUFHRV9BUk1FTklBThACKtYBCghBaUFjdGlvbhIZChVBSV9BQ1RJT05fVU5TUEVDSUZJRUQQABIcChhBSV9BQ1RJT05fQlVJTERfRE9DVU1FTlQQARIbChdBSV9BQ1RJT05fRURJVF9ET0NVTUVOVBACEhwKGEFJX0FDVElPTl9DSEVDS19ET0NVTUVOVBADEhoKFkFJX0FDVElPTl9CVUlMRF9BR0VOREEQBBIdChlBSV9BQ1RJT05fU1VNTUFSSVpFX1RPRE9TEAUSGwoXQUlfQUNUSU9OX0VWRU5UX1JFUE9SVFMQBjK4CAoQQXNzaXN0YW50U2VydmljZRJTCg1CdWlsZERvY3VtZW50EiIuYXNzaXN0YW50LnYxLkJ1aWxkRG9jdW1lbnRSZXF1ZXN0Gh4uYXNzaXN0YW50LnYxLkRvY3VtZW50UmVzcG9uc2USUQoMRWRpdERvY3VtZW50EiEuYXNzaXN0YW50LnYxLkVkaXREb2N1bWVudFJlcXVlc3QaHi5hc3Npc3RhbnQudjEuRG9jdW1lbnRSZXNwb25zZRJYCg1DaGVja0RvY3VtZW50EiIuYXNzaXN0YW50LnYxLkNoZWNrRG9jdW1lbnRSZXF1ZXN0GiMuYXNzaXN0YW50LnYxLkRvY3VtZW50Q2hlY2tSZXNwb25zZRJNCgtCdWlsZEFnZW5kYRIgLmFzc2lzdGFudC52MS5CdWlsZEFnZW5kYVJlcXVlc3QaHC5hc3Npc3RhbnQudjEuQWdlbmRhUmVzcG9uc2USUwoOU3VtbWFyaXplVG9kb3MSIy5hc3Npc3RhbnQudjEuU3VtbWFyaXplVG9kb3NSZXF1ZXN0GhwuYXNzaXN0YW50LnYxLlJlcG9ydFJlc3BvbnNlElkKEUJ1aWxkRXZlbnRzUmVwb3J0EiYuYXNzaXN0YW50LnYxLkJ1aWxkRXZlbnRzUmVwb3J0UmVxdWVzdBocLmFzc2lzdGFudC52MS5SZXBvcnRSZXNwb25zZRJoChdDcmVhdGVHZW5lcmF0ZWREb2N1bWVudBIsLmFzc2lzdGFudC52MS5DcmVhdGVHZW5lcmF0ZWREb2N1bWVudFJlcXVlc3QaHy5hc3Npc3RhbnQudjEuR2VuZXJhdGVkRG9jdW1lbnQSYgoUR2V0R2VuZXJhdGVkRG9jdW1lbnQSKS5hc3Npc3RhbnQudjEuR2V0R2VuZXJhdGVkRG9jdW1lbnRSZXF1ZXN0Gh8uYXNzaXN0YW50LnYxLkdlbmVyYXRlZERvY3VtZW50EnMKFkxpc3RHZW5lcmF0ZWREb2N1bWVudHMSKy5hc3Npc3RhbnQudjEuTGlzdEdlbmVyYXRlZERvY3VtZW50c1JlcXVlc3QaLC5hc3Npc3RhbnQudjEuTGlzdEdlbmVyYXRlZERvY3VtZW50c1Jlc3BvbnNlEmgKF1VwZGF0ZUdlbmVyYXRlZERvY3VtZW50EiwuYXNzaXN0YW50LnYxLlVwZGF0ZUdlbmVyYXRlZERvY3VtZW50UmVxdWVzdBofLmFzc2lzdGFudC52MS5HZW5lcmF0ZWREb2N1bWVudBJ2ChdEZWxldGVHZW5lcmF0ZWREb2N1bWVudBIsLmFzc2lzdGFudC52MS5EZWxldGVHZW5lcmF0ZWREb2N1bWVudFJlcXVlc3QaLS5hc3Npc3RhbnQudjEuRGVsZXRlR2VuZXJhdGVkRG9jdW1lbnRSZXNwb25zZUJKWkhnaXRodWIuY29tL2dldm9yZ21iL2NhaWFzc2lzdGFudC1nby1hcGkvYXBpL2dlbi9hc3Npc3RhbnQvdjE7YXNzaXN0YW50djFiBnByb3RvMw", [file_common_v1_office, file_google_protobuf_timestamp]);
 
 /**
  * @generated from message assistant.v1.BuildDocumentRequest
@@ -379,6 +379,251 @@ export const ReportResponseSchema: GenMessage<ReportResponse> = /*@__PURE__*/
   messageDesc(file_assistant_v1_assistant, 11);
 
 /**
+ * @generated from message assistant.v1.GeneratedDocument
+ */
+export type GeneratedDocument = Message<"assistant.v1.GeneratedDocument"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: assistant.v1.AiAction action = 2;
+   */
+  action: AiAction;
+
+  /**
+   * JSON object stored as a string.
+   *
+   * @generated from field: string request_params = 3;
+   */
+  requestParams: string;
+
+  /**
+   * @generated from field: string response = 4;
+   */
+  response: string;
+
+  /**
+   * @generated from field: optional string office_id = 5;
+   */
+  officeId?: string | undefined;
+
+  /**
+   * @generated from field: string created_by = 6;
+   */
+  createdBy: string;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp created_at = 7;
+   */
+  createdAt?: Timestamp | undefined;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp updated_at = 8;
+   */
+  updatedAt?: Timestamp | undefined;
+};
+
+/**
+ * Describes the message assistant.v1.GeneratedDocument.
+ * Use `create(GeneratedDocumentSchema)` to create a new message.
+ */
+export const GeneratedDocumentSchema: GenMessage<GeneratedDocument> = /*@__PURE__*/
+  messageDesc(file_assistant_v1_assistant, 12);
+
+/**
+ * @generated from message assistant.v1.CreateGeneratedDocumentRequest
+ */
+export type CreateGeneratedDocumentRequest = Message<"assistant.v1.CreateGeneratedDocumentRequest"> & {
+  /**
+   * @generated from field: assistant.v1.AiAction action = 1;
+   */
+  action: AiAction;
+
+  /**
+   * @generated from field: string request_params = 2;
+   */
+  requestParams: string;
+
+  /**
+   * @generated from field: string response = 3;
+   */
+  response: string;
+
+  /**
+   * @generated from field: optional string office_id = 4;
+   */
+  officeId?: string | undefined;
+};
+
+/**
+ * Describes the message assistant.v1.CreateGeneratedDocumentRequest.
+ * Use `create(CreateGeneratedDocumentRequestSchema)` to create a new message.
+ */
+export const CreateGeneratedDocumentRequestSchema: GenMessage<CreateGeneratedDocumentRequest> = /*@__PURE__*/
+  messageDesc(file_assistant_v1_assistant, 13);
+
+/**
+ * @generated from message assistant.v1.GetGeneratedDocumentRequest
+ */
+export type GetGeneratedDocumentRequest = Message<"assistant.v1.GetGeneratedDocumentRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message assistant.v1.GetGeneratedDocumentRequest.
+ * Use `create(GetGeneratedDocumentRequestSchema)` to create a new message.
+ */
+export const GetGeneratedDocumentRequestSchema: GenMessage<GetGeneratedDocumentRequest> = /*@__PURE__*/
+  messageDesc(file_assistant_v1_assistant, 14);
+
+/**
+ * @generated from message assistant.v1.ListGeneratedDocumentsRequest
+ */
+export type ListGeneratedDocumentsRequest = Message<"assistant.v1.ListGeneratedDocumentsRequest"> & {
+  /**
+   * Omit or UNSPECIFIED to include all actions.
+   *
+   * @generated from field: optional assistant.v1.AiAction action = 1;
+   */
+  action?: AiAction | undefined;
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp created_from = 2;
+   */
+  createdFrom?: Timestamp | undefined;
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp created_to = 3;
+   */
+  createdTo?: Timestamp | undefined;
+
+  /**
+   * @generated from field: int32 page = 4;
+   */
+  page: number;
+
+  /**
+   * @generated from field: int32 page_size = 5;
+   */
+  pageSize: number;
+};
+
+/**
+ * Describes the message assistant.v1.ListGeneratedDocumentsRequest.
+ * Use `create(ListGeneratedDocumentsRequestSchema)` to create a new message.
+ */
+export const ListGeneratedDocumentsRequestSchema: GenMessage<ListGeneratedDocumentsRequest> = /*@__PURE__*/
+  messageDesc(file_assistant_v1_assistant, 15);
+
+/**
+ * @generated from message assistant.v1.ListGeneratedDocumentsResponse
+ */
+export type ListGeneratedDocumentsResponse = Message<"assistant.v1.ListGeneratedDocumentsResponse"> & {
+  /**
+   * @generated from field: repeated assistant.v1.GeneratedDocument documents = 1;
+   */
+  documents: GeneratedDocument[];
+
+  /**
+   * @generated from field: int32 total_count = 2;
+   */
+  totalCount: number;
+
+  /**
+   * @generated from field: int32 page = 3;
+   */
+  page: number;
+
+  /**
+   * @generated from field: int32 page_size = 4;
+   */
+  pageSize: number;
+};
+
+/**
+ * Describes the message assistant.v1.ListGeneratedDocumentsResponse.
+ * Use `create(ListGeneratedDocumentsResponseSchema)` to create a new message.
+ */
+export const ListGeneratedDocumentsResponseSchema: GenMessage<ListGeneratedDocumentsResponse> = /*@__PURE__*/
+  messageDesc(file_assistant_v1_assistant, 16);
+
+/**
+ * @generated from message assistant.v1.UpdateGeneratedDocumentRequest
+ */
+export type UpdateGeneratedDocumentRequest = Message<"assistant.v1.UpdateGeneratedDocumentRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: assistant.v1.AiAction action = 2;
+   */
+  action: AiAction;
+
+  /**
+   * @generated from field: string request_params = 3;
+   */
+  requestParams: string;
+
+  /**
+   * @generated from field: string response = 4;
+   */
+  response: string;
+
+  /**
+   * @generated from field: optional string office_id = 5;
+   */
+  officeId?: string | undefined;
+};
+
+/**
+ * Describes the message assistant.v1.UpdateGeneratedDocumentRequest.
+ * Use `create(UpdateGeneratedDocumentRequestSchema)` to create a new message.
+ */
+export const UpdateGeneratedDocumentRequestSchema: GenMessage<UpdateGeneratedDocumentRequest> = /*@__PURE__*/
+  messageDesc(file_assistant_v1_assistant, 17);
+
+/**
+ * @generated from message assistant.v1.DeleteGeneratedDocumentRequest
+ */
+export type DeleteGeneratedDocumentRequest = Message<"assistant.v1.DeleteGeneratedDocumentRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message assistant.v1.DeleteGeneratedDocumentRequest.
+ * Use `create(DeleteGeneratedDocumentRequestSchema)` to create a new message.
+ */
+export const DeleteGeneratedDocumentRequestSchema: GenMessage<DeleteGeneratedDocumentRequest> = /*@__PURE__*/
+  messageDesc(file_assistant_v1_assistant, 18);
+
+/**
+ * @generated from message assistant.v1.DeleteGeneratedDocumentResponse
+ */
+export type DeleteGeneratedDocumentResponse = Message<"assistant.v1.DeleteGeneratedDocumentResponse"> & {
+  /**
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message assistant.v1.DeleteGeneratedDocumentResponse.
+ * Use `create(DeleteGeneratedDocumentResponseSchema)` to create a new message.
+ */
+export const DeleteGeneratedDocumentResponseSchema: GenMessage<DeleteGeneratedDocumentResponse> = /*@__PURE__*/
+  messageDesc(file_assistant_v1_assistant, 19);
+
+/**
  * Language is the output language for generated content.
  * LANGUAGE_UNSPECIFIED defaults to English.
  *
@@ -406,6 +651,54 @@ export enum Language {
  */
 export const LanguageSchema: GenEnum<Language> = /*@__PURE__*/
   enumDesc(file_assistant_v1_assistant, 0);
+
+/**
+ * AiAction is the assistant operation that produced a document.
+ *
+ * @generated from enum assistant.v1.AiAction
+ */
+export enum AiAction {
+  /**
+   * @generated from enum value: AI_ACTION_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: AI_ACTION_BUILD_DOCUMENT = 1;
+   */
+  BUILD_DOCUMENT = 1,
+
+  /**
+   * @generated from enum value: AI_ACTION_EDIT_DOCUMENT = 2;
+   */
+  EDIT_DOCUMENT = 2,
+
+  /**
+   * @generated from enum value: AI_ACTION_CHECK_DOCUMENT = 3;
+   */
+  CHECK_DOCUMENT = 3,
+
+  /**
+   * @generated from enum value: AI_ACTION_BUILD_AGENDA = 4;
+   */
+  BUILD_AGENDA = 4,
+
+  /**
+   * @generated from enum value: AI_ACTION_SUMMARIZE_TODOS = 5;
+   */
+  SUMMARIZE_TODOS = 5,
+
+  /**
+   * @generated from enum value: AI_ACTION_EVENT_REPORTS = 6;
+   */
+  EVENT_REPORTS = 6,
+}
+
+/**
+ * Describes the enum assistant.v1.AiAction.
+ */
+export const AiActionSchema: GenEnum<AiAction> = /*@__PURE__*/
+  enumDesc(file_assistant_v1_assistant, 1);
 
 /**
  * AssistantService provides Gemini-powered clerk assistance.
@@ -472,6 +765,48 @@ export const AssistantService: GenService<{
     methodKind: "unary";
     input: typeof BuildEventsReportRequestSchema;
     output: typeof ReportResponseSchema;
+  },
+  /**
+   * Generated documents (AI action history)
+   *
+   * @generated from rpc assistant.v1.AssistantService.CreateGeneratedDocument
+   */
+  createGeneratedDocument: {
+    methodKind: "unary";
+    input: typeof CreateGeneratedDocumentRequestSchema;
+    output: typeof GeneratedDocumentSchema;
+  },
+  /**
+   * @generated from rpc assistant.v1.AssistantService.GetGeneratedDocument
+   */
+  getGeneratedDocument: {
+    methodKind: "unary";
+    input: typeof GetGeneratedDocumentRequestSchema;
+    output: typeof GeneratedDocumentSchema;
+  },
+  /**
+   * @generated from rpc assistant.v1.AssistantService.ListGeneratedDocuments
+   */
+  listGeneratedDocuments: {
+    methodKind: "unary";
+    input: typeof ListGeneratedDocumentsRequestSchema;
+    output: typeof ListGeneratedDocumentsResponseSchema;
+  },
+  /**
+   * @generated from rpc assistant.v1.AssistantService.UpdateGeneratedDocument
+   */
+  updateGeneratedDocument: {
+    methodKind: "unary";
+    input: typeof UpdateGeneratedDocumentRequestSchema;
+    output: typeof GeneratedDocumentSchema;
+  },
+  /**
+   * @generated from rpc assistant.v1.AssistantService.DeleteGeneratedDocument
+   */
+  deleteGeneratedDocument: {
+    methodKind: "unary";
+    input: typeof DeleteGeneratedDocumentRequestSchema;
+    output: typeof DeleteGeneratedDocumentResponseSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_assistant_v1_assistant, 0);
