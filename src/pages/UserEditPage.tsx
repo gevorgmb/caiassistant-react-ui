@@ -159,6 +159,10 @@ export function UserEditPage() {
 
       <form id="user-edit-form" className="stack-form" onSubmit={onSave}>
         <label>
+          {t.users.name}
+          <input value={officeUser.userName || t.common.empty} disabled />
+        </label>
+        <label>
           {t.users.role}
           <select
             value={role}

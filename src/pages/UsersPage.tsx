@@ -102,6 +102,7 @@ export function UsersPage() {
           <table className="data-table">
             <thead>
               <tr>
+                <th>{t.users.name}</th>
                 <th>{t.users.role}</th>
                 <th>{t.users.position}</th>
                 <th>{t.users.active}</th>
@@ -111,6 +112,7 @@ export function UsersPage() {
             <tbody>
               {users.map((user) => (
                 <tr key={user.id}>
+                  <td>{user.userName || t.common.empty}</td>
                   <td>{roleLabel(user.role, t)}</td>
                   <td>{positionName(user.positionId)}</td>
                   <td>{user.isActive ? t.common.yes : t.common.no}</td>
