@@ -39,6 +39,7 @@ import "../styles/ui.css";
 const ASSISTANT_LANGUAGE_BY_LOCALE: Record<Locale, Language> = {
   en: Language.ENGLISH,
   hy: Language.ARMENIAN,
+  ru: Language.RUSSIAN,
 };
 
 export function AiAssistantFunctionPage() {
