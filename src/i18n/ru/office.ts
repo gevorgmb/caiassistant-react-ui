@@ -1,0 +1,75 @@
+import type { Messages } from "../types.ts";
+
+export const office: Messages["office"] = {
+  title: "Офис",
+  createTitle: "Создать офис",
+  editTitle: "Редактировать офис",
+  loading: "Загрузка офиса…",
+  empty: "Вы ещё не привязаны к офису. Создайте его, чтобы начать.",
+  name: "Название",
+  phone: "Телефон",
+  email: "Эл. почта",
+  description: "Описание",
+};
+
+export const users: Messages["users"] = {
+  title: "Пользователи",
+  newUser: "Новый пользователь",
+  newTitle: "Новый пользователь",
+  editTitle: "Редактировать пользователя",
+  needOffice: "Сначала нужен офис, чтобы управлять пользователями.",
+  officeMembers: "Сотрудники офиса {name}.",
+  loading: "Загрузка пользователей…",
+  empty: "В офисе пока нет пользователей.",
+  role: "Роль",
+  position: "Должность",
+  active: "Активен",
+  actions: "Действия",
+  editUser: "Редактировать пользователя",
+  deleteUser: "Удалить пользователя",
+  confirmRemove: "Удалить этого пользователя офиса?",
+  loadingUser: "Загрузка пользователя…",
+  notFound: "Пользователь офиса не найден.",
+  noPosition: "Без должности",
+  contacts: "Контакты",
+  addContact: "Добавить контакт",
+  editContact: "Редактировать контакт",
+  deleteContact: "Удалить контакт",
+  noContacts: "Контактов пока нет.",
+  address: "Адрес",
+  phone: "Телефон",
+  description: "Описание",
+  primary: "Основной",
+  confirmDeleteContact: "Удалить этот контакт?",
+  searchLede:
+    "Найдите пользователей без членства в офисе и добавьте в {name}.",
+  search: "Поиск",
+  searchPlaceholder: "Имя или эл. почта",
+  searching: "Поиск…",
+  noUsersFound: "Пользователи не найдены.",
+  name: "Имя",
+  email: "Эл. почта",
+  addUser: "Добавить",
+  addUserAria: "Добавить {name}",
+  addToOffice: "Добавить пользователя в офис",
+};
+
+export const positions: Messages["positions"] = {
+  title: "Должности",
+  createTitle: "Создать должность",
+  editTitle: "Редактировать должность",
+  needOffice: "Сначала нужен офис, чтобы управлять должностями.",
+  lede: "Должности офиса {name}.",
+  loading: "Загрузка должностей…",
+  empty: "Должностей пока нет.",
+  name: "Название",
+  actions: "Действия",
+  confirmDelete: "Удалить должность «{name}»?",
+  loadingPosition: "Загрузка должности…",
+};
+
+export const roles: Messages["roles"] = {
+  manager: "Руководитель",
+  user: "Пользователь",
+  unspecified: "Не указано",
+};

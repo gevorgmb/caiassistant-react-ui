@@ -1,6 +1,7 @@
 export const LOCALES = {
   en: { nativeName: "English", tag: "en" },
   hy: { nativeName: "Հայերեն", tag: "hy-AM" },
+  ru: { nativeName: "Русский", tag: "ru-RU" },
 } as const;
 
 export type Locale = keyof typeof LOCALES;

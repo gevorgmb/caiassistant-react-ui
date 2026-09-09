@@ -121,7 +121,11 @@ function asString(value: unknown): string | undefined {
 }
 
 function asLanguage(value: unknown, fallback: Language): Language {
-  if (value === Language.ENGLISH || value === Language.ARMENIAN) {
+  if (
+    value === Language.ENGLISH ||
+    value === Language.ARMENIAN ||
+    value === Language.RUSSIAN
+  ) {
     return value;
   }
   return fallback;
