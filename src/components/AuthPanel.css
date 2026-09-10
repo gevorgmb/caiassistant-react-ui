@@ -59,7 +59,8 @@ label {
   color: var(--text-h);
 }
 
-input {
+input,
+select {
   font: inherit;
   padding: 0.65rem 0.75rem;
   border: 1px solid var(--border);
@@ -68,7 +69,8 @@ input {
   color: var(--text-h);
 }
 
-input:focus {
+input:focus,
+select:focus {
   outline: 2px solid var(--accent-border);
   outline-offset: 1px;
 }

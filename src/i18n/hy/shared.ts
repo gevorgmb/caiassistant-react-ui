@@ -58,6 +58,7 @@ export const auth: Messages["auth"] = {
   createAccount: "Ստեղծել հաշիվ",
   name: "Անուն",
   email: "Էլ․ փոստ",
+  country: "Երկիր",
   password: "Գաղտնաբառ",
   showPassword: "Ցույց տալ գաղտնաբառը",
   hidePassword: "Թաքցնել գաղտնաբառը",
@@ -67,8 +68,16 @@ export const auth: Messages["auth"] = {
 export const settings: Messages["settings"] = {
   title: "Կարգավորումներ",
   noProfile: "Այս նիստի համար օգտատիրոջ պրոֆիլ չկա։",
-  userId: "Օգտատիրոջ ID",
+  loading: "Պրոֆիլը բեռնվում է…",
   name: "Անուն",
   email: "Էլ․ փոստ",
+  country: "Երկիր",
   language: "Լեզու",
+};
+
+export const cookies: Messages["cookies"] = {
+  title: "Հիշե՞լ այս լեզուն",
+  body: "Մենք օգտագործում ենք միայն մեկ cookie՝ այս սարքում ձեր միջերեսի լեզուն հիշելու համար, որպեսզի հավելվածը հաջորդ անգամ բացվի նույն լեզվով։ Թույլատրե՞լ այս cookie-ն։",
+  accept: "Թույլատրել",
+  decline: "Ոչ հիմա",
 };
