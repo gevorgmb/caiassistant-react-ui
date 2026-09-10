@@ -6,6 +6,7 @@ import { officeClient } from "../api/client.ts";
 import { errorMessage } from "../api/errors.ts";
 import { EDITABLE_ROLES, roleLabel } from "../lib/roles.ts";
 import { useI18n } from "../i18n/I18nContext.tsx";
+import { displayCountry } from "../lib/countries.ts";
 import "../styles/ui.css";
 
 type AddOfficeUserModalProps = {
@@ -23,7 +24,7 @@ export function AddOfficeUserModal({
   onClose,
   onSaved,
 }: AddOfficeUserModalProps) {
-  const { t } = useI18n();
+  const { t, localeTag } = useI18n();
   const [role, setRole] = useState<OfficeUserRole>(OfficeUserRole.USER);
   const [positionId, setPositionId] = useState("");
   const [isActive, setIsActive] = useState(true);
@@ -76,6 +77,9 @@ export function AddOfficeUserModal({
         <h2 id="add-office-user-title">{t.users.addToOffice}</h2>
         <p className="page-lede">
           {user.name || t.common.empty} ({user.email || t.common.empty})
+          {user.country
+            ? ` · ${displayCountry(user.country, localeTag, t.common.empty)}`
+            : ""}
         </p>
         <form className="stack-form" onSubmit={onSubmit}>
           <label>

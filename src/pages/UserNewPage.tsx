@@ -8,13 +8,14 @@ import { errorMessage } from "../api/errors.ts";
 import { AddIcon } from "../components/ActionIcons.tsx";
 import { AddOfficeUserModal } from "../components/AddOfficeUserModal.tsx";
 import { useI18n } from "../i18n/I18nContext.tsx";
+import { displayCountry } from "../lib/countries.ts";
 import "../styles/ui.css";
 
 const PAGE_SIZE = 10;
 
 export function UserNewPage() {
   const { office } = useAuth();
-  const { t, fmt } = useI18n();
+  const { t, fmt, localeTag } = useI18n();
   const navigate = useNavigate();
 
   const [searchText, setSearchText] = useState("");
@@ -122,6 +123,7 @@ export function UserNewPage() {
                 <tr>
                   <th>{t.users.name}</th>
                   <th>{t.users.email}</th>
+                  <th>{t.users.country}</th>
                   <th>{t.users.actions}</th>
                 </tr>
               </thead>
@@ -130,6 +132,9 @@ export function UserNewPage() {
                   <tr key={user.id}>
                     <td>{user.name || t.common.empty}</td>
                     <td>{user.email || t.common.empty}</td>
+                    <td>
+                      {displayCountry(user.country, localeTag, t.common.empty)}
+                    </td>
                     <td>
                       <div className="data-table__actions">
                         <button

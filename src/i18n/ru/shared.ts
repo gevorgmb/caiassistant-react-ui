@@ -58,6 +58,7 @@ export const auth: Messages["auth"] = {
   createAccount: "Создать аккаунт",
   name: "Имя",
   email: "Эл. почта",
+  country: "Страна",
   password: "Пароль",
   showPassword: "Показать пароль",
   hidePassword: "Скрыть пароль",
@@ -67,8 +68,16 @@ export const auth: Messages["auth"] = {
 export const settings: Messages["settings"] = {
   title: "Настройки",
   noProfile: "Профиль пользователя недоступен для этой сессии.",
-  userId: "ID пользователя",
+  loading: "Загрузка профиля…",
   name: "Имя",
   email: "Эл. почта",
+  country: "Страна",
   language: "Язык",
+};
+
+export const cookies: Messages["cookies"] = {
+  title: "Запомнить этот язык?",
+  body: "Мы используем cookie только для сохранения языка интерфейса на этом устройстве, чтобы приложение открывалось на том же языке в следующий раз. Разрешить этот cookie?",
+  accept: "Разрешить",
+  decline: "Не сейчас",
 };

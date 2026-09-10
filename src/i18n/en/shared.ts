@@ -56,6 +56,7 @@ export const auth = {
   createAccount: "Create account",
   name: "Name",
   email: "Email",
+  country: "Country",
   password: "Password",
   showPassword: "Show password",
   hidePassword: "Hide password",
@@ -65,8 +66,16 @@ export const auth = {
 export const settings = {
   title: "Settings",
   noProfile: "No user profile is available for this session.",
-  userId: "User ID",
+  loading: "Loading profile…",
   name: "Name",
   email: "Email",
+  country: "Country",
   language: "Language",
+};
+
+export const cookies = {
+  title: "Remember this language?",
+  body: "We use a cookie only to save your UI language on this device so the app can open in the same language next time. Allow this cookie?",
+  accept: "Allow",
+  decline: "Not now",
 };

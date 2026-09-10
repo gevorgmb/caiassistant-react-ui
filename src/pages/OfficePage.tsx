@@ -1,8 +1,15 @@
-import { useEffect, useState, type SubmitEvent } from "react";
+import { useEffect, useState } from "react";
+import type { Office } from "../gen/common/v1/office_pb.js";
 import { useAuth } from "../auth/AuthContext.tsx";
 import { officeClient } from "../api/client.ts";
 import { errorMessage } from "../api/errors.ts";
+import { CountrySelect } from "../components/CountrySelect.tsx";
 import { useI18n } from "../i18n/I18nContext.tsx";
+import {
+  displayCountry,
+  optionalCountry,
+  suggestedCountryCode,
+} from "../lib/countries.ts";
 import "../styles/ui.css";
 
 type Mode = "view" | "edit" | "create";
@@ -12,6 +19,7 @@ type OfficeFormState = {
   phone: string;
   email: string;
   description: string;
+  country: string;
 };
 
 const emptyForm: OfficeFormState = {
@@ -19,11 +27,31 @@ const emptyForm: OfficeFormState = {
   phone: "",
   email: "",
   description: "",
+  country: "",
 };
 
+function formFromOffice(
+  office: Office,
+  suggestCountry: boolean,
+  userCountry?: string,
+): OfficeFormState {
+  const country = office.country?.trim() ?? "";
+  return {
+    name: office.name,
+    phone: office.phone ?? "",
+    email: office.email ?? "",
+    description: office.description ?? "",
+    country:
+      country ||
+      (suggestCountry ? (suggestedCountryCode(userCountry) ?? "") : ""),
+  };
+}
+
 export function OfficePage() {
-  const { office, officeLoading, setOffice, refreshOffice } = useAuth();
-  const { t } = useI18n();
+  const { office, officeLoading, setOffice, refreshOffice, session } =
+    useAuth();
+  const { t, localeTag } = useI18n();
+  const userCountry = session?.user?.country;
   const [mode, setMode] = useState<Mode>("view");
   const [form, setForm] = useState<OfficeFormState>(emptyForm);
   const [busy, setBusy] = useState(false);
@@ -31,31 +59,24 @@ export function OfficePage() {
 
   useEffect(() => {
     if (mode === "view" && office) {
-      setForm({
-        name: office.name,
-        phone: office.phone ?? "",
-        email: office.email ?? "",
-        description: office.description ?? "",
-      });
+      setForm(formFromOffice(office, false));
     }
   }, [office, mode]);
 
   function startEdit() {
     if (!office) return;
-    setForm({
-      name: office.name,
-      phone: office.phone ?? "",
-      email: office.email ?? "",
-      description: office.description ?? "",
-    });
+    setForm(formFromOffice(office, true, userCountry));
     setError(null);
-    setMode("edit");
+    window.setTimeout(() => setMode("edit"), 0);
   }
 
   function startCreate() {
-    setForm(emptyForm);
+    setForm({
+      ...emptyForm,
+      country: suggestedCountryCode(userCountry) ?? "",
+    });
     setError(null);
-    setMode("create");
+    window.setTimeout(() => setMode("create"), 0);
   }
 
   function cancel() {
@@ -63,8 +84,7 @@ export function OfficePage() {
     setMode("view");
   }
 
-  async function onSave(event: SubmitEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function save() {
     setBusy(true);
     setError(null);
     try {
@@ -73,6 +93,7 @@ export function OfficePage() {
         phone: form.phone.trim() || undefined,
         email: form.email.trim() || undefined,
         description: form.description.trim() || undefined,
+        country: optionalCountry(form.country),
       };
       if (mode === "create") {
         const created = await officeClient.createOffice(payload);
@@ -108,10 +129,10 @@ export function OfficePage() {
           <h1>{mode === "create" ? t.office.createTitle : t.office.editTitle}</h1>
           <div className="page-header__actions">
             <button
-              type="submit"
-              form="office-form"
+              type="button"
               className="btn"
               disabled={busy}
+              onClick={() => void save()}
             >
               {busy ? t.common.saving : t.common.save}
             </button>
@@ -126,7 +147,13 @@ export function OfficePage() {
           </div>
         </div>
 
-        <form id="office-form" className="stack-form" onSubmit={onSave}>
+        <form
+          className="stack-form"
+          onSubmit={(event) => {
+            event.preventDefault();
+            void save();
+          }}
+        >
           <label>
             {t.office.name}
             <input
@@ -157,6 +184,13 @@ export function OfficePage() {
               onChange={(e) =>
                 setForm({ ...form, description: e.target.value })
               }
+            />
+          </label>
+          <label>
+            {t.office.country}
+            <CountrySelect
+              value={form.country}
+              onChange={(country) => setForm({ ...form, country })}
             />
           </label>
           {error ? <p className="error">{error}</p> : null}
@@ -208,6 +242,10 @@ export function OfficePage() {
         <div>
           <dt>{t.office.description}</dt>
           <dd>{office.description || t.common.empty}</dd>
+        </div>
+        <div>
+          <dt>{t.office.country}</dt>
+          <dd>{displayCountry(office.country, localeTag, t.common.empty)}</dd>
         </div>
       </dl>
     </section>

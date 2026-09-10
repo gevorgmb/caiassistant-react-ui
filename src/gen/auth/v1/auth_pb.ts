@@ -4,7 +4,7 @@
 
 import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
-import type { User } from "../../common/v1/user_pb.js";
+import type { User, UserSchema } from "../../common/v1/user_pb.js";
 import { file_common_v1_user } from "../../common/v1/user_pb.js";
 import type { Message } from "@bufbuild/protobuf";
 
@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file auth/v1/auth.proto.
  */
 export const file_auth_v1_auth: GenFile = /*@__PURE__*/
-  fileDesc("ChJhdXRoL3YxL2F1dGgucHJvdG8SB2F1dGgudjEiQAoPUmVnaXN0ZXJSZXF1ZXN0Eg0KBWVtYWlsGAEgASgJEhAKCHBhc3N3b3JkGAIgASgJEgwKBG5hbWUYAyABKAkiLwoMTG9naW5SZXF1ZXN0Eg0KBWVtYWlsGAEgASgJEhAKCHBhc3N3b3JkGAIgASgJImgKCUF1dGhUb2tlbhIUCgxhY2Nlc3NfdG9rZW4YASABKAkSEgoKdG9rZW5fdHlwZRgCIAEoCRISCgpleHBpcmVzX2luGAMgASgDEh0KBHVzZXIYBCABKAsyDy5jb21tb24udjEuVXNlciIlCg1Mb2dvdXRSZXF1ZXN0EhQKDGFjY2Vzc190b2tlbhgBIAEoCSIhCg5Mb2dvdXRSZXNwb25zZRIPCgdzdWNjZXNzGAEgASgIMrYBCgtBdXRoU2VydmljZRI4CghSZWdpc3RlchIYLmF1dGgudjEuUmVnaXN0ZXJSZXF1ZXN0GhIuYXV0aC52MS5BdXRoVG9rZW4SMgoFTG9naW4SFS5hdXRoLnYxLkxvZ2luUmVxdWVzdBoSLmF1dGgudjEuQXV0aFRva2VuEjkKBkxvZ291dBIWLmF1dGgudjEuTG9nb3V0UmVxdWVzdBoXLmF1dGgudjEuTG9nb3V0UmVzcG9uc2VCQFo+Z2l0aHViLmNvbS9nZXZvcmdtYi9jYWlhc3Npc3RhbnQtZ28tYXBpL2FwaS9nZW4vYXV0aC92MTthdXRodjFiBnByb3RvMw", [file_common_v1_user]);
+  fileDesc("ChJhdXRoL3YxL2F1dGgucHJvdG8SB2F1dGgudjEiYgoPUmVnaXN0ZXJSZXF1ZXN0Eg0KBWVtYWlsGAEgASgJEhAKCHBhc3N3b3JkGAIgASgJEgwKBG5hbWUYAyABKAkSFAoHY291bnRyeRgEIAEoCUgAiAEBQgoKCF9jb3VudHJ5Ii8KDExvZ2luUmVxdWVzdBINCgVlbWFpbBgBIAEoCRIQCghwYXNzd29yZBgCIAEoCSJoCglBdXRoVG9rZW4SFAoMYWNjZXNzX3Rva2VuGAEgASgJEhIKCnRva2VuX3R5cGUYAiABKAkSEgoKZXhwaXJlc19pbhgDIAEoAxIdCgR1c2VyGAQgASgLMg8uY29tbW9uLnYxLlVzZXIiJQoNTG9nb3V0UmVxdWVzdBIUCgxhY2Nlc3NfdG9rZW4YASABKAkiIQoOTG9nb3V0UmVzcG9uc2USDwoHc3VjY2VzcxgBIAEoCCIcCg5HZXRVc2VyUmVxdWVzdBIKCgJpZBgBIAEoCSJJChFVcGRhdGVVc2VyUmVxdWVzdBIMCgRuYW1lGAIgASgJEhQKB2NvdW50cnkYAyABKAlIAIgBAUIKCghfY291bnRyeUoECAEQAjKmAgoLQXV0aFNlcnZpY2USOAoIUmVnaXN0ZXISGC5hdXRoLnYxLlJlZ2lzdGVyUmVxdWVzdBoSLmF1dGgudjEuQXV0aFRva2VuEjIKBUxvZ2luEhUuYXV0aC52MS5Mb2dpblJlcXVlc3QaEi5hdXRoLnYxLkF1dGhUb2tlbhI5CgZMb2dvdXQSFi5hdXRoLnYxLkxvZ291dFJlcXVlc3QaFy5hdXRoLnYxLkxvZ291dFJlc3BvbnNlEjMKB0dldFVzZXISFy5hdXRoLnYxLkdldFVzZXJSZXF1ZXN0Gg8uY29tbW9uLnYxLlVzZXISOQoKVXBkYXRlVXNlchIaLmF1dGgudjEuVXBkYXRlVXNlclJlcXVlc3QaDy5jb21tb24udjEuVXNlckJAWj5naXRodWIuY29tL2dldm9yZ21iL2NhaWFzc2lzdGFudC1nby1hcGkvYXBpL2dlbi9hdXRoL3YxO2F1dGh2MWIGcHJvdG8z", [file_common_v1_user]);
 
 /**
  * @generated from message auth.v1.RegisterRequest
@@ -32,6 +32,11 @@ export type RegisterRequest = Message<"auth.v1.RegisterRequest"> & {
    * @generated from field: string name = 3;
    */
   name: string;
+
+  /**
+   * @generated from field: optional string country = 4;
+   */
+  country?: string | undefined;
 };
 
 /**
@@ -138,6 +143,45 @@ export const LogoutResponseSchema: GenMessage<LogoutResponse> = /*@__PURE__*/
   messageDesc(file_auth_v1_auth, 4);
 
 /**
+ * @generated from message auth.v1.GetUserRequest
+ */
+export type GetUserRequest = Message<"auth.v1.GetUserRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message auth.v1.GetUserRequest.
+ * Use `create(GetUserRequestSchema)` to create a new message.
+ */
+export const GetUserRequestSchema: GenMessage<GetUserRequest> = /*@__PURE__*/
+  messageDesc(file_auth_v1_auth, 5);
+
+/**
+ * @generated from message auth.v1.UpdateUserRequest
+ */
+export type UpdateUserRequest = Message<"auth.v1.UpdateUserRequest"> & {
+  /**
+   * @generated from field: string name = 2;
+   */
+  name: string;
+
+  /**
+   * @generated from field: optional string country = 3;
+   */
+  country?: string | undefined;
+};
+
+/**
+ * Describes the message auth.v1.UpdateUserRequest.
+ * Use `create(UpdateUserRequestSchema)` to create a new message.
+ */
+export const UpdateUserRequestSchema: GenMessage<UpdateUserRequest> = /*@__PURE__*/
+  messageDesc(file_auth_v1_auth, 6);
+
+/**
  * AuthService handles registration and session tokens.
  *
  * @generated from service auth.v1.AuthService
@@ -172,6 +216,26 @@ export const AuthService: GenService<{
     methodKind: "unary";
     input: typeof LogoutRequestSchema;
     output: typeof LogoutResponseSchema;
+  },
+  /**
+   * Fetch a user profile by id.
+   *
+   * @generated from rpc auth.v1.AuthService.GetUser
+   */
+  getUser: {
+    methodKind: "unary";
+    input: typeof GetUserRequestSchema;
+    output: typeof UserSchema;
+  },
+  /**
+   * Update the authenticated user's profile.
+   *
+   * @generated from rpc auth.v1.AuthService.UpdateUser
+   */
+  updateUser: {
+    methodKind: "unary";
+    input: typeof UpdateUserRequestSchema;
+    output: typeof UserSchema;
   },
 }> = /*@__PURE__*/
   serviceDesc(file_auth_v1_auth, 0);

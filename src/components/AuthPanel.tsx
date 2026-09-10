@@ -2,6 +2,8 @@ import { useState, type SubmitEvent } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext.tsx";
 import { useI18n } from "../i18n/I18nContext.tsx";
+import { optionalCountry } from "../lib/countries.ts";
+import { CountrySelect } from "./CountrySelect.tsx";
 import { EyeIcon, EyeOffIcon } from "./ActionIcons.tsx";
 import "./AuthPanel.css";
 
@@ -14,6 +16,7 @@ export function AuthPanel() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [country, setCountry] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   if (session) {
@@ -26,7 +29,7 @@ export function AuthPanel() {
       if (mode === "login") {
         await login(email, password);
       } else {
-        await register(email, password, name);
+        await register(email, password, name, optionalCountry(country));
       }
       setPassword("");
     } catch {
@@ -69,16 +72,26 @@ export function AuthPanel() {
 
       <form onSubmit={onSubmit}>
         {mode === "register" ? (
-          <label>
-            {t.auth.name}
-            <input
-              name="name"
-              autoComplete="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </label>
+          <>
+            <label>
+              {t.auth.name}
+              <input
+                name="name"
+                autoComplete="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </label>
+            <label>
+              {t.auth.country}
+              <CountrySelect
+                name="country"
+                value={country}
+                onChange={setCountry}
+              />
+            </label>
+          </>
         ) : null}
 
         <label>

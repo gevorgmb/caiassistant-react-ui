@@ -29,7 +29,12 @@ type AuthContextValue = {
   error: string | null;
   clearError: () => void;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, name: string) => Promise<void>;
+  register: (
+    email: string,
+    password: string,
+    name: string,
+    country?: string,
+  ) => Promise<void>;
   logout: () => Promise<void>;
   refreshOffice: () => Promise<void>;
   setOffice: (office: Office | null) => void;
@@ -42,7 +47,12 @@ function sessionFromToken(token: {
   accessToken: string;
   tokenType: string;
   expiresIn: bigint | number | string;
-  user?: { id: string; email: string; name: string } | undefined;
+  user?: {
+    id: string;
+    email: string;
+    name: string;
+    country?: string;
+  } | undefined;
 }): Session {
   const expiresInSeconds = Number(token.expiresIn);
   return {
@@ -55,6 +65,7 @@ function sessionFromToken(token: {
           id: token.user.id,
           email: token.user.email,
           name: token.user.name,
+          country: token.user.country,
         }
       : undefined,
   };
@@ -136,13 +147,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [clearLocalSession]);
 
   useEffect(() => {
-    if (!session) {
+    if (!session?.accessToken) {
       setOffice(null);
       setOfficeLoading(false);
       return;
     }
     void refreshOffice();
-  }, [session, refreshOffice]);
+  }, [session?.accessToken, refreshOffice]);
 
   const login = useCallback(async (email: string, password: string) => {
     setBusy(true);
@@ -165,11 +176,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const register = useCallback(
-    async (email: string, password: string, name: string) => {
+    async (email: string, password: string, name: string, country?: string) => {
       setBusy(true);
       setError(null);
       try {
-        const token = await authClient.register({ email, password, name });
+        const token = await authClient.register({
+          email,
+          password,
+          name,
+          country,
+        });
         const next = sessionFromToken(token);
         if (!next.accessToken) {
           throw new Error("Register succeeded but no access token was returned");

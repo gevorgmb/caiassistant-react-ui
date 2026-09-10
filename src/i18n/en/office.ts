@@ -7,6 +7,7 @@ export const office = {
   name: "Name",
   phone: "Phone",
   email: "Email",
+  country: "Country",
   description: "Description",
 };
 
@@ -47,6 +48,7 @@ export const users = {
   noUsersFound: "No users found.",
   name: "Name",
   email: "Email",
+  country: "Country",
   addUser: "Add",
   addUserAria: "Add {name}",
   addToOffice: "Add user to office",

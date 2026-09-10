@@ -10,7 +10,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file common/v1/user.proto.
  */
 export const file_common_v1_user: GenFile = /*@__PURE__*/
-  fileDesc("ChRjb21tb24vdjEvdXNlci5wcm90bxIJY29tbW9uLnYxIi8KBFVzZXISCgoCaWQYASABKAkSDQoFZW1haWwYAiABKAkSDAoEbmFtZRgDIAEoCUJEWkJnaXRodWIuY29tL2dldm9yZ21iL2NhaWFzc2lzdGFudC1nby1hcGkvYXBpL2dlbi9jb21tb24vdjE7Y29tbW9udjFiBnByb3RvMw");
+  fileDesc("ChRjb21tb24vdjEvdXNlci5wcm90bxIJY29tbW9uLnYxIlEKBFVzZXISCgoCaWQYASABKAkSDQoFZW1haWwYAiABKAkSDAoEbmFtZRgDIAEoCRIUCgdjb3VudHJ5GAQgASgJSACIAQFCCgoIX2NvdW50cnlCRFpCZ2l0aHViLmNvbS9nZXZvcmdtYi9jYWlhc3Npc3RhbnQtZ28tYXBpL2FwaS9nZW4vY29tbW9uL3YxO2NvbW1vbnYxYgZwcm90bzM");
 
 /**
  * User is the shared public user profile.
@@ -32,6 +32,11 @@ export type User = Message<"common.v1.User"> & {
    * @generated from field: string name = 3;
    */
   name: string;
+
+  /**
+   * @generated from field: optional string country = 4;
+   */
+  country?: string | undefined;
 };
 
 /**

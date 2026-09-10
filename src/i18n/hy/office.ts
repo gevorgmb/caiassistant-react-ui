@@ -9,6 +9,7 @@ export const office: Messages["office"] = {
   name: "Անուն",
   phone: "Հեռախոս",
   email: "Էլ․ փոստ",
+  country: "Երկիր",
   description: "Նկարագրություն",
 };
 
@@ -49,6 +50,7 @@ export const users: Messages["users"] = {
   noUsersFound: "Օգտատերեր չեն գտնվել։",
   name: "Անուն",
   email: "Էլ․ փոստ",
+  country: "Երկիր",
   addUser: "Ավելացնել",
   addUserAria: "Ավելացնել {name}",
   addToOffice: "Ավելացնել օգտատեր գրասենյակում",

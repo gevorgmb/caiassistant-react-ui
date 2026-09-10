@@ -1,57 +1,106 @@
-import { useEffect, useState, type SubmitEvent } from "react";
+import { useEffect, useState } from "react";
+import type { User } from "../gen/common/v1/user_pb.js";
 import { useAuth } from "../auth/AuthContext.tsx";
+import { authClient } from "../api/client.ts";
+import { errorMessage } from "../api/errors.ts";
+import { CountrySelect } from "../components/CountrySelect.tsx";
 import { LanguageSwitcher } from "../components/LanguageSwitcher.tsx";
 import { useI18n } from "../i18n/I18nContext.tsx";
+import { displayCountry, optionalCountry, suggestedCountryCode } from "../lib/countries.ts";
 import "../styles/ui.css";
 
 type Mode = "view" | "edit";
 
 type ProfileForm = {
   name: string;
-  email: string;
+  country: string;
 };
+
+function formFromUser(user: User, suggestCountry = false): ProfileForm {
+  const country = user.country?.trim() ?? "";
+  return {
+    name: user.name,
+    country: country || (suggestCountry ? (suggestedCountryCode() ?? "") : ""),
+  };
+}
 
 export function SettingsPage() {
   const { session, updateUser } = useAuth();
-  const { t } = useI18n();
-  const user = session?.user;
+  const { t, localeTag } = useI18n();
+  const userId = session?.user?.id;
+  const [profile, setProfile] = useState<User | null>(null);
   const [mode, setMode] = useState<Mode>("view");
-  const [form, setForm] = useState<ProfileForm>({ name: "", email: "" });
+  const [form, setForm] = useState<ProfileForm>({ name: "", country: "" });
+  const [loading, setLoading] = useState(!!userId);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (mode === "view" && user) {
-      setForm({ name: user.name, email: user.email });
+    if (!userId) {
+      setProfile(null);
+      setLoading(false);
+      return;
     }
-  }, [user, mode]);
+
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+
+    void authClient
+      .getUser({ id: userId })
+      .then((user) => {
+        if (cancelled) return;
+        setProfile(user);
+        setForm(formFromUser(user));
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        setError(errorMessage(err));
+        setProfile(null);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [userId]);
 
   function startEdit() {
-    if (!user) return;
-    setForm({ name: user.name, email: user.email });
+    if (!profile) return;
+    setForm(formFromUser(profile, true));
     setError(null);
-    setMode("edit");
+    // Wait until this click finishes so it cannot activate Save.
+    window.setTimeout(() => setMode("edit"), 0);
   }
 
   function cancel() {
+    if (profile) setForm(formFromUser(profile));
     setError(null);
     setMode("view");
   }
 
-  function onSave(event: SubmitEvent<HTMLFormElement>) {
-    event.preventDefault();
-    if (!user) return;
+  async function save() {
+    if (!profile) return;
     setBusy(true);
     setError(null);
     try {
-      updateUser({
-        id: user.id,
+      const updated = await authClient.updateUser({
         name: form.name.trim(),
-        email: form.email.trim(),
+        country: optionalCountry(form.country),
+      });
+      setProfile(updated);
+      setForm(formFromUser(updated));
+      updateUser({
+        id: updated.id,
+        email: updated.email,
+        name: updated.name,
+        country: updated.country,
       });
       setMode("view");
     } catch (err) {
-      setError(err instanceof Error ? err.message : t.common.failedToSave);
+      setError(errorMessage(err));
     } finally {
       setBusy(false);
     }
@@ -61,13 +110,13 @@ export function SettingsPage() {
     <section className="page">
       <div className="page-header">
         <h1>{t.settings.title}</h1>
-        {user && mode === "edit" ? (
+        {profile && mode === "edit" ? (
           <div className="page-header__actions">
             <button
-              type="submit"
-              form="settings-form"
+              type="button"
               className="btn"
               disabled={busy}
+              onClick={() => void save()}
             >
               {busy ? t.common.saving : t.common.save}
             </button>
@@ -80,7 +129,7 @@ export function SettingsPage() {
               {t.common.cancel}
             </button>
           </div>
-        ) : user ? (
+        ) : profile && !loading ? (
           <div className="page-header__actions">
             <button type="button" className="btn" onClick={startEdit}>
               {t.common.edit}
@@ -93,14 +142,18 @@ export function SettingsPage() {
         <LanguageSwitcher labeled />
       </div>
 
-      {!user ? (
+      {!userId ? (
         <p className="empty-state">{t.settings.noProfile}</p>
-      ) : mode === "edit" ? (
-        <form id="settings-form" className="stack-form" onSubmit={onSave}>
-          <label>
-            {t.settings.userId}
-            <input value={user.id} disabled />
-          </label>
+      ) : loading ? (
+        <p className="page-lede">{t.settings.loading}</p>
+      ) : mode === "edit" && profile ? (
+        <form
+          className="stack-form"
+          onSubmit={(event) => {
+            event.preventDefault();
+            void save();
+          }}
+        >
           <label>
             {t.settings.name}
             <input
@@ -111,32 +164,42 @@ export function SettingsPage() {
           </label>
           <label>
             {t.settings.email}
-            <input
-              type="email"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              required
+            <input type="email" value={profile.email} disabled />
+          </label>
+          <label>
+            {t.settings.country}
+            <CountrySelect
+              value={form.country}
+              onChange={(country) => setForm({ ...form, country })}
             />
           </label>
           {error ? <p className="error">{error}</p> : null}
         </form>
+      ) : profile ? (
+        <>
+          {error ? <p className="error">{error}</p> : null}
+          <dl className="detail-list">
+            <div>
+              <dt>{t.settings.name}</dt>
+              <dd>{profile.name || t.common.empty}</dd>
+            </div>
+            <div>
+              <dt>{t.settings.email}</dt>
+              <dd>{profile.email || t.common.empty}</dd>
+            </div>
+            <div>
+              <dt>{t.settings.country}</dt>
+              <dd>
+                {displayCountry(profile.country, localeTag, t.common.empty)}
+              </dd>
+            </div>
+          </dl>
+        </>
       ) : (
-        <dl className="detail-list">
-          <div>
-            <dt>{t.settings.userId}</dt>
-            <dd>
-              <code>{user.id}</code>
-            </dd>
-          </div>
-          <div>
-            <dt>{t.settings.name}</dt>
-            <dd>{user.name || t.common.empty}</dd>
-          </div>
-          <div>
-            <dt>{t.settings.email}</dt>
-            <dd>{user.email || t.common.empty}</dd>
-          </div>
-        </dl>
+        <>
+          {error ? <p className="error">{error}</p> : null}
+          <p className="empty-state">{t.settings.noProfile}</p>
+        </>
       )}
     </section>
   );
