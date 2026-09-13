@@ -7,6 +7,11 @@
   --accent: #1f6b4a;
   --accent-bg: rgba(31, 107, 74, 0.12);
   --accent-border: rgba(31, 107, 74, 0.45);
+  --day-working: color-mix(in srgb, var(--accent) 16%, var(--bg));
+  --day-working-border: color-mix(in srgb, var(--accent) 38%, var(--border));
+  --day-off: #f6e6e2;
+  --day-off-border: #d7b0a8;
+  --day-off-text: #8a3b32;
 
   --sans: "IBM Plex Sans", "IBM Plex Sans Armenian", "Segoe UI", sans-serif;
   --heading: "IBM Plex Sans", "IBM Plex Sans Armenian", "Segoe UI", sans-serif;
@@ -32,6 +37,11 @@
     --accent: #5dba8d;
     --accent-bg: rgba(93, 186, 141, 0.14);
     --accent-border: rgba(93, 186, 141, 0.5);
+    --day-working: color-mix(in srgb, var(--accent) 18%, var(--bg));
+    --day-working-border: color-mix(in srgb, var(--accent) 42%, var(--border));
+    --day-off: #2a1917;
+    --day-off-border: #7a4a43;
+    --day-off-text: #e3b3ac;
     color-scheme: dark;
   }
 }
