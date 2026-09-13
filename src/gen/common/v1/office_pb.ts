@@ -12,7 +12,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file common/v1/office.proto.
  */
 export const file_common_v1_office: GenFile = /*@__PURE__*/
-  fileDesc("ChZjb21tb24vdjEvb2ZmaWNlLnByb3RvEgljb21tb24udjEiqgEKBk9mZmljZRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhIKBXBob25lGAMgASgJSACIAQESEgoFZW1haWwYBCABKAlIAYgBARIYCgtkZXNjcmlwdGlvbhgFIAEoCUgCiAEBEhQKB2NvdW50cnkYBiABKAlIA4gBAUIICgZfcGhvbmVCCAoGX2VtYWlsQg4KDF9kZXNjcmlwdGlvbkIKCghfY291bnRyeSI9Cg5PZmZpY2VQb3NpdGlvbhIKCgJpZBgBIAEoCRIRCglvZmZpY2VfaWQYAiABKAkSDAoEbmFtZRgDIAEoCSK1AQoKT2ZmaWNlVXNlchIKCgJpZBgBIAEoCRIRCglvZmZpY2VfaWQYAiABKAkSDwoHdXNlcl9pZBgDIAEoCRInCgRyb2xlGAQgASgOMhkuY29tbW9uLnYxLk9mZmljZVVzZXJSb2xlEhgKC3Bvc2l0aW9uX2lkGAUgASgJSACIAQESEQoJaXNfYWN0aXZlGAYgASgIEhEKCXVzZXJfbmFtZRgHIAEoCUIOCgxfcG9zaXRpb25faWQiyAEKEU9mZmljZVVzZXJDb250YWN0EgoKAmlkGAEgASgJEhYKDm9mZmljZV91c2VyX2lkGAIgASgJEhQKB2FkZHJlc3MYAyABKAlIAIgBARISCgVwaG9uZRgEIAEoCUgBiAEBEhgKC2Rlc2NyaXB0aW9uGAUgASgJSAKIAQESEQoJaXNfYWN0aXZlGAYgASgIEhIKCmlzX3ByaW1hcnkYByABKAhCCgoIX2FkZHJlc3NCCAoGX3Bob25lQg4KDF9kZXNjcmlwdGlvbiKnAQoOT2ZmaWNlU2NoZWR1bGUSCgoCaWQYASABKAkSEQoJb2ZmaWNlX2lkGAIgASgJEgwKBG5hbWUYAyABKAkSGAoLZGVzY3JpcHRpb24YBCABKAlIAIgBARIuCgpldmVudF9kYXRlGAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIOCgZhdXRob3IYBiABKAlCDgoMX2Rlc2NyaXB0aW9uIqQCCghUb2RvTGlzdBIKCgJpZBgBIAEoCRIRCglvZmZpY2VfaWQYAiABKAkSDAoEbmFtZRgDIAEoCRIYCgtkZXNjcmlwdGlvbhgEIAEoCUgAiAEBEikKBnN0YXR1cxgFIAEoDjIZLmNvbW1vbi52MS5Ub2RvTGlzdFN0YXR1cxIzCgpzdGFydF9kYXRlGAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEgBiAEBEjEKCGVuZF9kYXRlGAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEgCiAEBEhIKCmNyZWF0ZWRfYnkYCCABKAlCDgoMX2Rlc2NyaXB0aW9uQg0KC19zdGFydF9kYXRlQgsKCV9lbmRfZGF0ZSprCg5PZmZpY2VVc2VyUm9sZRIgChxPRkZJQ0VfVVNFUl9ST0xFX1VOU1BFQ0lGSUVEEAASHAoYT0ZGSUNFX1VTRVJfUk9MRV9NQU5BR0VSEAESGQoVT0ZGSUNFX1VTRVJfUk9MRV9VU0VSEAIqywEKDlRvZG9MaXN0U3RhdHVzEiAKHFRPRE9fTElTVF9TVEFUVVNfVU5TUEVDSUZJRUQQABIcChhUT0RPX0xJU1RfU1RBVFVTX1BFTkRJTkcQARIcChhUT0RPX0xJU1RfU1RBVFVTX1NUQVJURUQQAhIbChdUT0RPX0xJU1RfU1RBVFVTX1BBVVNFRBADEh4KGlRPRE9fTElTVF9TVEFUVVNfQ0FOQ0VMTEVEEAQSHgoaVE9ET19MSVNUX1NUQVRVU19DT01QTEVURUQQBUJEWkJnaXRodWIuY29tL2dldm9yZ21iL2NhaWFzc2lzdGFudC1nby1hcGkvYXBpL2dlbi9jb21tb24vdjE7Y29tbW9udjFiBnByb3RvMw", [file_google_protobuf_timestamp]);
+  fileDesc("ChZjb21tb24vdjEvb2ZmaWNlLnByb3RvEgljb21tb24udjEiqgEKBk9mZmljZRIKCgJpZBgBIAEoCRIMCgRuYW1lGAIgASgJEhIKBXBob25lGAMgASgJSACIAQESEgoFZW1haWwYBCABKAlIAYgBARIYCgtkZXNjcmlwdGlvbhgFIAEoCUgCiAEBEhQKB2NvdW50cnkYBiABKAlIA4gBAUIICgZfcGhvbmVCCAoGX2VtYWlsQg4KDF9kZXNjcmlwdGlvbkIKCghfY291bnRyeSI9Cg5PZmZpY2VQb3NpdGlvbhIKCgJpZBgBIAEoCRIRCglvZmZpY2VfaWQYAiABKAkSDAoEbmFtZRgDIAEoCSK1AQoKT2ZmaWNlVXNlchIKCgJpZBgBIAEoCRIRCglvZmZpY2VfaWQYAiABKAkSDwoHdXNlcl9pZBgDIAEoCRInCgRyb2xlGAQgASgOMhkuY29tbW9uLnYxLk9mZmljZVVzZXJSb2xlEhgKC3Bvc2l0aW9uX2lkGAUgASgJSACIAQESEQoJaXNfYWN0aXZlGAYgASgIEhEKCXVzZXJfbmFtZRgHIAEoCUIOCgxfcG9zaXRpb25faWQiyAEKEU9mZmljZVVzZXJDb250YWN0EgoKAmlkGAEgASgJEhYKDm9mZmljZV91c2VyX2lkGAIgASgJEhQKB2FkZHJlc3MYAyABKAlIAIgBARISCgVwaG9uZRgEIAEoCUgBiAEBEhgKC2Rlc2NyaXB0aW9uGAUgASgJSAKIAQESEQoJaXNfYWN0aXZlGAYgASgIEhIKCmlzX3ByaW1hcnkYByABKAhCCgoIX2FkZHJlc3NCCAoGX3Bob25lQg4KDF9kZXNjcmlwdGlvbiKnAQoOT2ZmaWNlU2NoZWR1bGUSCgoCaWQYASABKAkSEQoJb2ZmaWNlX2lkGAIgASgJEgwKBG5hbWUYAyABKAkSGAoLZGVzY3JpcHRpb24YBCABKAlIAIgBARIuCgpldmVudF9kYXRlGAUgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIOCgZhdXRob3IYBiABKAlCDgoMX2Rlc2NyaXB0aW9uIo8BCgdIb2xpZGF5EgwKBGRhdGUYASABKAkSDAoEbmFtZRgCIAEoCRIUCgxjb3VudHJ5X2NvZGUYAyABKAkSEAoIbmF0aW9uYWwYBCABKAgSGQoRc3ViZGl2aXNpb25fY29kZXMYBSADKAkSJQoFdHlwZXMYBiADKA4yFi5jb21tb24udjEuSG9saWRheVR5cGUipAIKCFRvZG9MaXN0EgoKAmlkGAEgASgJEhEKCW9mZmljZV9pZBgCIAEoCRIMCgRuYW1lGAMgASgJEhgKC2Rlc2NyaXB0aW9uGAQgASgJSACIAQESKQoGc3RhdHVzGAUgASgOMhkuY29tbW9uLnYxLlRvZG9MaXN0U3RhdHVzEjMKCnN0YXJ0X2RhdGUYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSAGIAQESMQoIZW5kX2RhdGUYByABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wSAKIAQESEgoKY3JlYXRlZF9ieRgIIAEoCUIOCgxfZGVzY3JpcHRpb25CDQoLX3N0YXJ0X2RhdGVCCwoJX2VuZF9kYXRlKmsKDk9mZmljZVVzZXJSb2xlEiAKHE9GRklDRV9VU0VSX1JPTEVfVU5TUEVDSUZJRUQQABIcChhPRkZJQ0VfVVNFUl9ST0xFX01BTkFHRVIQARIZChVPRkZJQ0VfVVNFUl9ST0xFX1VTRVIQAirKAQoLSG9saWRheVR5cGUSHAoYSE9MSURBWV9UWVBFX1VOU1BFQ0lGSUVEEAASFwoTSE9MSURBWV9UWVBFX1BVQkxJQxABEhUKEUhPTElEQVlfVFlQRV9CQU5LEAISFwoTSE9MSURBWV9UWVBFX1NDSE9PTBADEhwKGEhPTElEQVlfVFlQRV9BVVRIT1JJVElFUxAEEhkKFUhPTElEQVlfVFlQRV9PUFRJT05BTBAFEhsKF0hPTElEQVlfVFlQRV9PQlNFUlZBTkNFEAYqywEKDlRvZG9MaXN0U3RhdHVzEiAKHFRPRE9fTElTVF9TVEFUVVNfVU5TUEVDSUZJRUQQABIcChhUT0RPX0xJU1RfU1RBVFVTX1BFTkRJTkcQARIcChhUT0RPX0xJU1RfU1RBVFVTX1NUQVJURUQQAhIbChdUT0RPX0xJU1RfU1RBVFVTX1BBVVNFRBADEh4KGlRPRE9fTElTVF9TVEFUVVNfQ0FOQ0VMTEVEEAQSHgoaVE9ET19MSVNUX1NUQVRVU19DT01QTEVURUQQBUJEWkJnaXRodWIuY29tL2dldm9yZ21iL2NhaWFzc2lzdGFudC1nby1hcGkvYXBpL2dlbi9jb21tb24vdjE7Y29tbW9udjFiBnByb3RvMw", [file_google_protobuf_timestamp]);
 
 /**
  * Office is an organization unit.
@@ -230,6 +230,52 @@ export const OfficeScheduleSchema: GenMessage<OfficeSchedule> = /*@__PURE__*/
   messageDesc(file_common_v1_office, 4);
 
 /**
+ * Holiday is a public holiday or memorial day for a country.
+ *
+ * @generated from message common.v1.Holiday
+ */
+export type Holiday = Message<"common.v1.Holiday"> & {
+  /**
+   * YYYY-MM-DD
+   *
+   * @generated from field: string date = 1;
+   */
+  date: string;
+
+  /**
+   * @generated from field: string name = 2;
+   */
+  name: string;
+
+  /**
+   * @generated from field: string country_code = 3;
+   */
+  countryCode: string;
+
+  /**
+   * @generated from field: bool national = 4;
+   */
+  national: boolean;
+
+  /**
+   * @generated from field: repeated string subdivision_codes = 5;
+   */
+  subdivisionCodes: string[];
+
+  /**
+   * @generated from field: repeated common.v1.HolidayType types = 6;
+   */
+  types: HolidayType[];
+};
+
+/**
+ * Describes the message common.v1.Holiday.
+ * Use `create(HolidaySchema)` to create a new message.
+ */
+export const HolidaySchema: GenMessage<Holiday> = /*@__PURE__*/
+  messageDesc(file_common_v1_office, 5);
+
+/**
  * TodoList is a named work item tracked for an office.
  *
  * @generated from message common.v1.TodoList
@@ -281,7 +327,7 @@ export type TodoList = Message<"common.v1.TodoList"> & {
  * Use `create(TodoListSchema)` to create a new message.
  */
 export const TodoListSchema: GenMessage<TodoList> = /*@__PURE__*/
-  messageDesc(file_common_v1_office, 5);
+  messageDesc(file_common_v1_office, 6);
 
 /**
  * OfficeUserRole is the membership role within an office.
@@ -310,6 +356,56 @@ export enum OfficeUserRole {
  */
 export const OfficeUserRoleSchema: GenEnum<OfficeUserRole> = /*@__PURE__*/
   enumDesc(file_common_v1_office, 0);
+
+/**
+ * HolidayType is a Nager.Date classification for a calendar day.
+ *
+ * @generated from enum common.v1.HolidayType
+ */
+export enum HolidayType {
+  /**
+   * @generated from enum value: HOLIDAY_TYPE_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: HOLIDAY_TYPE_PUBLIC = 1;
+   */
+  PUBLIC = 1,
+
+  /**
+   * @generated from enum value: HOLIDAY_TYPE_BANK = 2;
+   */
+  BANK = 2,
+
+  /**
+   * @generated from enum value: HOLIDAY_TYPE_SCHOOL = 3;
+   */
+  SCHOOL = 3,
+
+  /**
+   * @generated from enum value: HOLIDAY_TYPE_AUTHORITIES = 4;
+   */
+  AUTHORITIES = 4,
+
+  /**
+   * @generated from enum value: HOLIDAY_TYPE_OPTIONAL = 5;
+   */
+  OPTIONAL = 5,
+
+  /**
+   * Observance / commemorative / memorial day.
+   *
+   * @generated from enum value: HOLIDAY_TYPE_OBSERVANCE = 6;
+   */
+  OBSERVANCE = 6,
+}
+
+/**
+ * Describes the enum common.v1.HolidayType.
+ */
+export const HolidayTypeSchema: GenEnum<HolidayType> = /*@__PURE__*/
+  enumDesc(file_common_v1_office, 1);
 
 /**
  * TodoListStatus is the lifecycle status of a todo list.
@@ -352,5 +448,5 @@ export enum TodoListStatus {
  * Describes the enum common.v1.TodoListStatus.
  */
 export const TodoListStatusSchema: GenEnum<TodoListStatus> = /*@__PURE__*/
-  enumDesc(file_common_v1_office, 1);
+  enumDesc(file_common_v1_office, 2);
 

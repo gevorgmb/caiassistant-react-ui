@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { timestampDate } from "@bufbuild/protobuf/wkt";
-import type { OfficeSchedule } from "../gen/common/v1/office_pb.js";
+import type { Holiday, OfficeSchedule } from "../gen/common/v1/office_pb.js";
 import { useAuth } from "../auth/AuthContext.tsx";
 import { officeClient } from "../api/client.ts";
 import { errorMessage } from "../api/errors.ts";
@@ -11,66 +11,24 @@ import {
   EditIcon,
   SpinnerIcon,
 } from "../components/ActionIcons.tsx";
+import { CalendarDayInfo } from "../components/CalendarDayInfo.tsx";
 import { ScheduleModal } from "../components/ScheduleModal.tsx";
 import { useI18n } from "../i18n/I18nContext.tsx";
+import {
+  buildCalendarCells,
+  indexDayMarks,
+  isNonWorkingDay,
+  marksForDay,
+  shiftMonth,
+  yearsForCalendarView,
+  type DayMarks,
+} from "../lib/calendar.ts";
+import { suggestedCountryCode } from "../lib/countries.ts";
 import "../styles/ui.css";
-
-type CalendarCell = {
-  day: number;
-  inMonth: boolean;
-  key: string;
-};
 
 type ModalState =
   | { mode: "create"; day: number }
   | { mode: "edit"; schedule: OfficeSchedule };
-
-function buildCalendarCells(year: number, month: number): CalendarCell[] {
-  const first = new Date(year, month - 1, 1);
-  const startOffset = (first.getDay() + 6) % 7;
-  const daysInMonth = new Date(year, month, 0).getDate();
-  const daysInPrev = new Date(year, month - 1, 0).getDate();
-
-  const cells: CalendarCell[] = [];
-
-  for (let i = startOffset - 1; i >= 0; i--) {
-    const day = daysInPrev - i;
-    cells.push({
-      day,
-      inMonth: false,
-      key: `prev-${day}`,
-    });
-  }
-
-  for (let day = 1; day <= daysInMonth; day++) {
-    cells.push({
-      day,
-      inMonth: true,
-      key: `cur-${day}`,
-    });
-  }
-
-  let nextDay = 1;
-  while (cells.length % 7 !== 0) {
-    cells.push({
-      day: nextDay,
-      inMonth: false,
-      key: `next-${nextDay}`,
-    });
-    nextDay += 1;
-  }
-
-  return cells;
-}
-
-function shiftMonth(
-  year: number,
-  month: number,
-  delta: number,
-): { year: number; month: number } {
-  const date = new Date(year, month - 1 + delta, 1);
-  return { year: date.getFullYear(), month: date.getMonth() + 1 };
-}
 
 function formatMonthLabel(
   year: number,
@@ -78,6 +36,20 @@ function formatMonthLabel(
   localeTag: string,
 ): string {
   return new Date(year, month - 1, 1).toLocaleString(localeTag, {
+    month: "long",
+    year: "numeric",
+  });
+}
+
+function formatDayLabel(
+  year: number,
+  month: number,
+  day: number,
+  localeTag: string,
+): string {
+  return new Date(year, month - 1, day).toLocaleDateString(localeTag, {
+    weekday: "long",
+    day: "numeric",
     month: "long",
     year: "numeric",
   });
@@ -106,7 +78,7 @@ function dayKeyFromSchedule(schedule: OfficeSchedule): number | null {
 }
 
 export function SchedulePage() {
-  const { office, officeLoading } = useAuth();
+  const { office, officeLoading, session } = useAuth();
   const { t, fmt, localeTag } = useI18n();
   const initial = useMemo(() => {
     const now = new Date();
@@ -116,10 +88,23 @@ export function SchedulePage() {
   const [year, setYear] = useState(initial.year);
   const [month, setMonth] = useState(initial.month);
   const [schedules, setSchedules] = useState<OfficeSchedule[]>([]);
+  const [dayMarks, setDayMarks] = useState<Map<string, DayMarks>>(
+    () => new Map(),
+  );
   const [loading, setLoading] = useState(false);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [modal, setModal] = useState<ModalState | null>(null);
+  const [infoDate, setInfoDate] = useState<string | null>(null);
+  const holidayCache = useRef(
+    new Map<string, { holidays: Holiday[]; memorialDays: Holiday[] }>(),
+  );
+
+  const country = useMemo(() => {
+    const fromOffice = office?.country?.trim();
+    if (fromOffice) return fromOffice.toUpperCase();
+    return suggestedCountryCode(session?.user?.country);
+  }, [office?.country, session?.user?.country]);
 
   const prev = useMemo(() => shiftMonth(year, month, -1), [year, month]);
   const next = useMemo(() => shiftMonth(year, month, 1), [year, month]);
@@ -169,14 +154,57 @@ export function SchedulePage() {
     }
   }, [office, year, month]);
 
+  const loadHolidays = useCallback(async () => {
+    if (!country) {
+      setDayMarks(new Map());
+      return;
+    }
+
+    const years = yearsForCalendarView(year, month);
+    try {
+      const bundles = await Promise.all(
+        years.map(async (holidayYear) => {
+          const cacheKey = `${country}:${holidayYear}`;
+          const cached = holidayCache.current.get(cacheKey);
+          if (cached) return cached;
+          const res = await officeClient.listHolidays({
+            year: holidayYear,
+            country,
+          });
+          console.log("ListHolidays", res);
+          const bundle = {
+            holidays: res.holidays,
+            memorialDays: res.memorialDays,
+          };
+          holidayCache.current.set(cacheKey, bundle);
+          return bundle;
+        }),
+      );
+      const holidays = bundles.flatMap((bundle) => bundle.holidays);
+      const memorialDays = bundles.flatMap((bundle) => bundle.memorialDays);
+      setDayMarks(indexDayMarks(holidays, memorialDays));
+    } catch {
+      setDayMarks(new Map());
+    }
+  }, [country, year, month]);
+
+  useEffect(() => {
+    holidayCache.current.clear();
+  }, [country]);
+
   useEffect(() => {
     void load();
   }, [load]);
+
+  useEffect(() => {
+    void loadHolidays();
+  }, [loadHolidays]);
 
   function goToMonth(nextYear: number, nextMonth: number) {
     setYear(nextYear);
     setMonth(nextMonth);
     setModal(null);
+    setInfoDate(null);
   }
 
   function onSaved(saved: OfficeSchedule) {
@@ -246,6 +274,17 @@ export function SchedulePage() {
         </button>
       </nav>
 
+      <ul className="calendar-legend" aria-label={t.schedule.legend}>
+        <li>
+          <span className="calendar-legend__swatch calendar-legend__swatch--working" />
+          {t.schedule.workingDay}
+        </li>
+        <li>
+          <span className="calendar-legend__swatch calendar-legend__swatch--off" />
+          {t.schedule.nonWorkingDay}
+        </li>
+      </ul>
+
       {error ? <p className="error">{error}</p> : null}
 
       {office && loading ? (
@@ -253,8 +292,16 @@ export function SchedulePage() {
       ) : (
         <div className="calendar" role="grid" aria-label={monthLabel}>
           <div className="calendar__weekdays" role="row">
-            {t.schedule.weekdays.map((label: string) => (
-              <div key={label} className="calendar__weekday" role="columnheader">
+            {t.schedule.weekdays.map((label: string, index: number) => (
+              <div
+                key={label}
+                className={
+                  index >= 5
+                    ? "calendar__weekday calendar__weekday--off"
+                    : "calendar__weekday"
+                }
+                role="columnheader"
+              >
                 {label}
               </div>
             ))}
@@ -263,22 +310,47 @@ export function SchedulePage() {
             {cells.map((cell) => {
               const events =
                 office && cell.inMonth ? (byDay.get(cell.day) ?? []) : [];
+              const marks = marksForDay(dayMarks, cell.dateKey);
+              const nonWorking = isNonWorkingDay(cell, marks);
+              const hasDayInfo =
+                marks.holidays.length > 0 || marks.memorialDays.length > 0;
               const canAdd =
                 !!office &&
                 cell.inMonth &&
                 !isDayBeforeToday(year, month, cell.day);
+              const dayClass = [
+                "calendar__day",
+                cell.inMonth ? "" : "calendar__day--muted",
+                nonWorking ? "calendar__day--off" : "calendar__day--working",
+              ]
+                .filter(Boolean)
+                .join(" ");
               return (
-                <div
-                  key={cell.key}
-                  className={
-                    cell.inMonth
-                      ? "calendar__day"
-                      : "calendar__day calendar__day--muted"
-                  }
-                  role="gridcell"
-                >
+                <div key={cell.key} className={dayClass} role="gridcell">
                   <div className="calendar__day-header">
-                    <span className="calendar__day-num">{cell.day}</span>
+                    <div className="calendar__day-heading">
+                      <span className="calendar__day-num">{cell.day}</span>
+                      {hasDayInfo ? (
+                        <CalendarDayInfo
+                          dateLabel={formatDayLabel(
+                            cell.year,
+                            cell.month,
+                            cell.day,
+                            localeTag,
+                          )}
+                          isWorking={!nonWorking}
+                          holidays={marks.holidays}
+                          memorialDays={marks.memorialDays}
+                          open={infoDate === cell.dateKey}
+                          onToggle={() =>
+                            setInfoDate((current) =>
+                              current === cell.dateKey ? null : cell.dateKey,
+                            )
+                          }
+                          onClose={() => setInfoDate(null)}
+                        />
+                      ) : null}
+                    </div>
                     {canAdd ? (
                       <button
                         type="button"
