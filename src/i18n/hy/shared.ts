@@ -30,6 +30,9 @@ export const common: Messages["common"] = {
   previous: "Նախորդ",
   next: "Հաջորդ",
   pageInfo: "Էջ {page} / {totalPages} (ընդամենը {totalCount})",
+  all: "Բոլորը",
+  personal: "Անձնական",
+  owner: "Պատկանելություն",
 };
 
 export const nav: Messages["nav"] = {

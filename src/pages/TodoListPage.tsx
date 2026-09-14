@@ -6,6 +6,14 @@ import { officeClient } from "../api/client.ts";
 import { errorMessage } from "../api/errors.ts";
 import { todoListStatusLabel } from "../lib/todoListStatus.ts";
 import {
+  listByOwnerFilter,
+  type OwnerFilter,
+} from "../lib/ownership.ts";
+import {
+  OwnerFilterSelect,
+  ownerLabel,
+} from "../components/OwnerSelect.tsx";
+import {
   DeleteIcon,
   EditIcon,
   SpinnerIcon,
@@ -16,33 +24,45 @@ import "../styles/ui.css";
 const PAGE_SIZE = 10;
 
 export function TodoListPage() {
-  const { office } = useAuth();
+  const { office, officeLoading } = useAuth();
   const { t, fmt } = useI18n();
   const [items, setItems] = useState<TodoList[]>([]);
+  const [ownerFilter, setOwnerFilter] = useState<OwnerFilter>("all");
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
-    if (!office) return;
+    if (officeLoading) return;
     setLoading(true);
     setError(null);
     try {
-      const res = await officeClient.listTodoLists({
-        officeId: office.id,
-      });
-      setItems(res.todoLists);
+      const todoLists = await listByOwnerFilter(
+        ownerFilter,
+        office?.id,
+        async (officeId) => {
+          const res = await officeClient.listTodoLists({ officeId });
+          return res.todoLists;
+        },
+      );
+      setItems(todoLists);
     } catch (err) {
       setError(errorMessage(err));
     } finally {
       setLoading(false);
     }
-  }, [office]);
+  }, [office, officeLoading, ownerFilter]);
 
   useEffect(() => {
     void load();
   }, [load]);
+
+  useEffect(() => {
+    if (!office && ownerFilter === "office") {
+      setOwnerFilter("all");
+    }
+  }, [office, ownerFilter]);
 
   const totalCount = items.length;
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
@@ -74,29 +94,32 @@ export function TodoListPage() {
     }
   }
 
-  if (!office) {
-    return (
-      <section className="page">
-        <h1>{t.todos.title}</h1>
-        <p className="empty-state">
-          {t.todos.needOffice}{" "}
-          <Link to="/office">{t.common.goToOffice}</Link>
-        </p>
-      </section>
-    );
-  }
+  const createTo =
+    ownerFilter === "all"
+      ? "/todolist/new"
+      : `/todolist/new?owner=${ownerFilter}`;
 
   return (
     <section className="page">
       <div className="page-header">
         <h1>{t.todos.title}</h1>
         <div className="page-header__actions">
-          <Link className="btn" to="/todolist/new">
+          <Link className="btn" to={createTo}>
             {t.common.create}
           </Link>
         </div>
       </div>
-      <p className="page-lede">{fmt(t.todos.lede, { name: office.name })}</p>
+      <p className="page-lede">{t.todos.lede}</p>
+
+      <OwnerFilterSelect
+        value={ownerFilter}
+        onChange={(filter) => {
+          setOwnerFilter(filter);
+          setPage(1);
+        }}
+        office={office}
+        disabled={officeLoading}
+      />
 
       {error ? <p className="error">{error}</p> : null}
 
@@ -112,6 +135,7 @@ export function TodoListPage() {
                 <tr>
                   <th>{t.todos.name}</th>
                   <th>{t.todos.description}</th>
+                  <th>{t.common.owner}</th>
                   <th>{t.todos.status}</th>
                   <th>{t.todos.actions}</th>
                 </tr>
@@ -121,6 +145,14 @@ export function TodoListPage() {
                   <tr key={item.id}>
                     <td>{item.name}</td>
                     <td>{item.description || t.common.empty}</td>
+                    <td>
+                      {ownerLabel(
+                        item.officeId,
+                        office,
+                        t.common.personal,
+                        t.nav.office,
+                      )}
+                    </td>
                     <td>{todoListStatusLabel(item.status, t)}</td>
                     <td>
                       <div className="data-table__actions">

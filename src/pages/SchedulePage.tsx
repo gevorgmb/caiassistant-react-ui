@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { timestampDate } from "@bufbuild/protobuf/wkt";
 import type { Holiday, OfficeSchedule } from "../gen/common/v1/office_pb.js";
 import { useAuth } from "../auth/AuthContext.tsx";
@@ -13,6 +12,10 @@ import {
 } from "../components/ActionIcons.tsx";
 import { CalendarDayInfo } from "../components/CalendarDayInfo.tsx";
 import { ScheduleModal } from "../components/ScheduleModal.tsx";
+import {
+  OwnerFilterSelect,
+  ownerLabel,
+} from "../components/OwnerSelect.tsx";
 import { useI18n } from "../i18n/I18nContext.tsx";
 import {
   buildCalendarCells,
@@ -24,6 +27,12 @@ import {
   type DayMarks,
 } from "../lib/calendar.ts";
 import { suggestedCountryCode } from "../lib/countries.ts";
+import {
+  defaultCreateOfficeId,
+  listByOwnerFilter,
+  ownerMatches,
+  type OwnerFilter,
+} from "../lib/ownership.ts";
 import "../styles/ui.css";
 
 type ModalState =
@@ -96,6 +105,7 @@ export function SchedulePage() {
   const [error, setError] = useState<string | null>(null);
   const [modal, setModal] = useState<ModalState | null>(null);
   const [infoDate, setInfoDate] = useState<string | null>(null);
+  const [ownerFilter, setOwnerFilter] = useState<OwnerFilter>("all");
   const holidayCache = useRef(
     new Map<string, { holidays: Holiday[]; memorialDays: Holiday[] }>(),
   );
@@ -132,27 +142,29 @@ export function SchedulePage() {
   );
 
   const load = useCallback(async () => {
-    if (!office) {
-      setSchedules([]);
-      setLoading(false);
-      setError(null);
-      return;
-    }
+    if (officeLoading) return;
     setLoading(true);
     setError(null);
     try {
-      const res = await officeClient.listOfficeSchedules({
-        officeId: office.id,
-        year,
-        month,
-      });
-      setSchedules(res.schedules);
+      const listed = await listByOwnerFilter(
+        ownerFilter,
+        office?.id,
+        async (officeId) => {
+          const res = await officeClient.listOfficeSchedules({
+            officeId,
+            year,
+            month,
+          });
+          return res.schedules;
+        },
+      );
+      setSchedules(listed);
     } catch (err) {
       setError(errorMessage(err));
     } finally {
       setLoading(false);
     }
-  }, [office, year, month]);
+  }, [office, officeLoading, ownerFilter, year, month]);
 
   const loadHolidays = useCallback(async () => {
     if (!country) {
@@ -171,7 +183,6 @@ export function SchedulePage() {
             year: holidayYear,
             country,
           });
-          console.log("ListHolidays", res);
           const bundle = {
             holidays: res.holidays,
             memorialDays: res.memorialDays,
@@ -200,6 +211,12 @@ export function SchedulePage() {
     void loadHolidays();
   }, [loadHolidays]);
 
+  useEffect(() => {
+    if (!office && ownerFilter === "office") {
+      setOwnerFilter("all");
+    }
+  }, [office, ownerFilter]);
+
   function goToMonth(nextYear: number, nextMonth: number) {
     setYear(nextYear);
     setMonth(nextMonth);
@@ -216,7 +233,10 @@ export function SchedulePage() {
       })();
     setSchedules((prevSchedules) => {
       const without = prevSchedules.filter((s) => s.id !== saved.id);
-      return inView ? [...without, saved] : without;
+      if (!inView || !ownerMatches(saved.officeId, ownerFilter)) {
+        return without;
+      }
+      return [...without, saved];
     });
   }
 
@@ -238,21 +258,18 @@ export function SchedulePage() {
     }
   }
 
-  const showMissingOffice = !officeLoading && !office;
-
   return (
     <section className="page page--wide">
       <div className="page-header">
         <h1>{t.schedule.title}</h1>
       </div>
 
-      {showMissingOffice ? (
-        <p className="empty-state">
-          {t.schedule.missingOffice}{" "}
-          <Link to="/office">{t.schedule.createOne}</Link>
-          {t.schedule.toManage}
-        </p>
-      ) : null}
+      <OwnerFilterSelect
+        value={ownerFilter}
+        onChange={setOwnerFilter}
+        office={office}
+        disabled={officeLoading}
+      />
 
       <nav className="calendar-nav" aria-label={t.schedule.monthNav}>
         <button
@@ -287,7 +304,7 @@ export function SchedulePage() {
 
       {error ? <p className="error">{error}</p> : null}
 
-      {office && loading ? (
+      {officeLoading || loading ? (
         <p className="page-lede">{t.schedule.loading}</p>
       ) : (
         <div className="calendar" role="grid" aria-label={monthLabel}>
@@ -308,16 +325,13 @@ export function SchedulePage() {
           </div>
           <div className="calendar__grid" role="rowgroup">
             {cells.map((cell) => {
-              const events =
-                office && cell.inMonth ? (byDay.get(cell.day) ?? []) : [];
+              const events = cell.inMonth ? (byDay.get(cell.day) ?? []) : [];
               const marks = marksForDay(dayMarks, cell.dateKey);
               const nonWorking = isNonWorkingDay(cell, marks);
               const hasDayInfo =
                 marks.holidays.length > 0 || marks.memorialDays.length > 0;
               const canAdd =
-                !!office &&
-                cell.inMonth &&
-                !isDayBeforeToday(year, month, cell.day);
+                cell.inMonth && !isDayBeforeToday(year, month, cell.day);
               const dayClass = [
                 "calendar__day",
                 cell.inMonth ? "" : "calendar__day--muted",
@@ -373,7 +387,12 @@ export function SchedulePage() {
                         <li key={schedule.id} className="calendar__event">
                           <span
                             className="calendar__event-name"
-                            title={schedule.name}
+                            title={`${schedule.name} · ${ownerLabel(
+                              schedule.officeId,
+                              office,
+                              t.common.personal,
+                              t.nav.office,
+                            )}`}
                           >
                             {schedule.name}
                           </span>
@@ -415,9 +434,11 @@ export function SchedulePage() {
         </div>
       )}
 
-      {modal && office ? (
+      {modal ? (
         <ScheduleModal
-          officeId={office.id}
+          office={office}
+          defaultOfficeId={defaultCreateOfficeId(ownerFilter, office?.id)}
+          officeLoading={officeLoading}
           day={modal.mode === "create" ? modal.day : null}
           year={year}
           month={month}

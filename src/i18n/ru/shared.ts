@@ -30,6 +30,9 @@ export const common: Messages["common"] = {
   previous: "Назад",
   next: "Далее",
   pageInfo: "Страница {page} из {totalPages} (всего {totalCount})",
+  all: "Все",
+  personal: "Личное",
+  owner: "Принадлежность",
 };
 
 export const nav: Messages["nav"] = {

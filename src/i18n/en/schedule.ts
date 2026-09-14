@@ -1,8 +1,5 @@
 export const schedule = {
   title: "Schedule",
-  missingOffice: "You are not related to an office.",
-  createOne: "Create one",
-  toManage: " to manage the schedule.",
   monthNav: "Month",
   loading: "Loading schedule…",
   addEvent: "Add event",
