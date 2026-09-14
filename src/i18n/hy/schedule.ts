@@ -2,9 +2,6 @@ import type { Messages } from "../types.ts";
 
 export const schedule: Messages["schedule"] = {
   title: "Ժամանակացույց",
-  missingOffice: "Դուք կապված չեք որևէ գրասենյակի հետ։",
-  createOne: "Ստեղծել",
-  toManage: " ժամանակացույցը կառավարելու համար։",
   monthNav: "Ամիս",
   loading: "Ժամանակացույցը բեռնվում է…",
   addEvent: "Ավելացնել իրադարձություն",

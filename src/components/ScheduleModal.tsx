@@ -1,8 +1,9 @@
 import { useEffect, useState, type SubmitEvent } from "react";
 import { timestampDate, timestampFromDate } from "@bufbuild/protobuf/wkt";
-import type { OfficeSchedule } from "../gen/common/v1/office_pb.js";
+import type { Office, OfficeSchedule } from "../gen/common/v1/office_pb.js";
 import { officeClient } from "../api/client.ts";
 import { errorMessage } from "../api/errors.ts";
+import { OwnerSelect } from "./OwnerSelect.tsx";
 import { useI18n } from "../i18n/I18nContext.tsx";
 import "../styles/ui.css";
 
@@ -48,7 +49,9 @@ function defaultDateForDay(year: number, month: number, day: number): Date {
 }
 
 type ScheduleModalProps = {
-  officeId: string;
+  office: Office | null;
+  defaultOfficeId: string;
+  officeLoading?: boolean;
   /** Preselected calendar day for create. Ignored when editing. */
   day: number | null;
   year: number;
@@ -59,7 +62,9 @@ type ScheduleModalProps = {
 };
 
 export function ScheduleModal({
-  officeId,
+  office,
+  defaultOfficeId,
+  officeLoading,
   day,
   year,
   month,
@@ -73,6 +78,9 @@ export function ScheduleModal({
   const [name, setName] = useState(schedule?.name ?? "");
   const [description, setDescription] = useState(
     schedule?.description ?? "",
+  );
+  const [ownerId, setOwnerId] = useState(
+    schedule?.officeId || defaultOfficeId,
   );
   const [eventLocal, setEventLocal] = useState(() => {
     if (schedule?.eventDate) {
@@ -96,6 +104,7 @@ export function ScheduleModal({
 
   async function onSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (isCreate && officeLoading) return;
     setBusy(true);
     setError(null);
     try {
@@ -111,7 +120,7 @@ export function ScheduleModal({
       const desc = description.trim() || undefined;
       const saved = isCreate
         ? await officeClient.createOfficeSchedule({
-            officeId,
+            officeId: ownerId,
             name: trimmed,
             description: desc,
             eventDate,
@@ -175,6 +184,12 @@ export function ScheduleModal({
               onChange={(e) => setDescription(e.target.value)}
             />
           </label>
+          <OwnerSelect
+            value={ownerId}
+            onChange={setOwnerId}
+            office={office}
+            disabled={!isCreate || !!officeLoading}
+          />
           {error ? <p className="error">{error}</p> : null}
           <div className="modal__actions">
             <button
@@ -185,7 +200,11 @@ export function ScheduleModal({
             >
               {t.common.cancel}
             </button>
-            <button type="submit" className="btn" disabled={busy}>
+            <button
+              type="submit"
+              className="btn"
+              disabled={busy || (isCreate && !!officeLoading)}
+            >
               {busy ? t.common.saving : t.common.save}
             </button>
           </div>

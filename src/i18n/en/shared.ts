@@ -28,6 +28,9 @@ export const common = {
   previous: "Previous",
   next: "Next",
   pageInfo: "Page {page} of {totalPages} ({totalCount} total)",
+  all: "All",
+  personal: "Personal",
+  owner: "Owner",
 };
 
 export const nav = {

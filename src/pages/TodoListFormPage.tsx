@@ -1,26 +1,53 @@
 import { useEffect, useState, type SubmitEvent } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { TodoListStatus } from "../gen/common/v1/office_pb.js";
 import { useAuth } from "../auth/AuthContext.tsx";
 import { officeClient } from "../api/client.ts";
 import { errorMessage } from "../api/errors.ts";
+import { OwnerSelect } from "../components/OwnerSelect.tsx";
 import { EDITABLE_TODO_STATUSES, todoListStatusLabel } from "../lib/todoListStatus.ts";
+import {
+  defaultCreateOfficeId,
+  type OwnerFilter,
+} from "../lib/ownership.ts";
 import { useI18n } from "../i18n/I18nContext.tsx";
 import "../styles/ui.css";
+
+function ownerFilterFromSearch(value: string | null): OwnerFilter {
+  if (value === "personal" || value === "office") return value;
+  return "all";
+}
 
 export function TodoListFormPage() {
   const { id } = useParams<{ id: string }>();
   const isCreate = id === undefined;
   const navigate = useNavigate();
-  const { office } = useAuth();
+  const [searchParams] = useSearchParams();
+  const { office, officeLoading } = useAuth();
   const { t } = useI18n();
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState<TodoListStatus>(TodoListStatus.PENDING);
+  const [ownerId, setOwnerId] = useState(() =>
+    defaultCreateOfficeId(
+      ownerFilterFromSearch(searchParams.get("owner")),
+      office?.id,
+    ),
+  );
   const [loading, setLoading] = useState(!isCreate);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isCreate || officeLoading) return;
+    setOwnerId(
+      defaultCreateOfficeId(
+        ownerFilterFromSearch(searchParams.get("owner")),
+        office?.id,
+      ),
+    );
+  }, [isCreate, office?.id, officeLoading, searchParams]);
 
   useEffect(() => {
     if (isCreate || !id) return;
@@ -34,6 +61,7 @@ export function TodoListFormPage() {
         setName(item.name);
         setDescription(item.description ?? "");
         setStatus(item.status);
+        setOwnerId(item.officeId ?? "");
       })
       .catch((err) => {
         if (!cancelled) setError(errorMessage(err));
@@ -48,7 +76,7 @@ export function TodoListFormPage() {
 
   async function onSave(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!office) return;
+    if (isCreate && officeLoading) return;
     setBusy(true);
     setError(null);
     try {
@@ -56,7 +84,7 @@ export function TodoListFormPage() {
       const trimmedDescription = description.trim();
       if (isCreate) {
         await officeClient.createTodoList({
-          officeId: office.id,
+          officeId: ownerId,
           name: trimmedName,
           description: trimmedDescription || undefined,
         });
@@ -76,18 +104,6 @@ export function TodoListFormPage() {
     }
   }
 
-  if (!office) {
-    return (
-      <section className="page">
-        <h1>{isCreate ? t.todos.createTitle : t.todos.editTitle}</h1>
-        <p className="empty-state">
-          {t.todos.needOffice}{" "}
-          <Link to="/office">{t.common.goToOffice}</Link>
-        </p>
-      </section>
-    );
-  }
-
   if (loading) {
     return (
       <section className="page">
@@ -105,7 +121,7 @@ export function TodoListFormPage() {
             type="submit"
             form="todolist-form"
             className="btn"
-            disabled={busy}
+            disabled={busy || (isCreate && officeLoading)}
           >
             {busy ? t.common.saving : t.common.save}
           </button>
@@ -133,6 +149,12 @@ export function TodoListFormPage() {
             rows={4}
           />
         </label>
+        <OwnerSelect
+          value={ownerId}
+          onChange={setOwnerId}
+          office={office}
+          disabled={!isCreate || officeLoading}
+        />
         {!isCreate ? (
           <label>
             {t.todos.status}
